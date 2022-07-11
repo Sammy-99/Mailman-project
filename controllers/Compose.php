@@ -76,11 +76,9 @@ class Compose{
     public function getOpenEmailReplyData($emailId, $btnValue)
     {
         $emailData = ComposeModel::getReplyData($emailId, $btnValue);
-        // print_r($emailData); die(" sender ");
         if($btnValue == "reply"){
             echo json_encode(["type" => "reply_email", "email_data" => $emailData, "btnValue" => $btnValue]); exit;
         }else{
-            // print_r($emailData); die(" sender ");
             $sender = $emailData[0]['sender_email'];
             $reciever = $emailData[0]['reciever_email'];
             $subject = $emailData[0]['subject'];

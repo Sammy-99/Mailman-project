@@ -315,155 +315,14 @@ include_once("./layout/head.php");
 <script>
 $(document).ready(function() {
 
-
-    $(document).on("click", "#datatable tr", function() {
-       
-        var email_id = $(this).find('input:checkbox').val();
-        var current_tab = $("#current-sidebar").val();
-        var open_email = $("#open-email").val(email_id);
-        var drafted_email = $("#drafted_email").val(email_id);
-        $("#read_unread_email").val("email_opened");
-        // $(".main_content").hide();
-        // $("#mainCheckbox").hide();
-        // $(".email_page").removeClass("d-none");
-
-        $.ajax({
-            url: "./controllers/Dashboard.php",
-            method: "POST",
-            data: {
-                email_id,
-                current_tab
-            },
-            success: function(response) {
-                var data = JSON.parse(response);
-                var current_tab = $("#current-sidebar").val();
-                var selected_mails = [];
-                var open_email_id = $("#open-email").val();
-                var button_value = "read";
-                selected_mails.push(open_email_id) ;
-                // console.log(selected_mails)
-                if(data.status == true && current_tab != "draft"){
-                    let to = data.reciever_email.indexOf(data.my_email);
-                    let cc = data.cc_emails.indexOf(data.my_email);
-                    $(".main_content").hide();
-                    $("#mainCheckbox").hide();
-                    $(".email_page").removeClass("d-none");
-                    
-
-                    // $(".participants").text("");
-                    $("#sender_email").text(data.sender_email);
-                    $("#to_reciever").text(data.reciever_email);
-                    $("#cc_reciever").text(data.cc_emails);
-                    $("#bcc_reciever").text(data.bcc_emails);
-                    $(".mail_subject").text(data.subject);
-                    $(".email_date").text(data.created_at);
-                    $(".email_content").text(data.content);
-                    $(".attached_files").html(data.attachment_file);
-                    if(to == -1 && cc == -1){
-                        $(".bcc_participants").removeClass("d-none");
-                    }else{
-                        $(".bcc_participants").addClass("d-none");
-                    }
-                    if(data.cc_emails == '' || data.cc_emails == null){
-                        // $(".cc_reciever").hide();
-                        $(".cc_reciever").addClass("d-none");
-                    }else{
-                        // $(".cc_reciever").hide();
-                        $(".cc_reciever").removeClass("d-none");
-                    }
-                    if(data.bcc_emails == '' || data.bcc_emails == null){
-                        $(".bcc_participants").addClass("d-none");
-                    }
-                    if(current_tab == "inbox"){
-                        $(".backbutton").removeClass("d-none");
-                        $(".deleteEmail").removeClass("d-none");
-                        $(".readUnread").removeClass("d-none");
-                        isReadUnread(selected_mails, button_value);
-                    }
-                    if(current_tab == "sent"){
-                        $(".backbutton").removeClass("d-none");
-                        $(".deleteEmail").removeClass("d-none");
-                        // $(".readUnread").removeClass("d-none");
-                    }
-                    if(current_tab == "trash"){
-                        $(".backbutton").removeClass("d-none");
-                        $(".deleteEmail").removeClass("d-none");
-                        $(".restoreEmail").removeClass("d-none");
-                        // $(".readUnread").removeClass("d-none");
-                    }
-                }
-
-                if(current_tab == "draft"){
-                    $("#compose-email-modal").modal("show");
-                    console.log(data);
-                    $("#recipient-email").val(data.reciever_email);
-                    $("#cc-recipient-email").val(data.draft_participants.cc);
-                    $("#bcc-recipient-email").val(data.draft_participants.bcc);
-                    $("#email-subject").val(data.subject);
-                    $("#email-content").val(data.content);
-                }
-            }
-        });
-
-    });
-
-    $(document).on("click", "#email_participants", function(){
-        $(".participants").toggleClass("d-none");
-        
-    });
-
-    $(".backbutton").click(function(){
+    $(document).on("click", "#pagination a", function(e){
+        e.preventDefault;
+        var page_no = $(this).attr("id");
         var identity = $("#current-sidebar").val();
-        var open_email = $("#open-email").val('');
-        $("#read_unread_email").val("");
-        $("#mainCheckbox").show();
-        $(".participants").addClass("d-none");
-        hideButtons();
-        getDashboardData(identity);
-    });
+        // alert(page_no);
+        getDashboardData(identity, page_no);
+    })
 
-    $(".reply-email").click(function(){
-        open_email_id = $("#open-email").val();
-        btn_value = $(this).data("btn-value");
-        replyEmail(open_email_id, btn_value);
-    }); 
-
-    function replyEmail(open_email_id, btn_value)
-    {
-        $.ajax({
-            url: "./controllers/Compose.php",
-            method: "POST",
-            data: {
-                open_email_id,
-                btn_value
-            },
-            success: function(response) {
-                var data = JSON.parse(response);
-                var current_tab =  $("#current-sidebar").val();
-                $("#recipient-email").val('');
-                $("#cc-recipient-email").val('');
-                $("#bcc-recipient-email").val('');
-                $("#email-subject").val('');
-                $("#email-content").val('');
-                if (data.btnValue == "reply") {
-                    $("#recipient-email").val(data.email_data.sender_email);
-                    if(current_tab == "sent"){
-                        $("#recipient-email").val(data.email_data.reciever_email);
-                    }
-                    $("#email-subject").val(data.email_data.subject);
-                }else{
-                    $("#recipient-email").val(data.sender);
-                    if(current_tab == "sent"){
-                        $("#recipient-email").val(data.reciever);
-                    }
-                    $("#cc-recipient-email").val(data.cc);
-                    $("#email-subject").val(data.subject);
-                }
-                console.log(data);
-                $("#compose-email-modal").modal("show");
-            }
-        });
-    }
 
     var identity = $(".inbox").data("inbox-value");
     if (identity == "inbox") {
@@ -585,8 +444,8 @@ $(document).ready(function() {
         });
         (selected_mails.length == 0) ? selected_mails.push(open_email_id) : "" ;
         var current_tab = $("#current-sidebar").val();
-        console.log("i am from delete");
-        console.log(selected_mails);
+        // console.log("i am from delete");
+        // console.log(selected_mails);
         deleteEmail(selected_mails, current_tab);
 
     });
@@ -602,15 +461,15 @@ $(document).ready(function() {
             selected_mails.push(this.value);
         });
         (selected_mails.length == 0) ? selected_mails.push(open_email_id) : "" ;
-        console.log(selected_mails);
-        console.log("i am from restore");
+        // console.log(selected_mails);
+        // console.log("i am from restore");
         restoreEmails(selected_mails, current_tab);
     });
 
     /**
      * this function will return the dashboard data for inbox, sent, draft, trash.
      */
-    function getDashboardData(identity) {
+    function getDashboardData(identity, page_no = null) {
 
         $("#breadcrumb").text('');
         $("#breadcrumb").text(identity);
@@ -619,11 +478,12 @@ $(document).ready(function() {
             url: "./controllers/Dashboard.php",
             method: "POST",
             data: {
-                identity
+                identity,
+                page_no
             },
             success: function(response) {
                 var data = JSON.parse(response);
-                console.log(data)
+                // console.log(data)
                 $(".participants").addClass("d-none");
                 if (data.status == false) {
                     $("#mainCheckbox").hide();
@@ -721,7 +581,7 @@ $(document).ready(function() {
                     var current_tab = $("#current-sidebar").val();
                     getDashboardData(current_tab);
                 }
-                console.log(data);
+                // console.log(data);
             }
         });
     }
@@ -846,7 +706,7 @@ $(document).ready(function() {
                 contentType: false,
                 success: function(response) {
                     var data = JSON.parse(response);
-                    console.log(data);
+                    // console.log(data);
                     if (data.type == "email_not_found") {
                         $("#email_error").text(data.message);
                     } 
@@ -874,6 +734,10 @@ $(document).ready(function() {
                         }
 
                     }
+                    else if (data.type == 'email_drafted'){
+                        alert(data.message);
+                        $('#compose-email-modal').modal('hide');
+                    }
                     $("#button-id").val('1');
                     // window.location.href = "dashboard.php";
                 }
@@ -886,9 +750,10 @@ $(document).ready(function() {
         var to = $("#recipient-email").val();
         var cc = $("#cc-recipient-email").val();
         var bcc = $("#bcc-recipient-email").val();
+        var current_tab = $("#current-sidebar").val();
         $("#button-id").val('');
         $("#button-id").val('2');
-        if (to != '' && cc != '' && bcc != '') {
+        if (to != '' && current_tab != "draft") {
             $('#compose-email').trigger('submit');
         }
     });
@@ -940,6 +805,155 @@ $(document).ready(function() {
             }
         });
     }
+
+    $(document).on("click", "#datatable tr", function() {
+       
+       var email_id = $(this).find('input:checkbox').val();
+       var current_tab = $("#current-sidebar").val();
+       var open_email = $("#open-email").val(email_id);
+       var drafted_email = $("#drafted_email").val(email_id);
+       $("#read_unread_email").val("email_opened");
+       // $(".main_content").hide();
+       // $("#mainCheckbox").hide();
+       // $(".email_page").removeClass("d-none");
+
+       $.ajax({
+           url: "./controllers/Dashboard.php",
+           method: "POST",
+           data: {
+               email_id,
+               current_tab
+           },
+           success: function(response) {
+               var data = JSON.parse(response);
+               var current_tab = $("#current-sidebar").val();
+               var selected_mails = [];
+               var open_email_id = $("#open-email").val();
+               var button_value = "read";
+               selected_mails.push(open_email_id) ;
+               // console.log(selected_mails)
+               if(data.status == true && current_tab != "draft"){
+                   let to = data.reciever_email.indexOf(data.my_email);
+                   let cc = data.cc_emails.indexOf(data.my_email);
+                   $(".main_content").hide();
+                   $("#mainCheckbox").hide();
+                   $(".email_page").removeClass("d-none");
+                   
+
+                   // $(".participants").text("");
+                   $("#sender_email").text(data.sender_email);
+                   $("#to_reciever").text(data.reciever_email);
+                   $("#cc_reciever").text(data.cc_emails);
+                   $("#bcc_reciever").text(data.bcc_emails);
+                   $(".mail_subject").text(data.subject);
+                   $(".email_date").text(data.created_at);
+                   $(".email_content").text(data.content);
+                   $(".attached_files").html(data.attachment_file);
+                   if(to == -1 && cc == -1){
+                       $(".bcc_participants").removeClass("d-none");
+                   }else{
+                       $(".bcc_participants").addClass("d-none");
+                   }
+                   if(data.cc_emails == '' || data.cc_emails == null){
+                       // $(".cc_reciever").hide();
+                       $(".cc_reciever").addClass("d-none");
+                   }else{
+                       // $(".cc_reciever").hide();
+                       $(".cc_reciever").removeClass("d-none");
+                   }
+                   if(data.bcc_emails == '' || data.bcc_emails == null){
+                       $(".bcc_participants").addClass("d-none");
+                   }
+                   if(current_tab == "inbox"){
+                       $(".backbutton").removeClass("d-none");
+                       $(".deleteEmail").removeClass("d-none");
+                       $(".readUnread").removeClass("d-none");
+                       isReadUnread(selected_mails, button_value);
+                   }
+                   if(current_tab == "sent"){
+                       $(".backbutton").removeClass("d-none");
+                       $(".deleteEmail").removeClass("d-none");
+                       // $(".readUnread").removeClass("d-none");
+                   }
+                   if(current_tab == "trash"){
+                       $(".backbutton").removeClass("d-none");
+                       $(".deleteEmail").removeClass("d-none");
+                       $(".restoreEmail").removeClass("d-none");
+                       // $(".readUnread").removeClass("d-none");
+                   }
+               }
+
+               if(current_tab == "draft"){
+                   $("#compose-email-modal").modal("show");
+                   console.log(data);
+                   $("#recipient-email").val(data.reciever_email);
+                   $("#cc-recipient-email").val(data.draft_participants.cc);
+                   $("#bcc-recipient-email").val(data.draft_participants.bcc);
+                   $("#email-subject").val(data.subject);
+                   $("#email-content").val(data.content);
+               }
+           }
+       });
+
+   });
+
+   $(document).on("click", "#email_participants", function(){
+       $(".participants").toggleClass("d-none");
+       
+   });
+
+   $(".backbutton").click(function(){
+       var identity = $("#current-sidebar").val();
+       var open_email = $("#open-email").val('');
+       $("#read_unread_email").val("");
+       $("#mainCheckbox").show();
+       $(".participants").addClass("d-none");
+       hideButtons();
+       getDashboardData(identity);
+   });
+
+   $(".reply-email").click(function(){
+       open_email_id = $("#open-email").val();
+       btn_value = $(this).data("btn-value");
+       replyEmail(open_email_id, btn_value);
+   }); 
+
+   function replyEmail(open_email_id, btn_value)
+   {
+       $.ajax({
+           url: "./controllers/Compose.php",
+           method: "POST",
+           data: {
+               open_email_id,
+               btn_value
+           },
+           success: function(response) {
+               var data = JSON.parse(response);
+               var current_tab =  $("#current-sidebar").val();
+               $("#recipient-email").val('');
+               $("#cc-recipient-email").val('');
+               $("#bcc-recipient-email").val('');
+               $("#email-subject").val('');
+               $("#email-content").val('');
+               if (data.btnValue == "reply") {
+                   $("#recipient-email").val(data.email_data.sender_email);
+                   if(current_tab == "sent"){
+                       $("#recipient-email").val(data.email_data.reciever_email);
+                   }
+                   $("#email-subject").val(data.email_data.subject);
+               }else{
+                   $("#recipient-email").val(data.sender);
+                   if(current_tab == "sent"){
+                       $("#recipient-email").val(data.reciever);
+                   }
+                   $("#cc-recipient-email").val(data.cc);
+                   $("#email-subject").val(data.subject);
+               }
+               console.log(data);
+               $("#compose-email-modal").modal("show");
+           }
+       });
+   }
 
 
 

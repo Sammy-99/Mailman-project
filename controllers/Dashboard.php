@@ -17,32 +17,32 @@ class Dashboard{
     /**
      * This function will return email data on the basis of provided expression
      */
-    public function getEmailData($identity)
+    public function getEmailData($identity, $pageNo)
     {
         $tableName = $this->tableName;
         $userId = $_SESSION['id'];
 
         switch ($identity) {
             case "inbox":
-              echo $this->getInboxEmails($this->tableName, $userId, $identity);
+              echo $this->getInboxEmails($this->tableName, $userId, $identity, $pageNo);
               break;
             case "sent":
-              echo $this->getSentEmails($this->tableName, $userId, $identity);
+              echo $this->getSentEmails($this->tableName, $userId, $identity, $pageNo);
               break;
             case "draft":
-              echo $this->getSentEmails($this->tableName, $userId, $identity);
+              echo $this->getSentEmails($this->tableName, $userId, $identity, $pageNo);
               break;
             default:
-                echo $this->getTrashEmails($this->tableName, $userId, $identity);
+                echo $this->getTrashEmails($this->tableName, $userId, $identity, $pageNo);
           }
     }
 
     /**
      * This function will return all the Inbox Emails of the Logged In user.
      */
-    public function getInboxEmails($tableName, $userId, $identity)
+    public function getInboxEmails($tableName, $userId, $identity, $pageNo)
     {
-        $emailsDataJson = DashboardModel::getInboxEmails($tableName, $userId, $identity);
+        $emailsDataJson = DashboardModel::getInboxEmails($tableName, $userId, $identity, $pageNo);
         $emailsData = json_decode($emailsDataJson, true);
         if($emailsData['status'] == true ){
             $emailHtml = $this->getEmailDataInHtml($emailsData['data'], $identity);
@@ -54,9 +54,9 @@ class Dashboard{
     /**
      * This function returns all sent and draftes respectively emails of logged in user.
      */
-    public function getSentEmails($tableName, $userId, $identity)
+    public function getSentEmails($tableName, $userId, $identity, $pageNo)
     {
-        $emailsDataJson = DashboardModel::getSentEmails($tableName, $userId, $identity);
+        $emailsDataJson = DashboardModel::getSentEmails($tableName, $userId, $identity, $pageNo);
         $emailsData = json_decode($emailsDataJson, true);
         if($emailsData['status'] == true ){
             $emailHtml = $this->getEmailDataInHtml($emailsData['data'], $identity);
@@ -68,9 +68,9 @@ class Dashboard{
     /**
      * This function returns all trashed emails of logged in user.
      */
-    public function getTrashEmails($tableName, $userId, $identity)
+    public function getTrashEmails($tableName, $userId, $identity, $pageNo)
     {
-        $emailsDataJson = DashboardModel::getTrashEmails($tableName, $userId, $identity);
+        $emailsDataJson = DashboardModel::getTrashEmails($tableName, $userId, $identity, $pageNo);
         $emailsData = json_decode($emailsDataJson, true);
         if($emailsData['status'] == true ){
             $emailHtml = $this->getEmailDataInHtml($emailsData['data'], $identity);
@@ -114,7 +114,7 @@ class Dashboard{
             }
             $html.= "</tbody>";
             $html.= "</table>";
-            // $pagination = $this->getPaginationHtml($html);
+            $html = $this->getPaginationHtml($html);
             echo json_encode(["type" => "html_data_found", "html" => $html, "status" => true]); exit;
         }else{
             echo json_encode(["type" => "no_html_data_found", "message" => "No Data Found", "status" => false]); exit;
@@ -142,30 +142,24 @@ class Dashboard{
 
     }
 
-    // public function getPaginationHtml($html)
-    // {
-    //     $html.= '<div class="row">
-    //             <div class="col-md-2"></div>
-    //             <div class="col-md-10 my-3">
-    //                 <nav aria-label="...">
-    //                     <ul class="pagination">
-    //                         <li class="page-item disabled">
-    //                             <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-    //                         </li>
-    //                         <li class="page-item"><a class="page-link" href="#">1</a></li>
-    //                         <li class="page-item active" aria-current="page">
-    //                             <a class="page-link" href="#">2</a>
-    //                         </li>
-    //                         <li class="page-item"><a class="page-link" href="#">3</a></li>
-    //                         <li class="page-item">
-    //                             <a class="page-link" href="#">Next</a>
-    //                         </li>
-    //                     </ul>
-    //                 </nav>
-    //             </div>
-    //         </div>';
-    //         return $html;
-    // }
+    public function getPaginationHtml($html)
+    {
+        // $totalRecord = DashboardModel::$totalRecords;
+        $totalPages = ceil(count(DashboardModel::$totalRecords)/DashboardModel::$per_page_limit);
+        $html.='<div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-10 my-3" id="pagination">
+                <ul class="pagination">';
+        for($i = 1; $i <= $totalPages; $i++){
+            // $class = ($i == $pageNo) ? "active" : "" ;
+            $html.= '<li class="page-item"><a class="page-link" href="#" id="'.$i.'"> '.$i.' </a></li>';
+        }       
+                           
+        $html.='</ul>
+                </div>
+                </div>';
+        return $html;
+    }
 
     /**
      * This function will delete the Emails from the current page.
@@ -230,7 +224,6 @@ class Dashboard{
         $userEmail = $_SESSION['email'];
         if(!empty($emailId)){
             $emailData = DashboardModel::getEmailPageData($emailId, $userId, $currenntTab);
-            // print_r(($emailData)); die(" kkkkffff ");
             $email_id = $emailData[0]['id'];
             $sender_email = $emailData[0]['sender_email'];
             $reciever_id = $emailData[0]['reciever_email'];
@@ -280,7 +273,6 @@ class Dashboard{
                 $fileHtml .= "</a> &nbsp "; 
             }
             $fileHtml .= "</br></br>";
-            // print_r(($fileHtml)); die(" kkkkffff ");
             return $fileHtml;
         }
     }
@@ -295,7 +287,8 @@ $dashboard = new Dashboard();
 
 // to fetch data  for dashboard
 if(isset($_POST['identity']) && !empty($_POST['identity'])){
-    $dashboard->getEmailData($_POST['identity']);
+    // print_r($_POST); die(" kk ");
+    $dashboard->getEmailData($_POST['identity'], $_POST['page_no']);
 }
 
 //function to delete the mails
