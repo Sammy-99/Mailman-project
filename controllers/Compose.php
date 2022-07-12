@@ -58,7 +58,7 @@ class Compose{
         $totalFilesSize = array_sum($fileSize);
         if ($totalFilesSize > 0 && $totalFilesSize < 20 * Validate::MB){      
             // $todir = "/var/www/html/launchpadtwo/attachedfiles/";
-            $todir = $_SERVER['HTTP_HOST']."/launchpadtwo/attachedfiles/";
+            $todir = StoreUrl::$baseUrl . "attachedfiles/";
             for($i=0; $i<$total_files; $i++){
                 $uniqueSaveName = time()."-".$_FILES['attachedfile']['name'][$i] ;
                 if (move_uploaded_file( $_FILES['attachedfile']['tmp_name'][$i], $todir . $uniqueSaveName)){

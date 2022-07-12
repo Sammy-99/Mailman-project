@@ -11,6 +11,7 @@ header('Content-type: application/json');
  */
 class SignUp{
 
+    const BASE_URL = "/tse/Mailman-project/";
     protected $username;
     protected $firstname;
     protected $lastname;
@@ -34,7 +35,7 @@ class SignUp{
             elseif($jsonImageMessage['type'] == 'valid_image')
             {
                 // $todir = "/var/www/html/launchpadtwo/uploadedimage/";
-                $todir = $_SERVER['HTTP_HOST']."/launchpadtwo/uploadedimage/";
+                $todir = StoreUrl::$baseUrl . "uploadedimage/";
                 $uniqueSaveName = time()."-".$_FILES['user-image']['name'] ;
                 if ( move_uploaded_file( $_FILES['user-image']['tmp_name'], $todir . $uniqueSaveName)){
                     $this->profile_image = $uniqueSaveName;

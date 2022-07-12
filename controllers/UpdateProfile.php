@@ -8,6 +8,7 @@ ini_set( "display_errors", 1 );
  */
 class UpdateProfile{
 
+    const BASE_URL = "/tse/Mailman-project/";
     protected $firstname;
     protected $lastname;
     protected $second_email;
@@ -45,7 +46,7 @@ class UpdateProfile{
             elseif($jsonImageMessage['type'] == 'valid_image')
             {
                 // $todir = "/var/www/html/launchpadtwo/uploadedimage/";
-                $todir = $_SERVER['HTTP_HOST']."../launchpadtwo/uploadedimage/";
+                $todir = StoreUrl::$baseUrl . "uploadedimage/";
                 $uniqueSaveName = time()."-".$_FILES['user-image']['name'] ;
                 if ( move_uploaded_file( $_FILES['user-image']['tmp_name'], $todir . $uniqueSaveName)){
                     $this->profile_image = $uniqueSaveName;
