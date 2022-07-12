@@ -1,5 +1,6 @@
 <?php
-
+echo "<pre>";
+print_r($_SERVER); die(" llll ");
 session_start();
 if(!isset($_SESSION['username'])){
     header("location:index.php");  

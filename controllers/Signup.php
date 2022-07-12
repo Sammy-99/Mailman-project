@@ -35,7 +35,8 @@ class SignUp{
             elseif($jsonImageMessage['type'] == 'valid_image')
             {
                 // $todir = "/var/www/html/launchpadtwo/uploadedimage/";
-                $todir = StoreUrl::$baseUrl . "uploadedimage/";
+                // $todir = StoreUrl::$baseUrl . "uploadedimage/";
+                $todir = "../uploadedimage";
                 $uniqueSaveName = time()."-".$_FILES['user-image']['name'] ;
                 if ( move_uploaded_file( $_FILES['user-image']['tmp_name'], $todir . $uniqueSaveName)){
                     $this->profile_image = $uniqueSaveName;
