@@ -13,6 +13,7 @@ spl_autoload_register(function ($className) {
 $userData = Crud::getUserData($_SESSION['id']);
 
 // echo "<pre>";
+// print_r($_SERVER); die(" hh ");
 
 if(empty($userData['user_image'])){
     $userData['user_image'] = "p.png";
@@ -368,11 +369,6 @@ $(document).ready(function() {
         getDashboardData(identity);
     });
 
-    $("#searchData").keyup(function() {
-        search_value = $(this).val();
-        getSearchResult($(this).val());
-    })
-
     /**
      * These two events (below) resposible for select and unselect the emails.
      */
@@ -561,6 +557,11 @@ $(document).ready(function() {
     /**
      * This function is responsible to search the email result.
      */
+    $("#searchData").keyup(function() {
+        search_value = $(this).val();
+        getSearchResult($(this).val());
+    });
+
     function getSearchResult(search_value) {
         $.ajax({
             url: "./controllers/Dashboard.php",

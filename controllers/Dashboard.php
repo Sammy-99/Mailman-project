@@ -144,15 +144,15 @@ class Dashboard{
 
     public function getPaginationHtml($html)
     {
-        // $totalRecord = DashboardModel::$totalRecords;
         $totalPages = ceil(count(DashboardModel::$totalRecords)/DashboardModel::$per_page_limit);
+        $pageNo = DashboardModel::$pageNumber;
         $html.='<div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-10 my-3" id="pagination">
                 <ul class="pagination">';
         for($i = 1; $i <= $totalPages; $i++){
-            // $class = ($i == $pageNo) ? "active" : "" ;
-            $html.= '<li class="page-item"><a class="page-link" href="#" id="'.$i.'"> '.$i.' </a></li>';
+            $class = ($i == $pageNo) ? "active" : "" ;
+            $html.= '<li class="page-item ' .$class. '"><a class="page-link" href="#" id="'.$i.'"> '.$i.' </a></li>';
         }       
                            
         $html.='</ul>

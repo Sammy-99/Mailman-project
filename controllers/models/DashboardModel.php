@@ -14,6 +14,7 @@ class DashboardModel{
 
     public static $per_page_limit = 5;
     public static $totalRecords;
+    public static $pageNumber;
 
     public function __construct(){
         self::$dbc = DB::getDbConn();
@@ -25,23 +26,26 @@ class DashboardModel{
     public static function getInboxEmails($tableName, $userId, $identity, $pageNo)
     {
         $pageNo = (!empty($pageNo) && $pageNo != null) ? $pageNo : 1 ;
-        $offset = ($pageNo -1) * self::$per_page_limit;
-        $limitPage = self::$per_page_limit;
+        self::$pageNumber = $pageNo;
+        $offset = ($pageNo -1) * Self::$per_page_limit;
+        $limitPage = Self::$per_page_limit;
         $select = " SELECT ei.id AS email_id, ei.reciever_id, cc_bcc.cc_id, cc_bcc.bcc_id, cc_bcc.id AS ccbcc_id, users.user_email, ei.subject, 
                     cc_bcc.cc_read, cc_bcc.bcc_read, ei.is_read, ei.created_at
                     FROM email_inbox AS ei 
                     JOIN users ON ei.sender_id=users.id 
-                    JOIN cc_bcc ON ei.id=cc_bcc.email_id
+                    LEFT JOIN cc_bcc ON ei.id=cc_bcc.email_id
                     WHERE (
-                    (ei.reciever_id=$userId AND ei.delete_by_reciever=0) OR 
-                    (cc_bcc.cc_id=$userId AND cc_bcc.delete_by_cc=0) OR
-                    (cc_bcc.bcc_id=$userId AND cc_bcc.delete_by_bcc=0)) 
+                        (ei.reciever_id=$userId AND ei.delete_by_reciever=0 AND ei.is_draft=0) OR 
+                        (cc_bcc.cc_id=$userId AND cc_bcc.delete_by_cc=0) OR
+                        (cc_bcc.bcc_id=$userId AND cc_bcc.delete_by_bcc=0)
+                    ) 
                     ORDER BY ei.id DESC";
-        $inboxEmailData = self::$dbc->query($select . " LIMIT $offset, $limitPage");
+        $inboxEmailData = Self::$dbc->query($select . " LIMIT $offset, $limitPage");
         if($inboxEmailData){
             $emailArray = $inboxEmailData->fetch_all(MYSQLI_ASSOC);
-            $totalInboxEmail = self::$dbc->query($select);
-            self::$totalRecords = $totalInboxEmail->fetch_all(MYSQLI_ASSOC);
+            $totalInboxEmail = Self::$dbc->query($select);
+            Self::$totalRecords = $totalInboxEmail->fetch_all(MYSQLI_ASSOC);
+            // print_r(Self::$totalRecords); die(" array");
             return json_encode(["type" => "inbox_data_found", "message" => "Data Found", "data" =>$emailArray,  "status" => true]);
         }
         return json_encode(["type" => "inbox_data_not_found", "message" => "No Data Found", "status" => false]);
@@ -54,18 +58,19 @@ class DashboardModel{
     {
         $isDraft = ($identity == "draft") ? 1 : 0 ;
         $pageNo = (!empty($pageNo) && $pageNo != null) ? $pageNo : 1 ;
-        $offset = ($pageNo -1) * self::$per_page_limit;
-        $limitPage = self::$per_page_limit;
+        Self::$pageNumber = $pageNo;
+        $offset = ($pageNo -1) * Self::$per_page_limit;
+        $limitPage = Self::$per_page_limit;
         $select = " SELECT ei.id as email_id, users.user_email, ei.subject, ei.created_at
                     FROM email_inbox as ei
                     JOIN users ON ei.reciever_id=users.id
                     WHERE ei.sender_id=$userId AND ei.delete_by_sender=0 AND ei.is_draft=$isDraft
                     ORDER BY ei.id DESC";
-        $sendEmailData = self::$dbc->query($select . " LIMIT $offset, $limitPage");
+        $sendEmailData = Self::$dbc->query($select . " LIMIT $offset, $limitPage");
         if($sendEmailData){
             $emailArray = $sendEmailData->fetch_all(MYSQLI_ASSOC);
-            $totalInboxEmail = self::$dbc->query($select);
-            self::$totalRecords = $totalInboxEmail->fetch_all(MYSQLI_ASSOC);
+            $totalInboxEmail = Self::$dbc->query($select);
+            Self::$totalRecords = $totalInboxEmail->fetch_all(MYSQLI_ASSOC);
             return json_encode(["type" => "send_data_found", "message" => "Data Found", "data" =>$emailArray,  "status" => true]);
         }
         return json_encode(["type" => "send_data_not_found", "message" => "No Data Found", "status" => false]);
@@ -77,8 +82,9 @@ class DashboardModel{
     public static function getTrashEmails($tableName, $userId, $identity, $pageNo)
     {
         $pageNo = (!empty($pageNo) && $pageNo != null) ? $pageNo : 1 ;
-        $offset = ($pageNo -1) * self::$per_page_limit;
-        $limitPage = self::$per_page_limit;
+        $offset = ($pageNo -1) * Self::$per_page_limit;
+        Self::$pageNumber = $pageNo;
+        $limitPage = Self::$per_page_limit;
         $select = " SELECT ei.id as email_id, ei.sender_id as current_id, users.user_email as reciever, u.user_email, ei.subject, ei.created_at
                     FROM email_inbox as ei
                     JOIN users as u ON ei.sender_id=u.id
@@ -90,11 +96,11 @@ class DashboardModel{
                     OR (cb.bcc_id=$userId AND cb.delete_by_bcc=1 AND cb.permanent_del_by_bcc=0)
                     ) 
                     ORDER BY ei.deleted_at DESC";
-        $sendEmailData = self::$dbc->query($select . " LIMIT $offset, $limitPage");
+        $sendEmailData = Self::$dbc->query($select . " LIMIT $offset, $limitPage");
         if($sendEmailData){
             $emailArray = $sendEmailData->fetch_all(MYSQLI_ASSOC);
-            $totalInboxEmail = self::$dbc->query($select);
-            self::$totalRecords = $totalInboxEmail->fetch_all(MYSQLI_ASSOC);
+            $totalInboxEmail = Self::$dbc->query($select);
+            Self::$totalRecords = $totalInboxEmail->fetch_all(MYSQLI_ASSOC);
             return json_encode(["type" => "trash_data_found", "message" => "Data Found", "data" =>$emailArray,  "status" => true]);
         }
         return json_encode(["type" => "trash_data_not_found", "message" => "No Data Found", "status" => false]);
@@ -185,7 +191,7 @@ class DashboardModel{
                             (cc_bcc.cc_id=$userId AND cc_bcc.delete_by_cc=0) or 
                             (cc_bcc.bcc_id=$userId AND cc_bcc.delete_by_bcc=0)
                         )
-                        and ei.subject like '%$value%' ";
+                        and ei.subject like '%$value%' ORDER BY ei.id DESC";
         $searchResult = self::$dbc->query($serchQuery);
         if($searchResult){
             $searchResultRows = $searchResult->fetch_all(MYSQLI_ASSOC);

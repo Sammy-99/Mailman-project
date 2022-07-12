@@ -1,0 +1,96 @@
+table name - "email_inbox"
+columna - 
+	1) id
+	2) sender_id
+	3) reciever_id
+	4) reciever_cc (optional)
+	5) reciever_bcc (optional)
+	6) subject
+	7) content
+	8) attachment_files
+	9) is_draft
+	10) is_read
+	11) status
+	11) deleted_by
+	12) peermanent_deleted
+	13) created_at
+	14) updated_at
+	15) deleted_at
+	
+table_name - "cc_bcc"
+columns -
+	1) id
+	2) sender_id
+	3) reciever_id
+	3) email_id
+	5) cc
+	6) bcc
+	7) cc_read
+	8) bcc_read
+	9) delete_by_cc
+	10) delete_by_bcc
+	11) permanent_del_by_cc
+	12) permanent_del_by_bcc
+	13) created_at
+	14) updated_at
+	
+################################################################################################################################################3
+
+COMPLETED --------->
+	
+	Dashboard :-
+		sent(done)
+		draft(doone)
+		trash(done)
+		delete button (done)
+		inbox (half done)
+		restore (done)
+	
+	
+	
+###################################################################################################################################################
+
+PENDING WORK ------->
+	to save the cc,bcc data in tables
+	fetch data in inbox from cc and bcc
+	
+	
+#######################################################################################################################################3#############3
+ 
+ personal access token -----
+ 
+  token - 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
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
