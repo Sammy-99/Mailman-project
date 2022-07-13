@@ -17,14 +17,14 @@ try {
     $mail->isSMTP();                                           
     $mail->Host       = 'smtp.gmail.com';                     
     $mail->SMTPAuth   = true;                                   
-    $mail->Username   = 'samirahamad999@gmail.com';                    
+    $mail->Username   = 'samirhestabit999@gmail.com';                    
     $mail->Password   = 'ojsdtutobkfxayxw';                             
-    // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;  
-    $mail->SMTPSecure = "ssl";          
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;  
+    // $mail->SMTPSecure = "ssl";          
     $mail->Port       = 465;    
     // $mail->Port       = 587;                                    
 
-    $mail->setFrom('samirahamad999@gmail.com', 'Dev Ninja Youtube');
+    $mail->setFrom('samirhestabit999@gmail.com', 'Dev Ninja Youtube');
     $mail->addAddress('samirhestabit999@gmail.com');             
 
     $mail->isHTML(true);                                 
