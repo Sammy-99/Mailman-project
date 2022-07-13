@@ -24,8 +24,8 @@ try {
            $mail->Password = "mypasswword"; // SMTP password
            $Mail->Priority = 1;
            $mail->AddAddress("samirahamad999@gmail.com","Name");
-           $mail->SetFrom("myemail@example.com", $name);
-           $mail->AddReplyTo("myemail@example.com",$name);
+           $mail->SetFrom("myemail@example.com", "ffff");
+           $mail->AddReplyTo("myemail@example.com","ggg");
            $mail->Subject  = "This is a Test Message";
            $mail->Body     = "sdsfsdfsdfsdfsdfsdfsfs";
            $mail->WordWrap = 50;
