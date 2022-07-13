@@ -118,6 +118,7 @@ class Login{
 
             $mail->isHTML(true);                                 
             $mail->Subject = 'Reset Password'.time();
+            var_dump($recoveryEmail); die(" jjj ");
             // $mail->Body    = html_entity_decode("Please Click on the link to Reset the Password <a href='http://localhost/launchpadtwo/resetpassword.php?user_id=".$userId."'>Click Here</a>");
             $mail->Body    = html_entity_decode("Please Click on the link to Reset the Password <a href='http://hestalabs.com/tse/Mailman-project/resetpassword.php?user_id=".$userId."'>Click Here</a>");
 
