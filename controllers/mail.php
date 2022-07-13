@@ -25,7 +25,7 @@ try {
     // $mail->Port       = 587;                                    
 
     $mail->setFrom('samirhestabit999@gmail.com', 'Dev Ninja Youtube');
-    $mail->addAddress('samirhestabit999@gmail.com');             
+    $mail->addAddress('samirahamad999@gmail.com');             
 
     $mail->isHTML(true);                                 
     $mail->Subject = 'Here is the subject'.time();
