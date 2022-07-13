@@ -21,7 +21,7 @@ try {
     $mail->Username   = 'samirahamad999@gmail.com';                    
     $mail->Password   = 'ojsdtutobkfxayxw';                             
     // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;  
-    $mail->SMTPSecure = "tls";          
+    $mail->SMTPSecure = "ssl";          
     $mail->Port       = 465;    
     // $mail->Port       = 587;                                    
 
