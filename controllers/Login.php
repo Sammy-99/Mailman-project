@@ -69,10 +69,10 @@ class Login{
             $getRecoveryEmailJson = json_decode($getRecoveryEmail, true);
             if($getRecoveryEmailJson['type'] == "username_exist" && !empty($getRecoveryEmailJson['recoveryEmail'])){
                 $sendEmail = $this->sendEmailForPasswordReset($getRecoveryEmailJson['recoveryEmail'], $getRecoveryEmailJson['userId']);
-                $sendEmailJson = json_decode($sendEmail, true);
-                if($sendEmailJson['status'] == true && $sendEmailJson['type'] == "mail_sent"){
-                    echo $sendEmail; exit;
-                }
+                echo $sendEmail; exit;
+                // $sendEmailJson = json_decode($sendEmail, true);
+                // if($sendEmailJson['status'] == true && $sendEmailJson['type'] == "mail_sent"){
+                // }
             }else{
                 echo $getRecoveryEmail; exit;
             }
@@ -128,6 +128,8 @@ class Login{
 
             if($mail->send()){
                 return json_encode(["status" => true, "type" => "mail_sent", "message" => "We are sending you a Password Reset Link on your recovery Email."]);
+            }else{
+                return json_encode(["status" => false, "type" => "mail_error"]);
             }
         } catch (Exception $e) {
             return json_encode(["status" => false, "type" => "mail_not_sent", "message" => "Mail could not be sent."]);
