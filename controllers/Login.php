@@ -128,8 +128,6 @@ class Login{
 
             if($mail->send()){
                 return json_encode(["status" => true, "type" => "mail_sent", "message" => "We are sending you a Password Reset Link on your recovery Email."]);
-            }else{
-                return json_encode(["status" => false, "type" => "mail_error"]);
             }
         } catch (Exception $e) {
             return json_encode(["status" => false, "type" => "mail_not_sent", "message" => "Mail could not be sent."]);

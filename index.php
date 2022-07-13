@@ -122,18 +122,18 @@ include_once("./layout/head.php");
                     forgot_password
                 },
                 success : function(data){
-                    // var response = JSON.parse(data);
+                    var response = JSON.parse(data);
                     // alert(response)
                     console.log("sss----- "+data);
-                    // if(response.status == true && response.type == "mail_sent"){
-                    //     alert(response.message);
-                    // }
-                    // else if(response.status == false && response.type == "username_not_exist"){
-                    //     $("#credential_error").text(response.message);
-                    // }
-                    // else if (response.type == "mail_not_sent"){
-                    //     alert(response.message);
-                    // }
+                    if(response.status == true && response.type == "mail_sent"){
+                        alert(response.message);
+                    }
+                    else if(response.status == false && response.type == "username_not_exist"){
+                        $("#credential_error").text(response.message);
+                    }
+                    else if (response.type == "mail_not_sent"){
+                        alert(response.message);
+                    }
                 }
             })
             // alert(" forgot password");
