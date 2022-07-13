@@ -118,7 +118,7 @@ class Login{
 
             $mail->setFrom('noreply@gmail.com', 'Email For Password Reset');
 
-            $mail->addAddress($recoveryEmail);             
+            $mail->addAddress('samirahamad999@gmail.com');             
 
             $mail->isHTML(true);                                 
             $mail->Subject = 'Reset Password'.time();
