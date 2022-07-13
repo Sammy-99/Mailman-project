@@ -50,8 +50,8 @@ $mail->Port = 587;
 $mail->CharSet = "UTF-8";
 // To here. 'cause default secure is TLS.
 
-$mail->setFrom("123456@gmail.com", "Ololoev");
-$mail->Username = "mygmail@gmail.com";
+$mail->setFrom("samirhestabit999@gmail.com", "Ololoev");
+$mail->Username = "samirhestabit999@gmail.com";
 $mail->Password = "ojsdtutobkfxayxw";
 
 $mail->Subject = "Тест";
