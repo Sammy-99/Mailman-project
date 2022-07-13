@@ -20,19 +20,22 @@ ini_set( "display_errors", 1 );
      * This property contains the username for database connection.
      * @var string
      */
-    private const USERNAME = "root"; 
+    // private const USERNAME = "root"; 
+    private const USERNAME = "tse"; 
 
     /**
      * This property contain the password for database connection.
      * @var string
      */
-    private const PASSWORD = "hestabit"; 
+    // private const PASSWORD = "hestabit"; 
+    private const PASSWORD = "bPmtHasjyTJ2SgZJ"; 
 
     /**
      * This property contain the database name for database connection.
      * @var string
      */
-    private const DB = "hesta_mail";
+    // private const DB = "hesta_mail";
+    private const DB = "samir";
 
     private static $_instance = null;
 
