@@ -118,7 +118,11 @@ class Login{
 
             $mail->setFrom($recoveryEmail, 'Email For Password Reset');
 
-            $mail->addAddress($recoveryEmail);             
+            $mail->addAddress($recoveryEmail);   
+            echo $username; 
+            echo $recoveryEmail; 
+            echo $userId;
+            die(" hhh ");          
 
             $mail->isHTML(true);                                 
             $mail->Subject = 'Reset Password'.time();
