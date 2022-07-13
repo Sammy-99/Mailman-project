@@ -114,7 +114,14 @@ class Login{
             $mail->Password   = 'ojsdtutobkfxayxw';                             
             // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;  
             $mail->SMTPSecure = 'ssl';          
-            $mail->Port       = 465;                                    
+            $mail->Port       = 465;    
+            $mail->SMTPOptions = array(
+                    'ssl' => array(
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                    'allow_self_signed' => true
+                    )
+                );                                
 
             $mail->setFrom($recoveryEmail, 'Email For Password Reset');
 
