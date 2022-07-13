@@ -68,7 +68,7 @@ class Login{
             $getRecoveryEmail = Validate::getRecoveryEmail($_POST['user_name']);
             $getRecoveryEmailJson = json_decode($getRecoveryEmail, true);
             if($getRecoveryEmailJson['type'] == "username_exist" && !empty($getRecoveryEmailJson['recoveryEmail'])){
-                $sendEmail = $this->sendEmailForPasswordReset($getRecoveryEmailJson['recoveryEmail'], $getRecoveryEmailJson['userId']);
+                $sendEmail = $this->sendEmailForPasswordReset($getRecoveryEmailJson['recoveryEmail'], $_POST['user_name'], $getRecoveryEmailJson['userId']);
                 echo $sendEmail; exit;
                 // $sendEmailJson = json_decode($sendEmail, true);
                 // if($sendEmailJson['status'] == true && $sendEmailJson['type'] == "mail_sent"){
@@ -100,7 +100,7 @@ class Login{
      * This function will send the reset link on the recovery email.
      * when user click on the Forgot password.
      */
-    public function sendEmailForPasswordReset($recoveryEmail, $userId)
+    public function sendEmailForPasswordReset($recoveryEmail, $username, $userId)
     {
         $mail = new PHPMailer(true);
         $recoveryEmail = trim($recoveryEmail);
@@ -110,7 +110,7 @@ class Login{
             $mail->isSMTP();                                           
             $mail->Host       = 'smtp.gmail.com';                     
             $mail->SMTPAuth   = true;                                   
-            $mail->Username   = $recoveryEmail;                    
+            $mail->Username   = $username;                    
             $mail->Password   = 'ojsdtutobkfxayxw';                             
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;  
             // $mail->SMTPSecure = 'ssl';          
