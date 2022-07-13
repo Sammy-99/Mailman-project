@@ -113,7 +113,7 @@ class Login{
             $mail->SMTPSecure = 'ssl';          
             $mail->Port       = 465;                                    
 
-            $mail->setFrom($recoveryEmail, 'Just Testing Email For Password Reset');
+            $mail->setFrom('noreply@gmail.com', 'Email For Password Reset');
 
             $mail->addAddress($recoveryEmail);             
 
