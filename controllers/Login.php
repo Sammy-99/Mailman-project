@@ -103,6 +103,7 @@ class Login{
     public function sendEmailForPasswordReset($recoveryEmail, $userId)
     {
         $mail = new PHPMailer(true);
+        $recoveryEmail = trim($recoveryEmail);
 
         try {
                   
