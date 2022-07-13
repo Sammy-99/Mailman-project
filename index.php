@@ -124,7 +124,7 @@ include_once("./layout/head.php");
                 success : function(data){
                     // var response = JSON.parse(data);
                     // alert(response)
-                    console.log(data);
+                    console.log("sss----- "+data);
                     // if(response.status == true && response.type == "mail_sent"){
                     //     alert(response.message);
                     // }
