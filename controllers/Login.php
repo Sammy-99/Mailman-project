@@ -1,8 +1,7 @@
 <?php
-
+session_start();
 error_reporting( E_ALL );
 ini_set( "display_errors", 1 );
-// header('Content-type: application/json');
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -49,7 +48,7 @@ class Login{
                 echo $userAuth; exit;
             }
             elseif($userAuthJson['type'] == 'password_matched'){
-                session_start();
+                
                 $_SESSION["username"] = $userAuthJson['username'];
                 $_SESSION["email"] = $userAuthJson['email'];
                 $_SESSION["id"] = $userAuthJson['userId'];
@@ -124,6 +123,7 @@ class Login{
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
             if($mail->send()){
+                $_SESSION["reset_password"] = "user_exist";
                 return json_encode(["status" => true, "type" => "mail_sent", "message" => "We are sending you a Password Reset Link on your recovery Email."]);
             }
         } catch (Exception $e) {

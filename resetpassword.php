@@ -16,6 +16,8 @@ if(!empty($_GET['user_id'])){
     $user_id = $_GET['user_id'];
 }
 
+print_r(($_SESSION)); die(" jjj ");
+
 ?>
 
 <div class="container-fluid">

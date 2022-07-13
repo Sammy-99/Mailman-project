@@ -47,6 +47,7 @@ class Crud{
      */
     public static function updatePassword($newPassword, $userId)
     {
+        print_r($_SESSION); die(" ggg ");
         $updateQuery = "UPDATE users SET password='".$newPassword."' WHERE id=".$userId."";
         $result = self::$dbc->query($updateQuery); 
         if($result){
