@@ -122,9 +122,9 @@ include_once("./layout/head.php");
                     forgot_password
                 },
                 success : function(data){
-                    var response = JSON.parse(data);
+                    // var response = JSON.parse(data);
                     // alert(response)
-                    console.log(response);
+                    console.log(data);
                     if(response.status == true && response.type == "mail_sent"){
                         alert(response.message);
                     }
