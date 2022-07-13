@@ -15,8 +15,13 @@ if(empty($_GET['user_id']) && !isset($_SESSION['username'])){
 if(!empty($_GET['user_id'])){
     $user_id = $_GET['user_id'];
 }
+if(array_key_exists("reset_password", $_SESSION)){
+    if($_SESSION["reset_password"] != "user_exist"){
+        echo "<h1>You can only use once a url.</h1>"; die;
+    }
+}
 
-print_r(($_SESSION)); die(" jjj ");
+// print_r(($_SESSION)); die(" jjj ");
 
 ?>
 

@@ -47,10 +47,11 @@ class Crud{
      */
     public static function updatePassword($newPassword, $userId)
     {
-        print_r($_SESSION); die(" ggg ");
+        // print_r($_SESSION); die(" ggg ");
         $updateQuery = "UPDATE users SET password='".$newPassword."' WHERE id=".$userId."";
         $result = self::$dbc->query($updateQuery); 
         if($result){
+            $_SESSION["reset_password"] = "";
             return json_encode(["type" => "password_updated", "message" => "Password Successfully Updated.", "status" => true]);
         }
 
