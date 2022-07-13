@@ -107,7 +107,7 @@ class Login{
             $mail->isSMTP();                                           
             $mail->Host       = 'smtp.gmail.com';                     
             $mail->SMTPAuth   = true;                                   
-            $mail->Username   = $recoveryEmail;                    
+            $mail->Username   = 'samirhestabit999@gmail.com';                    
             $mail->Password   = 'ojsdtutobkfxayxw';                             
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            
             $mail->Port       = 465;                                    
