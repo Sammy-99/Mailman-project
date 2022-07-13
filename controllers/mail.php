@@ -18,13 +18,13 @@ try {
     $mail->isSMTP();                                           
     $mail->Host       = 'smtp.gmail.com';                     
     $mail->SMTPAuth   = true;                                   
-    $mail->Username   = 'samirhestabit999@gmail.com';                    
+    $mail->Username   = 'samirahamad999@gmail.com';                    
     $mail->Password   = 'ojsdtutobkfxayxw';                             
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            
     $mail->Port       = 465;                                    
 
-    $mail->setFrom('samirhestabit999@gmail.com', 'Dev Ninja Youtube');
-    $mail->addAddress('samirhestabit999@gmail.com');             
+    $mail->setFrom('samirahamad999@gmail.com', 'Dev Ninja Youtube');
+    $mail->addAddress('samirahamad999@gmail.com');             
 
     $mail->isHTML(true);                                 
     $mail->Subject = 'Here is the subject'.time();
