@@ -208,7 +208,7 @@ class Dashboard{
     public function markAsReadUnreadEmails($selectedEmail, $btnValue)
     {
         $userId = $_SESSION['id'];
-        if(count($selectedEmail > 0) && !empty($selectedEmail)){
+        if(count($selectedEmail) > 0 && !empty($selectedEmail)){
             $value = ($btnValue == "read") ? "1" : "0" ;
             $updateReadUnreadEmails = DashboardModel::updateReadUnreadEmails($selectedEmail, $value, $userId);
             echo $updateReadUnreadEmails; exit;

@@ -21,7 +21,8 @@ try {
     $mail->Username   = 'samirahamad999@gmail.com';                    
     $mail->Password   = 'ojsdtutobkfxayxw';                             
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            
-    $mail->Port       = 465;                                    
+    // $mail->Port       = 465;    
+    $mail->Port       = 587;                                    
 
     $mail->setFrom('samirahamad999@gmail.com', 'Dev Ninja Youtube');
     $mail->addAddress('samirahamad999@gmail.com');             
