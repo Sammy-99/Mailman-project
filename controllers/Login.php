@@ -116,9 +116,9 @@ class Login{
             // $mail->SMTPSecure = 'ssl';          
             $mail->Port       = 465;                                    
 
-            $mail->setFrom('samirahamad999@gmail.com', 'Email For Password Reset');
+            $mail->setFrom($recoveryEmail, 'Email For Password Reset');
 
-            $mail->addAddress('samirhestabit999@gmail.com');             
+            $mail->addAddress($recoveryEmail);             
 
             $mail->isHTML(true);                                 
             $mail->Subject = 'Reset Password'.time();
