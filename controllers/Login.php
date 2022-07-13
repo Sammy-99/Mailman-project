@@ -111,8 +111,8 @@ class Login{
             $mail->SMTPAuth   = true;                                   
             $mail->Username   = $recoveryEmail;                    
             $mail->Password   = 'ojsdtutobkfxayxw';                             
-            // $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;  
-            $mail->SMTPSecure = 'ssl';          
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;  
+            // $mail->SMTPSecure = 'ssl';          
             $mail->Port       = 465;                                    
 
             $mail->setFrom('noreply@gmail.com', 'Email For Password Reset');
