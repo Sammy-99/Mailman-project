@@ -480,7 +480,6 @@ $(document).ready(function() {
             },
             success: function(response) {
                 var data = JSON.parse(response);
-                // console.log(data)
                 $(".participants").addClass("d-none");
                 if (data.status == false) {
                     $("#mainCheckbox").hide();
@@ -491,7 +490,6 @@ $(document).ready(function() {
                     $(".main_content").show()
                 }
                 if (data.status == true && data.type == "html_data_found") {
-                    // $(".email_page").hide();
                     $("#mainCheckbox").show();
                     $(".email_page").addClass("d-none");
                     $('#mainCheckbox').prop('checked', false);
@@ -583,7 +581,6 @@ $(document).ready(function() {
                     var current_tab = $("#current-sidebar").val();
                     getDashboardData(current_tab);
                 }
-                // console.log(data);
             }
         });
     }
@@ -638,7 +635,6 @@ $(document).ready(function() {
             } else {
                 cc_array = cc.split(",");
                 $.each(cc_array, function(index, val) {
-                    // console.log($.trim(val));
                     var pattern = /^[\w.+\-]+@mailman\.com$/;
                     if (!pattern.test($.trim(val))) {
                         $("#cc_error").text("Invalid Email Format");
@@ -647,7 +643,6 @@ $(document).ready(function() {
                     } else {
                         $("#cc_error").text("");
                         cc_email = true;
-                        // alert(cc_email)
                     }
                 });
             }
@@ -702,13 +697,11 @@ $(document).ready(function() {
                 url: "./controllers/Compose.php",
                 method: "POST",
                 data: modalFormData,
-                // dataType: 'json',
                 cache: false,
                 processData: false,
                 contentType: false,
                 success: function(response) {
                     var data = JSON.parse(response);
-                    // console.log(data);
                     if (data.type == "email_not_found") {
                         $("#email_error").text(data.message);
                     } 
@@ -833,7 +826,7 @@ $(document).ready(function() {
                var open_email_id = $("#open-email").val();
                var button_value = "read";
                selected_mails.push(open_email_id) ;
-               // console.log(selected_mails)
+             
                if(data.status == true && current_tab != "draft"){
                    let to = data.reciever_email.indexOf(data.my_email);
                    let cc = data.cc_emails.indexOf(data.my_email);
@@ -841,8 +834,6 @@ $(document).ready(function() {
                    $("#mainCheckbox").hide();
                    $(".email_page").removeClass("d-none");
                    
-
-                   // $(".participants").text("");
                    $("#sender_email").text(data.sender_email);
                    $("#to_reciever").text(data.reciever_email);
                    $("#cc_reciever").text(data.cc_emails);
@@ -875,13 +866,11 @@ $(document).ready(function() {
                    if(current_tab == "sent"){
                        $(".backbutton").removeClass("d-none");
                        $(".deleteEmail").removeClass("d-none");
-                       // $(".readUnread").removeClass("d-none");
                    }
                    if(current_tab == "trash"){
                        $(".backbutton").removeClass("d-none");
                        $(".deleteEmail").removeClass("d-none");
                        $(".restoreEmail").removeClass("d-none");
-                       // $(".readUnread").removeClass("d-none");
                    }
                }
 

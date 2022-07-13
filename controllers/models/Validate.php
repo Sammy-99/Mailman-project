@@ -63,8 +63,12 @@ class Validate{
      */
     public static function authenticateUser($username = null, $email = null, $password)
     {
+        $username = Self::removeSpecialCharsAndSlashes(Self::$dbc->real_escape_string($username));
+        $email = Self::removeSpecialCharsAndSlashes(Self::$dbc->real_escape_string($email)); 
+        $password = Self::removeSpecialCharsAndSlashes(Self::$dbc->real_escape_string($password));
+        // echo($username); die(" kkkvvv ");
         $selectQuery = "Select * from users where (username='".$username."' OR user_email='".$email."') AND status=1";
-        $result = self::$dbc->query($selectQuery);
+        $result = Self::$dbc->query($selectQuery);
         $row = $result->fetch_assoc();
         if(empty($row)){
             return json_encode([
@@ -90,6 +94,14 @@ class Validate{
                 "status" => false
             ]);
         }
+    }
+
+    protected static function removeSpecialCharsAndSlashes($value)
+    {
+        $value = trim($value);
+        $value = htmlspecialchars($value);
+        $value = stripslashes($value);
+        return $value;
     }
 
     /**

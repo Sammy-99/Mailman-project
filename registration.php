@@ -36,6 +36,9 @@ include_once("./layout/head.php");
 ?>
 
 
+<div class="alert alert-success d-none" role="alert">
+    Your account created successfully. We are redirecting you on Login page, you can Login now with you creadentials.
+</div>
 <div class="container">
     <div class="row">
         <div class="col-md-5">
@@ -308,8 +311,10 @@ include_once("./layout/head.php");
                             $("#backend_error").text(response.message);
                         }
                         else if(response.status == true && response.type == "inserted"){
-                            alert("Your account created successfully. We are redirecting you on Login page, you can Login now with you creadentials.");
-                            window.location.href = "index.php";
+                            setTimeout(function(){
+                                window.location.href = "index.php";
+                           }, 5000);
+                           $(".alert").removeClass("d-none")
                         }
                     },
                 });

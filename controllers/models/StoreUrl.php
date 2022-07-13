@@ -3,6 +3,10 @@
 error_reporting( E_ALL );
 ini_set( "display_errors", 1 );
 
+/**
+ * Class will provide the base url.
+ * Concatinate host Url and project path from the host.
+ */
 class StoreUrl{
 
     public static $baseUrl;
