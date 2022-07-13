@@ -24,7 +24,7 @@ try {
     $mail->Port       = 465;    
     // $mail->Port       = 587;                                    
 
-    $mail->setFrom('samirhestabit999@gmail.com', 'Dev Ninja Youtube');
+    $mail->setFrom('noreply@gmail.com', 'Dev Ninja Youtube');
     $mail->addAddress('samirahamad999@gmail.com');             
 
     $mail->isHTML(true);                                 
