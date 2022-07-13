@@ -76,6 +76,8 @@ class Login{
             }else{
                 echo $getRecoveryEmail; exit;
             }
+        }else{
+            echo json_encode(["type" => "testing"]);
         }
     }
 
