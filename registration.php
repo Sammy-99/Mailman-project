@@ -42,8 +42,6 @@ include_once("./layout/head.php");
 <div class="container">
     <div class="row">
         <div class="col-md-5">
-            <!-- <h1 class="text-left">Registartion Form</h1>
-            <p class="text-left">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci qui eligendi voluptatum inventore. Quis perferendis perspiciatis, ipsam quo in deserunt ad illo assumenda dicta excepturi explicabo aspernatur quos et culpa.</p> -->
         </div>
         <div class="col-md-7 reg-form">
             <div class="row">
@@ -102,11 +100,6 @@ include_once("./layout/head.php");
                         <div class="row">
                             <div class="col-md-1"></div>
                             <div class="col-md-9">
-                                <!-- <div class="profile-picture">
-                                </div>
-                                <div class="upload-picture">
-                                    <a href="">Upload picture</a>
-                                </div> -->
                                 <div class="mt-3">
                                     <img src="./layout/assets/p.png" alt="profile-picture" width="150px">
 
@@ -123,7 +116,7 @@ include_once("./layout/head.php");
                     <div class="col-md-7">
                         <div class="row">
                             <div class="col-md-11">
-                                <input type="email" class="form-control" id="secondary-email" name="secondary-email" placeholder="Enter Secondary Email">
+                                <input type="text" class="form-control" id="secondary-email" name="secondary-email" placeholder="Enter Your Gmail Address">
                                 <small class="field-error" id="semail_error"></small>
                             </div>
                         </div>
@@ -142,6 +135,7 @@ include_once("./layout/head.php");
                 <div class="row">
                     <div class="col-md-8">
                         <input type="checkbox" id="checkbox"> Term and Conditions <br>
+                        <small class="field-error" id="checkbox_error"></small>
                         <small class="field-error" id="backend_error"></small>
                     </div>
                 </div>
@@ -183,6 +177,7 @@ include_once("./layout/head.php");
             var c_password = $("#c-password").val();
             var second_email = $("#secondary-email").val();
             var checkbox = false;
+            console.log(email);
 
             if(user_name == '' || user_name == null){
                 $("#username_error").text("Please Enter Username");
@@ -232,10 +227,13 @@ include_once("./layout/head.php");
                 $("#email_error").text("Please Enter Email");
                 // return false;
             }else{
-                var properEmail = email + "@mailman.com";
+                var properEmail = email.trim() + "@mailman.com";
+                console.log(properEmail);
                 $("#email_error").text("");
+                // var pattern = new RegExp('^[\w.+\-]+@mailman\.com$');
                 var pattern = /^[\w.+\-]+@mailman\.com$/ ;
-                if(!pattern.test(properEmail)){
+                console.log(pattern)
+                if(!pattern.test(properEmail.trim())){
                     $("#email_error").text("Invalid Email Format");
                     // return false;
                 }else{
@@ -282,16 +280,19 @@ include_once("./layout/head.php");
                 $("#semail_error").text("");
                 var pattern = /^[\w.+\-]+@gmail\.com$/ ;
                 if(!pattern.test(second_email)){
-                    $("#email_error").text("Invalid Email Address");
+                    $("#semail_error").text("Invalid Email Address");
                     // return false;
                 }else{
-                    $("#email_error").text("");
+                    $("#semail_error").text("");
                     second_email = true;
                 }
             }
 
             if ($("#checkbox").is(":checked")) {
+                $("#checkbox_error").text('');
                 checkbox = true;
+            }else{
+                $("#checkbox_error").text("Please tick Term and Conditions.")
             }
 
             if(user_name==true && f_name==true && l_name==true && email==true && password==true && c_password==true && password_matched==true && second_email==true && checkbox==true)

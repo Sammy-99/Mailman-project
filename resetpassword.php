@@ -17,7 +17,7 @@ if(!empty($_GET['user_id'])){
 }
 if(array_key_exists("reset_password", $_SESSION)){
     if($_SESSION["reset_password"] != "user_exist"){
-        echo "<h1>Link Expired. You can only use once a url to reset the password.</h1>"; die;
+        echo "<h2>Link Expired. You can only use once a url to reset the password.</h2>"; die;
     }
 }
 
