@@ -97,7 +97,7 @@ include_once("./layout/head.php");
                     contentType: false,
                     success : function(response){
                         var res = JSON.parse(response);
-                        console.log(res)
+                        // console.log(res)
                         if(res.status == false){
                             $("#credential_error").text(res.message);
                         }

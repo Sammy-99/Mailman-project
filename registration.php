@@ -228,11 +228,9 @@ include_once("./layout/head.php");
                 // return false;
             }else{
                 var properEmail = email.trim() + "@mailman.com";
-                console.log(properEmail);
+                // console.log(properEmail);
                 $("#email_error").text("");
-                // var pattern = new RegExp('^[\w.+\-]+@mailman\.com$');
                 var pattern = /^[\w.+\-]+@mailman\.com$/ ;
-                console.log(pattern)
                 if(!pattern.test(properEmail.trim())){
                     $("#email_error").text("Invalid Email Format");
                     // return false;
