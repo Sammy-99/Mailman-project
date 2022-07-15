@@ -16,20 +16,6 @@ class ComposeModel{
     }
 
     /**
-     * This function check the validation of the files.
-     */
-    public static function checkFileType($filesName)
-    {
-            foreach($filesName as $file){
-                $ext = pathinfo($file, PATHINFO_EXTENSION);
-                if (!in_array($ext, Validate::$allowedFileExtension)) {
-                    return json_encode(["type" => "invalid_filetype", "message" => "Please select only jpg or png file.", "status" => false]);
-                }
-            }
-            return json_encode(["type" => "valid_filetype", "message" => "Valid Files.", "status" => true]);
-    }
-
-    /**
      * This function insert and update the cc and bcc related data for a new or drafted Email.
      */
     public static function saveComposeEmailData($to, $cc, $bcc, $subject, $content, $attachedFiles, $userId, $buttonId, $currentTab, $draftEmailId)

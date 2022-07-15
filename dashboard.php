@@ -28,7 +28,7 @@ include_once("./layout/head.php");
 <div class="container-fluid">
     <div class="row align-items-center">
         <div class="col-12 col-md-2 mt-2 font-weight-bolder">
-            <h2 class="">Mailman</h2>
+            <h2 class="font-weight-bold">Mailman</h2>
         </div>
         <div class="col-8 col-md-6">
             <div class="form-outline">
@@ -70,13 +70,13 @@ include_once("./layout/head.php");
                 <!--Main Navigation-->
                 <header>
                     <!-- Sidebar -->
-                    <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+                    <nav id="sidebarMenu" class="collapse d-lg-block sidebar  bg-white">
                         <div class="position-sticky">
                             <div class="list-group list-group-flush mx-3 mt-4">
                                 <a href="#" class="list-group-item list-group-item-action py-2 ripple compose_email"
                                     data-toggle="modal" data-target=".bd-example-modal-lg" aria-current="true">
                                     <span>
-                                        <h5>Compose</h5>
+                                        <h5 class="font-weight-bold">Compose</h5>
                                     </span>
                                 </a>
                                 <a href="#" class="list-group-item list-group-item-action py-2 ripple inbox"
@@ -137,7 +137,7 @@ include_once("./layout/head.php");
                 </div>
                 <div class="col-md-2">
                     <b>
-                        <h5 class="mt-4 pl-4 text-capitalize" id="breadcrumb">
+                        <h5 class="mt-4 pl-4 text-capitalize font-weight-bold" id="breadcrumb">
 
                         </h5>
                     </b>
@@ -506,6 +506,7 @@ $(document).ready(function() {
      */
     function deleteEmail(selected_mails, current_tab) {
         var button_val = $(".deleteEmail").val();
+        console.log(button_val);
         $.ajax({
             url: "./controllers/Dashboard.php",
             method: "POST",
@@ -596,6 +597,11 @@ $(document).ready(function() {
         $("#bcc-recipient-email").val('');
         $("#email-subject").val('');
         $("#email-content").val('');
+        $("#email_error").text('');
+        $("#cc_error").text('');
+        $("#bcc_error").text('');
+        $("#content_error").text('');
+        $("#subject_error").text('');
     })
 
     $("#compose-email").on("submit", function(e) {
@@ -708,6 +714,10 @@ $(document).ready(function() {
                     else if (data.type == "email_not_inserted") {
                         $("#content_error").text(data.message);
                     } 
+                    else if (data.type == "file_count_error") {
+                        alert(data.message)
+                        // $("#content_error").text(data.message);
+                    } 
                     else if (data.type == "email_inserted") {
                         alert(data.message);
                         $("#email_sent").text(data.message);
@@ -717,7 +727,7 @@ $(document).ready(function() {
                         alert(data.message);
                         $('#compose-email-modal').modal('hide');
                     }
-                     else if (data.type == "mail_reciever_error") {
+                    else if (data.type == "mail_reciever_error") {
                         if (data.to_error != '') {
                             $("#email_error").text(data.to_error);
                         }
@@ -826,6 +836,7 @@ $(document).ready(function() {
                var open_email_id = $("#open-email").val();
                var button_value = "read";
                selected_mails.push(open_email_id) ;
+               console.log(data.attachment_file);
              
                if(data.status == true && current_tab != "draft"){
                    let to = data.reciever_email.indexOf(data.my_email);
@@ -841,6 +852,7 @@ $(document).ready(function() {
                    $(".mail_subject").text(data.subject);
                    $(".email_date").text(data.created_at);
                    $(".email_content").text(data.content);
+                   $(".attached_files").html('');
                    $(".attached_files").html(data.attachment_file);
                    if(to == -1 && cc == -1){
                        $(".bcc_participants").removeClass("d-none");

@@ -11,6 +11,7 @@ class Validate{
 
     public const MB = 1048576;
     public static $allowedFileExtension = ["png", "jpg"];
+    // public static $allowedFileExtension = ["png", "jpg", "pdf", "txt", "doc"];
     protected static $dbc;
 
     public function __construct(){

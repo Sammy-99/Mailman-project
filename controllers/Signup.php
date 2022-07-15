@@ -11,7 +11,7 @@ header('Content-type: application/json');
  */
 class SignUp{
 
-    const BASE_URL = "/tse/Mailman-project/";
+    // const BASE_URL = "/tse/Mailman-project/";
     protected $username;
     protected $firstname;
     protected $lastname;

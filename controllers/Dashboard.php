@@ -19,7 +19,6 @@ class Dashboard{
      */
     public function getEmailData($identity, $pageNo)
     {
-        $tableName = $this->tableName;
         $userId = $_SESSION['id'];
 
         switch ($identity) {
@@ -80,7 +79,7 @@ class Dashboard{
     }
 
     /**
-     * This function make the HTML for all dashboard tab.
+     * This function return the HTML for all dashboard tab.
      */
     public function getEmailDataInHtml($emailsData, $identity)
     {
@@ -144,7 +143,7 @@ class Dashboard{
 
     public function getPaginationHtml($html)
     {
-        $totalPages = ceil(count(DashboardModel::$totalRecords)/DashboardModel::$per_page_limit);
+        $totalPages = ceil(DashboardModel::$totalRecords/DashboardModel::$per_page_limit);
         $pageNo = DashboardModel::$pageNumber;
         $html.='<div class="row">
                 <div class="col-md-2"></div>
@@ -238,6 +237,8 @@ class Dashboard{
             $bcc_emails = (count($bcc_emailArr) > 0) ? implode(", ", $bcc_emailArr) : "" ;
             $email_date = $emailData[0]['created_at'];
             $attachment_html = $this->getAttachmentFileHtml($attachment_file);
+
+            // print_r($attachment_html); die(" hh ");
             $draft_participants = '';
             if(!empty($emailData[0]['cc_bcc_draft_participants']) && $emailData[0]['cc_bcc_draft_participants'] != NULL){
                 $draft_participants = unserialize($emailData[0]['cc_bcc_draft_participants']);
@@ -266,13 +267,13 @@ class Dashboard{
     {
         if(!empty($attachment_file)){
             $fileArray = explode(",", $attachment_file);
+            // print_r($fileArray); die(" hh ");
             $fileHtml = '';
             foreach($fileArray as $file){
-                $fileHtml .= "<a href='/launchpadtwo/attachedfiles/" . trim($file) . "' download>";
-                $fileHtml .= "<img src='/launchpadtwo/attachedfiles/" . trim($file) . "' alt='" . trim($file) . "' width='100' height='100'>";
-                $fileHtml .= "</a> &nbsp "; 
+                $fileName = explode("-",$file);
+                $fileHtml .= "<a href='/launchpadtwo/attachedfiles/" . trim($file) . "' target='_blank'>" . trim($fileName[1]) . "</a></br>";
             }
-            $fileHtml .= "</br></br>";
+            $fileHtml .= "</br>";
             return $fileHtml;
         }
     }

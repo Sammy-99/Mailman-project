@@ -20,6 +20,11 @@ class Compose{
     {
         if(!empty($post['recipient-email'])){
             $attachedFiles = NULL;
+            if(count($_FILES["attachedfile"]["name"]) >= 20){
+                echo json_encode(["type" => "file_count_error", "message" => "The count of attached files should not be greater than 20", "status" => false]);
+                exit;
+            }
+            // print_r($_FILES); die(" compose ");
             if(array_key_exists('0', $_FILES["attachedfile"]["name"])){
                 $attachedFiles = !empty($_FILES["attachedfile"]["name"][0]) ? $this->chechFilesValidation() : false ;
             }
@@ -33,7 +38,6 @@ class Compose{
             $buttonId = $_POST['button-id']; 
             $currentTab = $_POST['current-sidebar'];
             $draftEmailId = $_POST['drafted_email'];
-            // print_r($_POST); die(" compose ");
             $saveComposeEmail = ComposeModel::saveComposeEmailData($to, $cc, $bcc, $subject, $content, $attachedFiles, $userId, $buttonId, $currentTab, $draftEmailId);
 
             echo $saveComposeEmail; exit;
@@ -50,13 +54,8 @@ class Compose{
         $fileSize = array_filter($_FILES["attachedfile"]["size"]);
         $fileTmpName = array_filter($_FILES["attachedfile"]["tmp_name"]);
         $total_files = count($_FILES["attachedfile"]["name"]);
-        $checkFilestype = ComposeModel::checkFileType($filesName);
-        $filesInfoJson = json_decode($checkFilestype, true);
-        if($filesInfoJson['status'] == false){
-            echo $checkFilestype; exit;
-        }
         $totalFilesSize = array_sum($fileSize);
-        if ($totalFilesSize > 0 && $totalFilesSize < 20 * Validate::MB){      
+        if ($totalFilesSize > 0 && $totalFilesSize < 25 * Validate::MB){      
             // $todir = "/var/www/html/launchpadtwo/attachedfiles/";
             // $todir = StoreUrl::$baseUrl . "attachedfiles/";
             $todir = "../attachedfiles/";
@@ -124,6 +123,6 @@ if(!empty($_POST['open_email_id'])){
 // print_r($_SESSION);
 // die(" kkkk ");
 
-print_r($_POST);
-print_r($_FILES);
-die(" testingggg ");
+// print_r($_POST);
+// print_r($_FILES);
+// die(" testingggg ");

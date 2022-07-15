@@ -198,7 +198,7 @@ include_once("./layout/head.php");
                 // return false;
             }else{
                 $("#fname_error").text("");
-                var pattern = /^[a-zA-Z()]+$/ ;
+                var pattern = /^[a-zA-Z]+$/ ;
                 if(!pattern.test(f_name)){
                     $("#fname_error").text("Name should be Alphabetic!");
                     // return false;
@@ -213,7 +213,7 @@ include_once("./layout/head.php");
                 // return false;
             }else{
                 $("#lname_error").text("");
-                var pattern = /^[a-zA-Z()]+$/ ;
+                var pattern = /^[a-zA-Z]+$/ ;
                 if(!pattern.test(l_name)){
                     $("#lname_error").text("Name should be Alphabetic!");
                     // return false;
