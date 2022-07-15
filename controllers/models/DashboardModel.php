@@ -52,8 +52,10 @@ class DashboardModel{
             $distinctIdsStr = join(', ', array_column($fetchLimitedRows, "email_id"));
 
             $singlePageDataQuery = Self::$dbc->query("SELECT * FROM (" .$select. ") AS inbox_data WHERE email_id IN (" .$distinctIdsStr. ")");
-            $singlePageData = $singlePageDataQuery->fetch_all(MYSQLI_ASSOC);
-            return json_encode(["type" => "inbox_data_found", "message" => "Data Found", "data" =>$singlePageData,  "status" => true]);
+            if($singlePageDataQuery){
+                $singlePageData = $singlePageDataQuery->fetch_all(MYSQLI_ASSOC);
+                return json_encode(["type" => "inbox_data_found", "message" => "Data Found", "data" =>$singlePageData,  "status" => true]);
+            }
         }
         return json_encode(["type" => "inbox_data_not_found", "message" => "No Data Found", "status" => false]);
     }
