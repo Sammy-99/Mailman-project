@@ -271,7 +271,8 @@ class Dashboard{
             $fileHtml = '';
             foreach($fileArray as $file){
                 $fileName = explode("-",$file);
-                $fileHtml .= "<a href='/launchpadtwo/attachedfiles/" . trim($file) . "' target='_blank'>" . trim($fileName[1]) . "</a></br>";
+                // $fileHtml .= "<a href='/launchpadtwo/attachedfiles/" . trim($file) . "' target='_blank'>" . trim($fileName[1]) . "</a></br>";
+                $fileHtml .= "<a href='/Mailman-project/attachedfiles/" . trim($file) . "' target='_blank'>" . trim($fileName[1]) . "</a></br>";
             }
             $fileHtml .= "</br>";
             return $fileHtml;

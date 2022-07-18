@@ -126,7 +126,7 @@ class DashboardModel{
             return $deletePermanent;
         }
         foreach($selectedEmail as $emailId){
-            if($tab == "sent" || ($tab == "trash" && $buttonVal != "delete")){
+            if($tab == "sent" || $tab == "draft" || ($tab == "trash" && $buttonVal != "delete")){
                 $updateQuery = "UPDATE email_inbox SET delete_by_sender=$value WHERE id=$emailId AND sender_id=$userId";
                 $result = self::$dbc->query($updateQuery);
             }
