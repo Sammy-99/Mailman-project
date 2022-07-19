@@ -89,6 +89,11 @@ body{
         padding-left: 34px !important;
         padding-bottom: 10px;
     }
+
+    #datatable{
+        display: block !important;
+        overflow-x: auto !important;
+    }
 }
 
 /* styling for profile picture */
@@ -119,4 +124,11 @@ body{
 
 #datatable tr:hover{
     background: #f8f9fa;
+}
+
+.rightSideAlert{
+    position: absolute !important;
+    right: 0px;
+    z-index: 1;
+    top: 56px;
 }

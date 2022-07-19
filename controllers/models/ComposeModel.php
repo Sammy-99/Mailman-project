@@ -55,7 +55,7 @@ class ComposeModel{
                 $serializeCcBcc = serialize($ccBccArray);
                 $insertQuery = "INSERT INTO email_inbox (sender_id, reciever_id, subject, content, attachment_file, cc_bcc_draft_participants, is_draft, created_at)
                                 VALUES ('$userId', '$recieverId', '$subject', '$content', '$attachedFiles', '$serializeCcBcc', 1, '$date')";
-                // echo($insertQuery); die(" compose");
+            
                 $result = self::$dbc->query($insertQuery); 
             }
             if($buttonId == '1'){
@@ -88,8 +88,14 @@ class ComposeModel{
     public static function insertData($cc, $bcc)
     {
         $date = date('Y-m-d H:i:s');
-        $ccArr = explode(",", $cc);
-        $bccArr = explode(",", $bcc);
+        $ccArr = [];
+        $bccArr = [];
+        if(!empty($cc) || $cc != ''){
+            $ccArr = explode(",", $cc);
+        }
+        if(!empty($bcc) || $bcc != ''){
+            $bccArr = explode(",", $bcc);
+        }
         if(!empty($ccArr[0]) || !empty($bccArr[0])){
             if(count($ccArr) > count($bccArr)){
                 $result = self::insertCcDataFirst($ccArr, $bccArr, $date);
@@ -117,11 +123,11 @@ class ComposeModel{
             if(array_key_exists($i, $bccArr) && !empty($bccArr[$i])){
                 $selectBccUserId = self::$dbc->query("SELECT id from users where LOWER(user_email)=LOWER('".$bccArr[$i]."')");
                 $bccUserId = $selectBccUserId->fetch_assoc();
-                $updateQuery = self::$dbc->query("UPDATE cc_bcc SET bcc_id=". $bccUserId['id'] ." WHERE id=" .$lastIdsArray[$i]. "");
+                $result = self::$dbc->query("UPDATE cc_bcc SET bcc_id=". $bccUserId['id'] ." WHERE id=" .$lastIdsArray[$i]. "");
             }
         }
 
-        if($updateQuery){
+        if($result){
             return json_encode(["type" => "cc_inserted_bcc_updated", "message" => "Email has been sent", "status" => true]);
         }
         return json_encode(["type" => "not_cc_inserted_bcc_updated", "message" => "Email not sent", "status" => false]);
@@ -141,13 +147,14 @@ class ComposeModel{
         $lastIdsArray = array_column($getLastInsertedRows->fetch_all(), 0);
         for($i = 0; $i < count($ccArr); $i++){
             if(array_key_exists($i, $ccArr) && !empty($ccArr[$i])){
+                // print_r($lastIdsArray); die(" hh ");
                 $selectCcUserId = self::$dbc->query("SELECT id from users where LOWER(user_email)=LOWER('".$ccArr[$i]."')");
                 $ccUserId = $selectCcUserId->fetch_assoc();
-                $updateQuery = self::$dbc->query("UPDATE cc_bcc SET cc_id=". $ccUserId['id'] ." WHERE id=" .$lastIdsArray[$i]. "");
+                $result = self::$dbc->query("UPDATE cc_bcc SET cc_id=". $ccUserId['id'] ." WHERE id=" .$lastIdsArray[$i]. "");
             }
         }
 
-        if($updateQuery){
+        if($result){
             return json_encode(["type" => "bcc_inserted_cc_updated", "message" => "Email has been sent", "status" => true]);
         }
         return json_encode(["type" => "not_bcc_inserted_cc_updated", "message" => "Email not sent", "status" => false]);

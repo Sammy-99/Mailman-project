@@ -24,7 +24,7 @@ class Compose{
                 echo json_encode(["type" => "file_count_error", "message" => "The count of attached files should not be greater than 20", "status" => false]);
                 exit;
             }
-            // print_r($_FILES); die(" compose ");
+           
             if(array_key_exists('0', $_FILES["attachedfile"]["name"])){
                 $attachedFiles = !empty($_FILES["attachedfile"]["name"][0]) ? $this->chechFilesValidation() : false ;
             }
@@ -122,7 +122,3 @@ if(!empty($_POST['open_email_id'])){
 
 // print_r($_SESSION);
 // die(" kkkk ");
-
-// print_r($_POST);
-// print_r($_FILES);
-// die(" testingggg ");

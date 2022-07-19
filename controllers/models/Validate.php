@@ -11,7 +11,6 @@ class Validate{
 
     public const MB = 1048576;
     public static $allowedFileExtension = ["png", "jpg"];
-    // public static $allowedFileExtension = ["png", "jpg", "pdf", "txt", "doc"];
     protected static $dbc;
 
     public function __construct(){
@@ -67,7 +66,6 @@ class Validate{
         $username = Self::removeSpecialCharsAndSlashes(Self::$dbc->real_escape_string($username));
         $email = Self::removeSpecialCharsAndSlashes(Self::$dbc->real_escape_string($email)); 
         $password = Self::removeSpecialCharsAndSlashes(Self::$dbc->real_escape_string($password));
-        // echo($username); die(" kkkvvv ");
         $selectQuery = "Select * from users where (username='".$username."' OR user_email='".$email."') AND status=1";
         $result = Self::$dbc->query($selectQuery);
         $row = $result->fetch_assoc();

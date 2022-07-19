@@ -202,7 +202,7 @@ class Dashboard{
     }
 
     /**
-     * This function is responsible to make read or unread the emails. 
+     * This function is responsible to mark as read or unread the emails. 
      */
     public function markAsReadUnreadEmails($selectedEmail, $btnValue)
     {
@@ -238,7 +238,6 @@ class Dashboard{
             $email_date = $emailData[0]['created_at'];
             $attachment_html = $this->getAttachmentFileHtml($attachment_file);
 
-            // print_r($attachment_html); die(" hh ");
             $draft_participants = '';
             if(!empty($emailData[0]['cc_bcc_draft_participants']) && $emailData[0]['cc_bcc_draft_participants'] != NULL){
                 $draft_participants = unserialize($emailData[0]['cc_bcc_draft_participants']);
@@ -267,7 +266,6 @@ class Dashboard{
     {
         if(!empty($attachment_file)){
             $fileArray = explode(",", $attachment_file);
-            // print_r($fileArray); die(" hh ");
             $fileHtml = '';
             foreach($fileArray as $file){
                 $fileName = explode("-",$file);
@@ -278,7 +276,6 @@ class Dashboard{
             return $fileHtml;
         }
     }
-
 }
 
 spl_autoload_register(function ($className) {
@@ -289,19 +286,16 @@ $dashboard = new Dashboard();
 
 // to fetch data  for dashboard
 if(isset($_POST['identity']) && !empty($_POST['identity'])){
-    // print_r($_POST); die(" kk ");
     $dashboard->getEmailData($_POST['identity'], $_POST['page_no']);
 }
 
 //function to delete the mails
 if(isset($_POST['selected_mails']) && !empty($_POST['current_tab'])){
-    // print_r($_POST); die(" pppp ");
     $dashboard->deleteSelectedEmails($_POST['selected_mails'], $_POST['current_tab'], $_POST['button_val']);
 }
 
 //function to restore the email
 if(isset($_POST['restore_mails'])){
-    // print_r($_POST); die(" vv ");
     $dashboard->restoreSelectedEmails($_POST['restore_mails'], $_POST['existing_tab']);
 }
 

@@ -2,8 +2,8 @@
 // echo "<pre>";
 // print_r($_SERVER); die(" llll ");
 session_start();
-if(!isset($_SESSION['username'])){
-    header("location:index.php");  
+if (!isset($_SESSION['username'])) {
+    header("location:index.php");
 }
 
 
@@ -16,19 +16,28 @@ $userData = Crud::getUserData($_SESSION['id']);
 // echo "<pre>";
 // print_r($_SERVER); die(" hh ");
 
-if(empty($userData['user_image'])){
+if (empty($userData['user_image'])) {
     $userData['user_image'] = "p.png";
 }
 // print_r($userData);die(" session");
 
-include_once("./layout/head.php"); 
+include_once("./layout/head.php");
 
 ?>
+
 
 <div class="container-fluid">
     <div class="row align-items-center">
         <div class="col-12 col-md-2 mt-2 font-weight-bolder">
-            <h2 class="font-weight-bold">Mailman</h2>
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <h2 class="font-weight-bold">Mailman</h2>
+                <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+                <button class="navbar-toggler d-block d-sm-block d-md-none" type="button" data-toggle="collapse"
+                    data-target="#sidebarMenu" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
         </div>
         <div class="col-8 col-md-6">
             <div class="form-outline">
@@ -39,15 +48,16 @@ include_once("./layout/head.php");
         <div class="col-4 col-md-4 mt-2">
             <nav class="navbar navbar-expand-sm">
                 <div class="collapse navbar-collapse d-flex justify-content-end" id="navbar-list-4">
-                    <div class="user-name"> <?=$userData['username'] ;?> </div> &nbsp;
+                    <div class="user-name"> <?= $userData['username']; ?> </div> &nbsp;
                     <ul class="navbar-nav dashboard-profile">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="./uploadedimage/<?=$userData['user_image'] ;?>" width="40" height="40"
+                                <img src="./uploadedimage/<?= $userData['user_image']; ?>" width="40" height="40"
                                     class="rounded-circle">
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <div class="dropdown-menu " style="margin-left:-50px;"
+                                aria-labelledby="navbarDropdownMenuLink">
                                 <!-- <a class="dropdown-item" href="#">Dashboard</a> -->
                                 <a class="dropdown-item" href="./profile.php">Edit Profile</a>
                                 <a class="dropdown-item" href="./logout.php">Log Out</a>
@@ -56,54 +66,69 @@ include_once("./layout/head.php");
                     </ul>
                 </div>
             </nav>
+
         </div>
     </div>
     <hr>
+
+    <!-- custom alert start -->
+    <div class="col-lg-4 col-md-4 col-sm-5 ml-auto d-none rightSideAlert">
+        <div class="alert alert-success fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="True">&times;</span>
+            </button>
+            <h4 class="alert-heading">Well done!</h4>
+            <p>This is an alert within a column. The column can be made any size at different viewpoints.</p>
+        </div>
+    </div>
+    <!-- custom alert end -->
+
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-10"></div>
     </div>
     <div class="row ">
-        <div class="col-md-2 ">
-            <div class="border">
+        <div class="col-md-2 mb-3">
+            <!-- <div class="border"> -->
 
-                <!--Main Navigation-->
-                <header>
-                    <!-- Sidebar -->
-                    <nav id="sidebarMenu" class="collapse d-lg-block sidebar  bg-white">
-                        <div class="position-sticky">
-                            <div class="list-group list-group-flush mx-3 mt-4">
-                                <a href="#" class="list-group-item list-group-item-action py-2 ripple compose_email"
-                                    data-toggle="modal" data-target=".bd-example-modal-lg" aria-current="true">
-                                    <span>
-                                        <h5 class="font-weight-bold">Compose</h5>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action py-2 ripple inbox"
-                                    data-inbox-value="inbox">
-                                    <span>Inbox</span>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action py-2 ripple sent"
-                                    data-sent-value="sent">
-                                    <span>Sent</span>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action py-2 ripple draft"
-                                    data-draft-value="draft">
-                                    <span>Draft</span>
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-action py-2 ripple trash"
-                                    data-trash-value="trash">
-                                    <span>Trash</span>
-                                </a>
-                            </div>
+            <!--Main Navigation-->
+            <header>
+                <!-- Sidebar -->
+                <nav id="sidebarMenu" class="collapse d-lg-block sidebar bg-white">
+                    <div class="position-sticky border">
+                        <div class="list-group list-group-flush mx-3 mt-4">
+                            <a href="#" class="list-group-item list-group-item-action py-2 ripple compose_email"
+                                data-toggle="modal" data-target=".bd-example-modal-lg" aria-current="true">
+                                <span>
+                                    <h5 class="font-weight-bold">Compose</h5>
+                                </span>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action py-2 ripple inbox"
+                                data-inbox-value="inbox">
+                                <span>Inbox</span>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action py-2 ripple sent"
+                                data-sent-value="sent">
+                                <span>Sent</span>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action py-2 ripple draft"
+                                data-draft-value="draft">
+                                <span>Draft</span>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action py-2 ripple trash"
+                                data-trash-value="trash">
+                                <span>Trash</span>
+                            </a>
                         </div>
-                    </nav>
-                    <!-- Sidebar -->
 
-                </header>
-                <!--Main Navigation-->
+                    </div>
+                </nav>
+                <!-- Sidebar -->
 
-            </div>
+            </header>
+            <!--Main Navigation-->
+
+            <!-- </div> -->
         </div>
         <div class="col-md-10 border">
             <div class="row">
@@ -116,10 +141,12 @@ include_once("./layout/head.php");
                         </div>
                         <div class="buttons d-inline">
                             <div class="d-inline">
-                                <button type="button" class="btn btn-outline-secondary py-1 ml-3 d-none backbutton">Back</button>
+                                <button type="button"
+                                    class="btn btn-outline-secondary py-1 ml-3 d-none backbutton">Back</button>
                             </div>
                             <div class="d-inline">
-                                <button type="button" class="btn btn-outline-danger py-1 mx-3 d-none deleteEmail" value="delete">Delete</button>
+                                <button type="button" class="btn btn-outline-danger py-1 mx-3 d-none deleteEmail"
+                                    value="delete">Delete</button>
                             </div>
                             <div class="d-inline">
                                 <button type="button" class="btn btn-outline-primary py-1 mr-3 readUnread d-none"
@@ -161,13 +188,15 @@ include_once("./layout/head.php");
                             <h5 class="card-title mail_subject"></h5>
                             <hr>
                             <div class="row">
-                                <div class="col-md-9"> 
+                                <div class="col-md-9">
                                     <a href="#" id="email_participants">Participants </a>
                                     <div class="participants d-none">
-                                    <small class="">From : <small class="" id="sender_email"></small></small><br>
+                                        <small class="">From : <small class="" id="sender_email"></small></small><br>
                                         <small class=""> To : <small class="" id="to_reciever"></small></small><br>
-                                        <small class="cc_reciever"> Cc : <small class="" id="cc_reciever"></small> </small><br>
-                                        <small class="bcc_participants d-none"> Bcc : <small class="" id="bcc_reciever"></small></small>
+                                        <small class="cc_reciever"> Cc : <small class="" id="cc_reciever"></small>
+                                        </small><br>
+                                        <small class="bcc_participants d-none"> Bcc : <small class=""
+                                                id="bcc_reciever"></small></small>
                                     </div>
                                 </div>
                                 <div class="col-md-3 email_date"> </div>
@@ -183,29 +212,6 @@ include_once("./layout/head.php");
                     </div>
 
                     <!-- email page end -->
-
-
-
-                    <!-- <div class="row">
-                        <div class="col-md-2"></div>
-                        <div class="col-md-10 my-3">
-                            <nav aria-label="...">
-                                <ul class="pagination">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item active" aria-current="page">
-                                        <a class="page-link" href="#">2</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div> -->
                 </div>
             </div>
 
@@ -217,7 +223,7 @@ include_once("./layout/head.php");
 </div>
 <br><br><br><br>
 
-<!-- modal html code -->
+<!-- modal html code start -->
 
 
 <div class="modal fade bd-example-modal-lg" id="compose-email-modal" tabindex="-1" role="dialog"
@@ -242,7 +248,8 @@ include_once("./layout/head.php");
                                     id="recipient-email">
                                 <input type="hidden" class="form-control" name="button-id" id="button-id" value="1">
                                 <input type="hidden" class="current-sidebar" name="current-sidebar" value="">
-                                <input type="hidden" class="drafted_email" id="drafted_email" name="drafted_email" value="">
+                                <input type="hidden" class="drafted_email" id="drafted_email" name="drafted_email"
+                                    value="">
                                 <small class="text-danger" id="email_error"></small>
                             </div>
                         </div>
@@ -309,7 +316,7 @@ include_once("./layout/head.php");
     </div>
 </div>
 
-
+<!-- modal html code end -->
 
 <?php include_once("./layout/footer.php"); ?>
 
@@ -317,14 +324,13 @@ include_once("./layout/head.php");
 <script>
 $(document).ready(function() {
 
-    $(document).on("click", "#pagination a", function(e){
-        e.preventDefault;
-        var page_no = $(this).attr("id");
-        var identity = $("#current-sidebar").val();
-        // alert(page_no);
-        getDashboardData(identity, page_no);
-    })
+    // $(".rightSideAlert").removeClass("d-none");
+    // // $(".rightSideAlert").fadeIn(1000);
+    
 
+    // setTimeout(function(){
+    //     $(".rightSideAlert").fadeOut(400);
+    // }, 5000);
 
     var identity = $(".inbox").data("inbox-value");
     if (identity == "inbox") {
@@ -430,40 +436,6 @@ $(document).ready(function() {
     }
 
     /**
-     * this event will delete the slected emails from their respective area.
-     */
-    $(".deleteEmail").click(function() {
-        var selected_mails = [];
-        var open_email_id = $("#open-email").val();
-
-        $('input[name="checkbox"]:checked').each(function() {
-            selected_mails.push(this.value);
-        });
-        (selected_mails.length == 0) ? selected_mails.push(open_email_id) : "" ;
-        var current_tab = $("#current-sidebar").val();
-        // console.log("i am from delete");
-        // console.log(selected_mails);
-        deleteEmail(selected_mails, current_tab);
-
-    });
-
-    /**
-     * this function will Restore the emails from trash.
-     */
-    $(".restoreEmail").click(function() {
-        var selected_mails = [];
-        var current_tab = $("#current-sidebar").val();
-        var open_email_id = $("#open-email").val();
-        $('input[name="checkbox"]:checked').each(function() {
-            selected_mails.push(this.value);
-        });
-        (selected_mails.length == 0) ? selected_mails.push(open_email_id) : "" ;
-        // console.log(selected_mails);
-        // console.log("i am from restore");
-        restoreEmails(selected_mails, current_tab);
-    });
-
-    /**
      * this function will return the dashboard data for inbox, sent, draft, trash.
      */
     function getDashboardData(identity, page_no = null) {
@@ -502,8 +474,32 @@ $(document).ready(function() {
     }
 
     /**
-     * this function will delete the emails
+     * This function responsible for pagination.
+     * Will return the current paga data.
      */
+    $(document).on("click", "#pagination a", function(e) {
+        e.preventDefault;
+        var page_no = $(this).attr("id");
+        var identity = $("#current-sidebar").val();
+        getDashboardData(identity, page_no);
+    });
+
+    /**
+     * this event will delete the slected emails from their respective area.
+     */
+    $(".deleteEmail").click(function() {
+        var selected_mails = [];
+        var open_email_id = $("#open-email").val();
+
+        $('input[name="checkbox"]:checked').each(function() {
+            selected_mails.push(this.value);
+        });
+        (selected_mails.length == 0) ? selected_mails.push(open_email_id): "";
+        var current_tab = $("#current-sidebar").val();
+        deleteEmail(selected_mails, current_tab);
+
+    });
+
     function deleteEmail(selected_mails, current_tab) {
         var button_val = $(".deleteEmail").val();
         console.log(button_val);
@@ -522,14 +518,24 @@ $(document).ready(function() {
                     alert(data.message);
                     getDashboardData(data.tab);
                 }
-                console.log(response);
             }
         });
     }
 
     /**
-     * function to restore the emails.
+     * this function will Restore the emails from trash.
      */
+    $(".restoreEmail").click(function() {
+        var selected_mails = [];
+        var current_tab = $("#current-sidebar").val();
+        var open_email_id = $("#open-email").val();
+        $('input[name="checkbox"]:checked').each(function() {
+            selected_mails.push(this.value);
+        });
+        (selected_mails.length == 0) ? selected_mails.push(open_email_id): "";
+        restoreEmails(selected_mails, current_tab);
+    });
+
     function restoreEmails(restore_mails, existing_tab) {
         $.ajax({
             url: "./controllers/Dashboard.php",
@@ -546,13 +552,10 @@ $(document).ready(function() {
                 } else if (data.status == false) {
                     alert(data.message);
                 }
-                console.log(response);
                 hideButtons()
             }
         });
     }
-
-    //  --------
 
     /**
      * This function is responsible to search the email result.
@@ -575,10 +578,12 @@ $(document).ready(function() {
                 if (data.type == "html_data_found" && data.status == true) {
                     $(".main_content").html('');
                     $(".main_content").append(data.html);
-                } else if (data.type == "no_html_data_found" && data.status == false) {
+                } 
+                else if (data.type == "no_html_data_found" && data.status == false) {
                     $(".main_content").html('');
                     $(".main_content").append(data.message);
-                } else if (data.type == "empty" && data.status == false) {
+                } 
+                else if (data.type == "empty" && data.status == false) {
                     var current_tab = $("#current-sidebar").val();
                     getDashboardData(current_tab);
                 }
@@ -590,7 +595,7 @@ $(document).ready(function() {
      * This script is responsible for compose the email.
      */
 
-    $(".compose_email").click(function(){
+    $(".compose_email").click(function() {
         $(".current-sidebar").val('');
         $("#recipient-email").val('');
         $("#cc-recipient-email").val('');
@@ -723,10 +728,10 @@ $(document).ready(function() {
                         $("#email_sent").text(data.message);
                         $('#compose-email-modal').modal('hide');
                     } 
-                    else if (data.type == "bcc_inserted_cc_updated" || data.type == "cc_inserted_bcc_updated"){
+                    else if (data.type == "bcc_inserted_cc_updated" || data.type == "cc_inserted_bcc_updated") {
                         alert(data.message);
                         $('#compose-email-modal').modal('hide');
-                    }
+                    } 
                     else if (data.type == "mail_reciever_error") {
                         if (data.to_error != '') {
                             $("#email_error").text(data.to_error);
@@ -738,8 +743,8 @@ $(document).ready(function() {
                             $("#bcc_error").text(data.bcc_error);
                         }
 
-                    }
-                    else if (data.type == 'email_drafted'){
+                    } 
+                    else if (data.type == 'email_drafted') {
                         alert(data.message);
                         $('#compose-email-modal').modal('hide');
                     }
@@ -770,11 +775,11 @@ $(document).ready(function() {
         var selected_mails = [];
         var button_value = $("#read-button").val();
         var open_email_id = $("#open-email").val();
-        
+
         $('input[name="checkbox"]:checked').each(function() {
             selected_mails.push(this.value);
         });
-        (selected_mails.length == 0) ? selected_mails.push(open_email_id) : "" ;
+        (selected_mails.length == 0) ? selected_mails.push(open_email_id) : "";
         console.log(selected_mails);
 
         isReadUnread(selected_mails, button_value);
@@ -788,7 +793,7 @@ $(document).ready(function() {
         $('input[name="checkbox"]:checked').each(function() {
             selected_mails.push(this.value);
         });
-        (selected_mails.length == 0) ? selected_mails.push(open_email_id) : "" ;
+        (selected_mails.length == 0) ? selected_mails.push(open_email_id) : "";
         console.log(selected_mails);
         isReadUnread(selected_mails, button_value);
     });
@@ -803,7 +808,7 @@ $(document).ready(function() {
             },
             success: function(response) {
                 var email_open = $("#read_unread_email").val();
-                if(email_open != "email_opened"){
+                if (email_open != "email_opened") {
                     getDashboardData("inbox");
                 }
                 console.log(response);
@@ -811,154 +816,174 @@ $(document).ready(function() {
         });
     }
 
+    /**
+     * this function is responsible to open the Email page.
+     */
     $(document).on("click", "#datatable tr", function() {
-       
-       var email_id = $(this).find('input:checkbox').val();
-       var current_tab = $("#current-sidebar").val();
-       var open_email = $("#open-email").val(email_id);
-       var drafted_email = $("#drafted_email").val(email_id);
-       $("#read_unread_email").val("email_opened");
-       // $(".main_content").hide();
-       // $("#mainCheckbox").hide();
-       // $(".email_page").removeClass("d-none");
 
-       $.ajax({
-           url: "./controllers/Dashboard.php",
-           method: "POST",
-           data: {
-               email_id,
-               current_tab
-           },
-           success: function(response) {
-               var data = JSON.parse(response);
-               var current_tab = $("#current-sidebar").val();
-               var selected_mails = [];
-               var open_email_id = $("#open-email").val();
-               var button_value = "read";
-               selected_mails.push(open_email_id) ;
-               console.log(data.attachment_file);
-             
-               if(data.status == true && current_tab != "draft"){
-                   let to = data.reciever_email.indexOf(data.my_email);
-                   let cc = data.cc_emails.indexOf(data.my_email);
-                   $(".main_content").hide();
-                   $("#mainCheckbox").hide();
-                   $(".email_page").removeClass("d-none");
-                   
-                   $("#sender_email").text(data.sender_email);
-                   $("#to_reciever").text(data.reciever_email);
-                   $("#cc_reciever").text(data.cc_emails);
-                   $("#bcc_reciever").text(data.bcc_emails);
-                   $(".mail_subject").text(data.subject);
-                   $(".email_date").text(data.created_at);
-                   $(".email_content").text(data.content);
-                   $(".attached_files").html('');
-                   $(".attached_files").html(data.attachment_file);
-                   if(to == -1 && cc == -1){
-                       $(".bcc_participants").removeClass("d-none");
-                   }else{
-                       $(".bcc_participants").addClass("d-none");
-                   }
-                   if(data.cc_emails == '' || data.cc_emails == null){
-                       // $(".cc_reciever").hide();
-                       $(".cc_reciever").addClass("d-none");
-                   }else{
-                       // $(".cc_reciever").hide();
-                       $(".cc_reciever").removeClass("d-none");
-                   }
-                   if(data.bcc_emails == '' || data.bcc_emails == null){
-                       $(".bcc_participants").addClass("d-none");
-                   }
-                   if(current_tab == "inbox"){
-                       $(".backbutton").removeClass("d-none");
-                       $(".deleteEmail").removeClass("d-none");
-                       $(".readUnread").removeClass("d-none");
-                       isReadUnread(selected_mails, button_value);
-                   }
-                   if(current_tab == "sent"){
-                       $(".backbutton").removeClass("d-none");
-                       $(".deleteEmail").removeClass("d-none");
-                   }
-                   if(current_tab == "trash"){
-                       $(".backbutton").removeClass("d-none");
-                       $(".deleteEmail").removeClass("d-none");
-                       $(".restoreEmail").removeClass("d-none");
-                   }
-               }
+        var email_id = $(this).find('input:checkbox').val();
+        var current_tab = $("#current-sidebar").val();
+        var open_email = $("#open-email").val(email_id);
+        var drafted_email = $("#drafted_email").val(email_id);
+        $("#read_unread_email").val("email_opened");
+        // $(".main_content").hide();
+        // $("#mainCheckbox").hide();
+        // $(".email_page").removeClass("d-none");
 
-               if(current_tab == "draft"){
-                   $("#compose-email-modal").modal("show");
-                   console.log(data);
-                   $("#recipient-email").val(data.reciever_email);
-                   $("#cc-recipient-email").val(data.draft_participants.cc);
-                   $("#bcc-recipient-email").val(data.draft_participants.bcc);
-                   $("#email-subject").val(data.subject);
-                   $("#email-content").val(data.content);
-               }
-           }
-       });
+        $.ajax({
+            url: "./controllers/Dashboard.php",
+            method: "POST",
+            data: {
+                email_id,
+                current_tab
+            },
+            success: function(response) {
+                var data = JSON.parse(response);
+                var current_tab = $("#current-sidebar").val();
+                var selected_mails = [];
+                var open_email_id = $("#open-email").val();
+                var button_value = "read";
+                selected_mails.push(open_email_id);
+                console.log(data.attachment_file);
 
-   });
+                if (data.status == true && current_tab != "draft") {
+                    let to = data.reciever_email.indexOf(data.my_email);
+                    let cc = data.cc_emails.indexOf(data.my_email);
+                    $(".main_content").hide();
+                    $("#mainCheckbox").hide();
+                    $(".email_page").removeClass("d-none");
 
-   $(document).on("click", "#email_participants", function(){
-       $(".participants").toggleClass("d-none");
-       
-   });
+                    $("#sender_email").text(data.sender_email);
+                    $("#to_reciever").text(data.reciever_email);
+                    $("#cc_reciever").text(data.cc_emails);
+                    $("#bcc_reciever").text(data.bcc_emails);
+                    $(".mail_subject").text(data.subject);
+                    $(".email_date").text(data.created_at);
+                    $(".email_content").text(data.content);
+                    $(".attached_files").html('');
+                    $(".attached_files").html(data.attachment_file);
+                    if (to == -1 && cc == -1) {
+                        $(".bcc_participants").removeClass("d-none");
+                    } else {
+                        $(".bcc_participants").addClass("d-none");
+                    }
+                    if (data.cc_emails == '' || data.cc_emails == null) {
+                        // $(".cc_reciever").hide();
+                        $(".cc_reciever").addClass("d-none");
+                    } else {
+                        // $(".cc_reciever").hide();
+                        $(".cc_reciever").removeClass("d-none");
+                    }
+                    if (data.bcc_emails == '' || data.bcc_emails == null) {
+                        $(".bcc_participants").addClass("d-none");
+                    }
+                    if (current_tab == "inbox") {
+                        $(".backbutton").removeClass("d-none");
+                        $(".deleteEmail").removeClass("d-none");
+                        $(".readUnread").removeClass("d-none");
+                        isReadUnread(selected_mails, button_value);
+                    }
+                    if (current_tab == "sent") {
+                        $(".backbutton").removeClass("d-none");
+                        $(".deleteEmail").removeClass("d-none");
+                    }
+                    if (current_tab == "trash") {
+                        $(".backbutton").removeClass("d-none");
+                        $(".deleteEmail").removeClass("d-none");
+                        $(".restoreEmail").removeClass("d-none");
+                    }
+                }
 
-   $(".backbutton").click(function(){
-       var identity = $("#current-sidebar").val();
-       var open_email = $("#open-email").val('');
-       $("#read_unread_email").val("");
-       $("#mainCheckbox").show();
-       $(".participants").addClass("d-none");
-       hideButtons();
-       getDashboardData(identity);
-   });
+                if (current_tab == "draft") {
+                    $("#compose-email-modal").modal("show");
+                    console.log(data);
+                    $("#recipient-email").val(data.reciever_email);
+                    $("#cc-recipient-email").val(data.draft_participants.cc);
+                    $("#bcc-recipient-email").val(data.draft_participants.bcc);
+                    $("#email-subject").val(data.subject);
+                    $("#email-content").val(data.content);
+                }
+            }
+        });
+    });
 
-   $(".reply-email").click(function(){
-       open_email_id = $("#open-email").val();
-       btn_value = $(this).data("btn-value");
-       replyEmail(open_email_id, btn_value);
-   }); 
+    /**
+     * This function responsible to show and hide the email participants.
+     */
+    $(document).on("click", "#email_participants", function() {
+        $(".participants").toggleClass("d-none");
 
-   function replyEmail(open_email_id, btn_value)
-   {
-       $.ajax({
-           url: "./controllers/Compose.php",
-           method: "POST",
-           data: {
-               open_email_id,
-               btn_value
-           },
-           success: function(response) {
-               var data = JSON.parse(response);
-               var current_tab =  $("#current-sidebar").val();
-               $("#recipient-email").val('');
-               $("#cc-recipient-email").val('');
-               $("#bcc-recipient-email").val('');
-               $("#email-subject").val('');
-               $("#email-content").val('');
-               if (data.btnValue == "reply") {
-                   $("#recipient-email").val(data.email_data.sender_email);
-                   if(current_tab == "sent"){
-                       $("#recipient-email").val(data.email_data.reciever_email);
-                   }
-                   $("#email-subject").val(data.email_data.subject);
-               }else{
-                   $("#recipient-email").val(data.sender);
-                   if(current_tab == "sent"){
-                       $("#recipient-email").val(data.reciever);
-                   }
-                   $("#cc-recipient-email").val(data.cc);
-                   $("#email-subject").val(data.subject);
-               }
-               console.log(data);
-               $("#compose-email-modal").modal("show");
-           }
-       });
-   }
+    });
 
+    /**
+     * This function will render the current nav tab data when user will click on it.
+     */
+    $(".backbutton").click(function() {
+        var identity = $("#current-sidebar").val();
+        var open_email = $("#open-email").val('');
+        $("#read_unread_email").val("");
+        $("#mainCheckbox").show();
+        $(".participants").addClass("d-none");
+        hideButtons();
+        getDashboardData(identity);
+    });
 
+    /**
+     * This event will open a modal with some data to reply the email.
+     */
+    $(".reply-email").click(function() {
+        open_email_id = $("#open-email").val();
+        btn_value = $(this).data("btn-value");
+        replyEmail(open_email_id, btn_value);
+    });
+
+    function replyEmail(open_email_id, btn_value) {
+        $.ajax({
+            url: "./controllers/Compose.php",
+            method: "POST",
+            data: {
+                open_email_id,
+                btn_value
+            },
+            success: function(response) {
+                var data = JSON.parse(response);
+                var current_tab = $("#current-sidebar").val();
+                $("#recipient-email").val('');
+                $("#cc-recipient-email").val('');
+                $("#bcc-recipient-email").val('');
+                $("#email-subject").val('');
+                $("#email-content").val('');
+                if (data.btnValue == "reply") {
+                    $("#recipient-email").val(data.email_data.sender_email);
+                    if (current_tab == "sent") {
+                        $("#recipient-email").val(data.email_data.reciever_email);
+                    }
+                    $("#email-subject").val(data.email_data.subject);
+                } else {
+                    $("#recipient-email").val(data.sender);
+                    if (current_tab == "sent") {
+                        $("#recipient-email").val(data.reciever);
+                    }
+                    $("#cc-recipient-email").val(data.cc);
+                    $("#email-subject").val(data.subject);
+                }
+                console.log(data);
+                $("#compose-email-modal").modal("show");
+            }
+        });
+    }
+
+    $("#bcc-recipient-email").keyup(function() {
+        if ($(this).val() == '') {
+            $("#bcc_error").text('');
+        }
+    });
+    
+    $("#cc-recipient-email").keyup(function() {
+        if ($(this).val() == '') {
+            $("#cc_error").text('');
+        }
+    });
 
 })
 </script>

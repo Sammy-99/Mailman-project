@@ -21,22 +21,23 @@ if(array_key_exists("reset_password", $_SESSION)){
     }
 }
 
-// print_r(($_SESSION)); die(" jjj ");
-
 ?>
 
 <div class="container-fluid">
 
-    <?php
-if(isset($_SESSION['username'])):
-    $user_id = $_SESSION['id'];
-    $userData = Crud::getUserData($_SESSION['id']);
+<?php
+    if(isset($_SESSION['username'])):
+        $user_id = $_SESSION['id'];
+        $userData = Crud::getUserData($_SESSION['id']);
+        if (empty($userData['user_image'])) {
+            $userData['user_image'] = "p.png";
+        }
 ?>
 
 
     <div class="row align-items-center">
         <div class="col-12 col-md-2 mt-2 font-weight-bolder">
-            <h2 class="">Mailman</h2>
+        <h2 class="font-weight-bold">Mailman</h2>
         </div>
         <div class="col-8 col-md-6">
             <div class="form-outline">
@@ -68,14 +69,7 @@ if(isset($_SESSION['username'])):
     </div>
     <hr>
 
-    <?php 
-endif;
-// echo $user_id; 
-// // die(" user id ");
-// print_r($_GET);
-?>
-
-
+<?php endif;?>
 
     <div class="row m-5 h-100 justify-content-center align-items-center">
         <div class="col-10 col-md-6 col-lg-6">
