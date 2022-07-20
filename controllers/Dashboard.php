@@ -191,12 +191,13 @@ class Dashboard{
     /**
      * This function is responsible for searching the emails.
      */
-    public function getSearchResult($value)
+    public function getSearchResult($value, $pageNo)
     {
         $userId = $_SESSION['id'];
         if($value != '' && !empty($value)){
-            $searchDataRows = DashboardModel::getSearchEmails($value, $userId);
+            $searchDataRows = DashboardModel::getSearchEmails($value, $userId, $pageNo);
             $searchRowsHtml = $this->getEmailDataInHtml($searchDataRows, "search");
+            // print_r($searchRowsHtml); die(" vvvvv ");
         }
         echo json_encode(["type" => "empty","message" => "empty value", "status" => false]);exit;
     }
@@ -217,12 +218,17 @@ class Dashboard{
     /**
      * This Function will return the dedicated email page data.
      */
-    public function getDedicatedEmailPage($emailId, $currenntTab)
+    public function getDedicatedEmailPage($emailId, $currentTab, $search_field_value)
     {
         $userId = $_SESSION['id'];
         $userEmail = $_SESSION['email'];
+
         if(!empty($emailId)){
-            $emailData = DashboardModel::getEmailPageData($emailId, $userId, $currenntTab);
+            if(!empty($search_field_value) || $search_field_value != null){
+                $currentTab = DashboardModel::checkTabForSearchBarData($emailId, $userId);
+            }
+            $emailData = DashboardModel::getEmailPageData($emailId, $userId);
+            // print_r($currentTab);  die("  hhhh ");
             $email_id = $emailData[0]['id'];
             $sender_email = $emailData[0]['sender_email'];
             $reciever_id = $emailData[0]['reciever_email'];
@@ -256,7 +262,8 @@ class Dashboard{
                 "cc_emails" => $cc_emails,
                 "bcc_emails" => $bcc_emails,
                 "draft_participants" => $draft_participants,
-                "created_at" => $email_date
+                "created_at" => $email_date,
+                "current_tab" => $currentTab
             ]); exit;
         }
         echo json_encode(["type" => "email_not found", "status" => false, "message" => "Email Not Found"]);
@@ -301,7 +308,7 @@ if(isset($_POST['restore_mails'])){
 
 // funtion for searching
 if(isset($_POST['search_value'])){
-    $dashboard->getSearchResult($_POST['search_value']);
+    $dashboard->getSearchResult($_POST['search_value'], $_POST['search_page_no']);
 }
 
 // function for read and unread functionality
@@ -310,7 +317,7 @@ if(!empty($_POST['button_value'])){
 }
 // print_r($_POST); die(" pppp ");
 if(!empty($_POST['email_id'])){
-    $dashboard->getDedicatedEmailPage($_POST['email_id'], $_POST['current_tab']);
+    $dashboard->getDedicatedEmailPage($_POST['email_id'], $_POST['current_tab'], $_POST['search_field_value']);
 }
 
 

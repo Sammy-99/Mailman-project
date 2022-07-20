@@ -73,12 +73,12 @@ include_once("./layout/head.php");
 
     <!-- custom alert start -->
     <div class="col-lg-4 col-md-4 col-sm-5 ml-auto d-none rightSideAlert">
-        <div class="alert alert-success fade show" role="alert">
+        <div class="alert alert-success fade show add-alert-prop" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="True">&times;</span>
             </button>
-            <h4 class="alert-heading">Well done!</h4>
-            <p>This is an alert within a column. The column can be made any size at different viewpoints.</p>
+            <h4 class="alert-heading"></h4>
+            <p class="alert-message"></p>
         </div>
     </div>
     <!-- custom alert end -->
@@ -138,6 +138,7 @@ include_once("./layout/head.php");
                             <input type="checkbox" id="mainCheckbox">
                             <input type="hidden" class="open-email" id="open-email" value="">
                             <input type="hidden" id="read_unread_email" value="">
+                            <input type="hidden" id="page-number" value="">
                         </div>
                         <div class="buttons d-inline">
                             <div class="d-inline">
@@ -248,8 +249,8 @@ include_once("./layout/head.php");
                                     id="recipient-email">
                                 <input type="hidden" class="form-control" name="button-id" id="button-id" value="1">
                                 <input type="hidden" class="current-sidebar" name="current-sidebar" value="">
-                                <input type="hidden" class="drafted_email" id="drafted_email" name="drafted_email"
-                                    value="">
+                                <input type="hidden" class="drafted_email" id="drafted_email" name="drafted_email" value="">
+                                <input type="hidden" class="search-field" name="search-field" id="search-field" value="">
                                 <small class="text-danger" id="email_error"></small>
                             </div>
                         </div>
@@ -343,6 +344,9 @@ $(document).ready(function() {
         $("#current-sidebar").val('');
         $("#read_unread_email").val("");
         $(".current-sidebar").val('');
+        $("#search-field").val("");
+        $("#searchData").val('');
+        console.log($("#search-field").val());
         var identity = $(".inbox").data("inbox-value");
         $("#current-sidebar").val(identity);
         hideButtons()
@@ -352,6 +356,9 @@ $(document).ready(function() {
     $(".sent").click(function() {
         $("#current-sidebar").val('');
         $(".current-sidebar").val('');
+        $("#search-field").val("");
+        $("#searchData").val('');
+        console.log($("#search-field").val());
         var identity = $(".sent").data("sent-value");
         $("#current-sidebar").val(identity);
         hideButtons()
@@ -360,6 +367,9 @@ $(document).ready(function() {
 
     $(".draft").click(function() {
         $("#current-sidebar").val('');
+        $("#search-field").val("");
+        $("#searchData").val('');
+        console.log($("#search-field").val());
         var identity = $(".draft").data("draft-value");
         $("#current-sidebar").val(identity);
         $(".current-sidebar").val(identity);
@@ -369,6 +379,9 @@ $(document).ready(function() {
 
     $(".trash").click(function() {
         $("#current-sidebar").val('');
+        $("#search-field").val("");
+        $("#searchData").val('');
+        console.log($("#search-field").val());
         var identity = $(".trash").data("trash-value");
         $("#current-sidebar").val(identity);
         $(".current-sidebar").val('');
@@ -443,34 +456,36 @@ $(document).ready(function() {
         $("#breadcrumb").text('');
         $("#breadcrumb").text(identity);
 
-        $.ajax({
-            url: "./controllers/Dashboard.php",
-            method: "POST",
-            data: {
-                identity,
-                page_no
-            },
-            success: function(response) {
-                var data = JSON.parse(response);
-                $(".participants").addClass("d-none");
-                if (data.status == false) {
-                    $("#mainCheckbox").hide();
-                    $(".email_page").addClass("d-none");
-                    $('#mainCheckbox').prop('checked', false);
-                    $(".main_content").html('');
-                    $(".main_content").append(data.message);
-                    $(".main_content").show()
+        if(identity != '' || identity != null){
+            $.ajax({
+                url: "./controllers/Dashboard.php",
+                method: "POST",
+                data: {
+                    identity,
+                    page_no
+                },
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    $(".participants").addClass("d-none");
+                    if (data.status == false) {
+                        $("#mainCheckbox").hide();
+                        $(".email_page").addClass("d-none");
+                        $('#mainCheckbox').prop('checked', false);
+                        $(".main_content").html('');
+                        $(".main_content").append(data.message);
+                        $(".main_content").show();
+                    }
+                    if (data.status == true && data.type == "html_data_found") {
+                        $("#mainCheckbox").show();
+                        $(".email_page").addClass("d-none");
+                        $('#mainCheckbox').prop('checked', false);
+                        $(".main_content").html('');
+                        $(".main_content").append(data.html);
+                        $(".main_content").show();
+                    }
                 }
-                if (data.status == true && data.type == "html_data_found") {
-                    $("#mainCheckbox").show();
-                    $(".email_page").addClass("d-none");
-                    $('#mainCheckbox').prop('checked', false);
-                    $(".main_content").html('');
-                    $(".main_content").append(data.html);
-                    $(".main_content").show();
-                }
-            }
-        });
+            });
+        }
     }
 
     /**
@@ -481,7 +496,14 @@ $(document).ready(function() {
         e.preventDefault;
         var page_no = $(this).attr("id");
         var identity = $("#current-sidebar").val();
-        getDashboardData(identity, page_no);
+        var current_field_action = $("#search-field").val();
+        if(current_field_action == "search"){
+            $("#page-number").val(page_no);
+            search_value = $("#searchData").val();
+            getSearchResult(search_value, page_no);
+        }else{
+            getDashboardData(identity, page_no);
+        }
     });
 
     /**
@@ -515,7 +537,7 @@ $(document).ready(function() {
                 var data = JSON.parse(response);
                 if ((data.type == "email_deleted" || data.type == "email_permanent_deleted") && data
                     .status == true) {
-                    alert(data.message);
+                    alertSuccessMessage(data.message);
                     getDashboardData(data.tab);
                 }
             }
@@ -548,9 +570,10 @@ $(document).ready(function() {
                 var data = JSON.parse(response);
                 if (data.type == "email_restored" && data.status == true) {
                     getDashboardData(data.tab);
-                    alert(data.message);
-                } else if (data.status == false) {
-                    alert(data.message);
+                    alertSuccessMessage(data.message);
+                } 
+                else if (data.status == false) {
+                    alertErrorMessage(data.message)
                 }
                 hideButtons()
             }
@@ -562,24 +585,43 @@ $(document).ready(function() {
      */
     $("#searchData").keyup(function() {
         search_value = $(this).val();
+        if(search_value != '' || search_value != null){
+            $("#search-field").val("search");
+            $("#page-number").val(1);
+        }
+        if(search_value == '' || search_value == null){
+            $("#search-field").val("");
+            $("#page-number").val('');
+        }
+        
         getSearchResult($(this).val());
     });
 
-    function getSearchResult(search_value) {
+    function getSearchResult(search_value, search_page_no = null) {
         $.ajax({
             url: "./controllers/Dashboard.php",
             method: "POST",
             data: {
-                search_value
+                search_value,
+                search_page_no
             },
             success: function(response) {
 
                 var data = JSON.parse(response);
+                console.log(data);
                 if (data.type == "html_data_found" && data.status == true) {
+                    hideButtons();
+                    $("#mainCheckbox").show();
+                    $(".email_page").addClass("d-none");
+                    $('#mainCheckbox').prop('checked', false);
                     $(".main_content").html('');
                     $(".main_content").append(data.html);
+                    $(".main_content").show();
+
                 } 
                 else if (data.type == "no_html_data_found" && data.status == false) {
+                    hideButtons();
+                    $("#mainCheckbox").hide();
                     $(".main_content").html('');
                     $(".main_content").append(data.message);
                 } 
@@ -720,17 +762,15 @@ $(document).ready(function() {
                         $("#content_error").text(data.message);
                     } 
                     else if (data.type == "file_count_error") {
-                        alert(data.message)
-                        // $("#content_error").text(data.message);
+                        alertErrorMessage(data.message);
                     } 
                     else if (data.type == "email_inserted") {
-                        alert(data.message);
-                        $("#email_sent").text(data.message);
                         $('#compose-email-modal').modal('hide');
+                        alertSuccessMessage(data.message);
                     } 
                     else if (data.type == "bcc_inserted_cc_updated" || data.type == "cc_inserted_bcc_updated") {
-                        alert(data.message);
                         $('#compose-email-modal').modal('hide');
+                        alertSuccessMessage(data.message);
                     } 
                     else if (data.type == "mail_reciever_error") {
                         if (data.to_error != '') {
@@ -745,11 +785,10 @@ $(document).ready(function() {
 
                     } 
                     else if (data.type == 'email_drafted') {
-                        alert(data.message);
                         $('#compose-email-modal').modal('hide');
+                        alertSuccessMessage(data.message);
                     }
                     $("#button-id").val('1');
-                    // window.location.href = "dashboard.php";
                 }
             });
         }
@@ -825,6 +864,7 @@ $(document).ready(function() {
         var current_tab = $("#current-sidebar").val();
         var open_email = $("#open-email").val(email_id);
         var drafted_email = $("#drafted_email").val(email_id);
+        var search_field_value = $("#searchData").val();
         $("#read_unread_email").val("email_opened");
         // $(".main_content").hide();
         // $("#mainCheckbox").hide();
@@ -835,7 +875,8 @@ $(document).ready(function() {
             method: "POST",
             data: {
                 email_id,
-                current_tab
+                current_tab,
+                search_field_value
             },
             success: function(response) {
                 var data = JSON.parse(response);
@@ -846,7 +887,7 @@ $(document).ready(function() {
                 selected_mails.push(open_email_id);
                 console.log(data.attachment_file);
 
-                if (data.status == true && current_tab != "draft") {
+                if (data.status == true && data.current_tab != "draft") {
                     let to = data.reciever_email.indexOf(data.my_email);
                     let cc = data.cc_emails.indexOf(data.my_email);
                     $(".main_content").hide();
@@ -877,24 +918,24 @@ $(document).ready(function() {
                     if (data.bcc_emails == '' || data.bcc_emails == null) {
                         $(".bcc_participants").addClass("d-none");
                     }
-                    if (current_tab == "inbox") {
+                    if (data.current_tab == "inbox") {
                         $(".backbutton").removeClass("d-none");
                         $(".deleteEmail").removeClass("d-none");
                         $(".readUnread").removeClass("d-none");
                         isReadUnread(selected_mails, button_value);
                     }
-                    if (current_tab == "sent") {
+                    if (data.current_tab == "sent") {
                         $(".backbutton").removeClass("d-none");
                         $(".deleteEmail").removeClass("d-none");
                     }
-                    if (current_tab == "trash") {
+                    if (data.current_tab == "trash") {
                         $(".backbutton").removeClass("d-none");
                         $(".deleteEmail").removeClass("d-none");
                         $(".restoreEmail").removeClass("d-none");
                     }
                 }
 
-                if (current_tab == "draft") {
+                if (data.current_tab == "draft") {
                     $("#compose-email-modal").modal("show");
                     console.log(data);
                     $("#recipient-email").val(data.reciever_email);
@@ -921,11 +962,27 @@ $(document).ready(function() {
     $(".backbutton").click(function() {
         var identity = $("#current-sidebar").val();
         var open_email = $("#open-email").val('');
+        var page_no = parseInt($("#pagination .active a").text());
+        console.log(typeof parseInt(page_no))
         $("#read_unread_email").val("");
         $("#mainCheckbox").show();
         $(".participants").addClass("d-none");
-        hideButtons();
-        getDashboardData(identity);
+        if($("#search-field").val() == "search" && $("#searchData").val() != ''){
+            var identity = "";
+            search_value = $("#searchData").val();
+            page_no = $("#page-number").val();
+            console.log("pageno--"+$("#page-number").val() + " " + "search Val--" + search_value);
+            hideButtons();
+            getSearchResult(search_value, page_no);
+        }
+        else{
+            hideButtons();
+            getDashboardData(identity, page_no);
+        }
+        // $(".main_content").show();
+        // $("#mainCheckbox").show();
+        // $(".email_page").addClass("d-none");
+        
     });
 
     /**
@@ -984,6 +1041,30 @@ $(document).ready(function() {
             $("#cc_error").text('');
         }
     });
+
+    function alertSuccessMessage(message){
+        setTimeout(function(){
+            $(".rightSideAlert").addClass("d-none");
+            $(".rightSideAlert").fadeOut(1000);
+        }, 3000);
+        $(".add-alert-prop").removeClass("alert-danger").addClass("alert-success");
+        $(".alert-heading").text('').text("Success");
+        $(".alert-message").text('').text(message);
+        $(".rightSideAlert").removeClass("d-none");
+    }
+
+    function alertErrorMessage(message){
+        // setTimeout(() => $(".rightSideAlert").fadeOut(1000), 3000);
+        // setTimeout(() => $(".rightSideAlert").addClass("d-none"), 6000);
+        setTimeout(function(){
+            $(".rightSideAlert").addClass("d-none");
+            $(".rightSideAlert").fadeOut(1000);
+        }, 3000);
+        $(".add-alert-prop").removeClass("alert-success").addClass("alert-danger");
+        $(".alert-heading").text('').text("Error");
+        $(".alert-message").text('').text(message);
+        $(".rightSideAlert").removeClass("d-none");
+    }
 
 })
 </script>

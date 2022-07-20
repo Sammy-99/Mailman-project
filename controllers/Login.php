@@ -69,9 +69,6 @@ class Login{
             if($getRecoveryEmailJson['type'] == "username_exist" && !empty($getRecoveryEmailJson['recoveryEmail'])){
                 $sendEmail = $this->sendEmailForPasswordReset($getRecoveryEmailJson['recoveryEmail'], $getRecoveryEmailJson['userId']);
                 echo $sendEmail; exit;
-                // $sendEmailJson = json_decode($sendEmail, true);
-                // if($sendEmailJson['status'] == true && $sendEmailJson['type'] == "mail_sent"){
-                // }
             }else{
                 echo $getRecoveryEmail; exit;
             }
@@ -80,7 +77,6 @@ class Login{
 
     public function updateUserPassword($newPasssword, $userId)
     {
-        // print_r([$newPasssword, $userId]); die (" get id ");
         if(!empty($newPasssword) && !empty($userId)){
             $newPasssword = password_hash(trim($newPasssword), PASSWORD_DEFAULT);
             $updatePassword = Crud::updatePassword($newPasssword, $userId);
@@ -112,9 +108,7 @@ class Login{
             $mail->Port       = 465;                                    
 
             $mail->setFrom($recoveryEmail, 'Email For Password Reset');
-
             $mail->addAddress($recoveryEmail);             
-
             $mail->isHTML(true);                                 
             $mail->Subject = 'Reset Password'.time();
             // $mail->Body    = html_entity_decode("Please Click on the link to Reset the Password <a href='http://localhost/launchpadtwo/resetpassword.php?user_id=".$userId."'>Click Here</a>");

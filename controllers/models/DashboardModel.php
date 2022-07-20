@@ -99,10 +99,11 @@ class DashboardModel{
                     JOIN users as u ON ei.sender_id=u.id
                     JOIN users ON ei.reciever_id=users.id
                     LEFT JOIN cc_bcc as cb ON ei.id=cb.email_id
-                    WHERE ((ei.sender_id=$userId AND ei.delete_by_sender=1 AND ei.permanent_deleted_by_sender=0) 
-                    OR (ei.reciever_id=$userId AND ei.delete_by_reciever=1 AND ei.permanent_deleted_by_reciever=0)
-                    OR (cb.cc_id=$userId AND cb.delete_by_cc=1 AND cb.permanent_del_by_cc=0)
-                    OR (cb.bcc_id=$userId AND cb.delete_by_bcc=1 AND cb.permanent_del_by_bcc=0)
+                    WHERE (
+                        (ei.sender_id=$userId AND ei.delete_by_sender=1 AND ei.permanent_deleted_by_sender=0) OR
+                        (ei.reciever_id=$userId AND ei.delete_by_reciever=1 AND ei.permanent_deleted_by_reciever=0) OR
+                        (cb.cc_id=$userId AND cb.delete_by_cc=1 AND cb.permanent_del_by_cc=0) OR
+                        (cb.bcc_id=$userId AND cb.delete_by_bcc=1 AND cb.permanent_del_by_bcc=0)
                     ) 
                     ORDER BY ei.deleted_at DESC";
         $sendEmailData = Self::$dbc->query($select . " LIMIT $offset, $limitPage");
@@ -181,23 +182,29 @@ class DashboardModel{
     /**
      * This function filter the Emails from the logged in user data.
      */
-    public static function getSearchEmails($value, $userId)
+    public static function getSearchEmails($value, $userId, $pageNo)
     {
+        $pageNo = (!empty($pageNo) && $pageNo != null) ? $pageNo : 1 ;
+        $offset = ($pageNo -1) * Self::$per_page_limit;
+        Self::$pageNumber = $pageNo;
+        $limitPage = Self::$per_page_limit;
         $serchQuery = " SELECT ei.id as email_id, ei.sender_id as current_id, ei.reciever_id, users.user_email, u.user_email as reciever, ei.subject, ei.created_at
                         from email_inbox as ei
                         left join cc_bcc on ei.id=cc_bcc.email_id
                         JOIN users ON users.id=ei.sender_id
                         JOIN users as u ON ei.reciever_id=u.id
                         WHERE (
-                            (ei.sender_id=$userId AND ei.delete_by_sender=0) or 
-                            (ei.reciever_id=$userId AND ei.delete_by_reciever=0) or
-                            (cc_bcc.cc_id=$userId AND cc_bcc.delete_by_cc=0) or 
-                            (cc_bcc.bcc_id=$userId AND cc_bcc.delete_by_bcc=0)
+                            (ei.sender_id=$userId AND ei.permanent_deleted_by_sender=0) OR 
+                            (ei.reciever_id=$userId AND ei.permanent_deleted_by_reciever=0) OR
+                            (cc_bcc.cc_id=$userId AND cc_bcc.permanent_del_by_cc=0) OR 
+                            (cc_bcc.bcc_id=$userId AND cc_bcc.permanent_del_by_bcc=0)
                         )
                         and ei.subject like '%$value%' ORDER BY ei.id DESC";
-        $searchResult = self::$dbc->query($serchQuery);
-        if($searchResult){
-            $searchResultRows = $searchResult->fetch_all(MYSQLI_ASSOC);
+        $searchEmailData = Self::$dbc->query($serchQuery . " LIMIT $offset, $limitPage");
+        if($searchEmailData){
+            $searchResultRows = $searchEmailData->fetch_all(MYSQLI_ASSOC);
+            $searchResult = self::$dbc->query($serchQuery);
+            Self::$totalRecords = count($searchResult->fetch_all(MYSQLI_ASSOC));
             // print_r($searchResultRows); die(" pp search ");
             return $searchResultRows;
         }
@@ -241,7 +248,7 @@ class DashboardModel{
     /**
      * This function will return the Email page data.
      */
-    public static function getEmailPageData($emailId, $userId, $currenntTab)
+    public static function getEmailPageData($emailId, $userId)
     {
         $selectQuery = "SELECT ei.id, ei.sender_id, u.user_email as sender_email, ei.reciever_id, users.user_email as reciever_email, ei.subject, ei.content, ei.attachment_file, cb.cc_id, cb.bcc_id, ei.cc_bcc_draft_participants, ei.created_at 
                         from email_inbox as  ei
@@ -265,9 +272,42 @@ class DashboardModel{
         }
     }
 
-    public static function getPaginationData()
+    public static function checkTabForSearchBarData($emailId, $userId)
     {
+        $recieverQuery = self::$dbc->query("SELECT * FROM email_inbox Where id='$emailId' && reciever_id='$userId' && delete_by_reciever=0");
+        if($recieverQuery->num_rows > 0){
+            return "inbox";
+        }else{
+            $recieverCcBcc = self::$dbc->query("SELECT * FROM cc_bcc Where email_id='$emailId' AND ((cc_id='$userId' AND delete_by_cc=0) OR (bcc_id='$userId' AND delete_by_bcc=0))");
+            if($recieverCcBcc->num_rows > 0){
+                return "inbox";
+            }
+        }
 
+        $senderQuery = self::$dbc->query("SELECT * FROM email_inbox Where id='$emailId' && sender_id='$userId'");
+        if($senderQuery->num_rows > 0){
+            $sender = $senderQuery->fetch_assoc();
+            return ($sender['is_draft'] != 1) ? "sent" : "draft" ;
+        }
+        
+        $trashQuery = self::$dbc->query(" SELECT * FROM email_inbox 
+                                          Where id='$emailId' AND (
+                                            (sender_id='$userId' AND delete_by_sender=1 AND permanent_deleted_by_sender=0) OR 
+                                            (reciever_id='$userId' AND delete_by_reciever=1 AND permanent_deleted_by_reciever=0)
+                                          )");
+         
+        if($trashQuery->num_rows > 0){
+            return "trash";
+        }else{
+            $trashQueryCcBcc = self::$dbc->query(" SELECT * FROM cc_bcc 
+                                          Where email_id='$emailId' AND (
+                                            (cc_id='$userId' AND delete_by_cc=1 AND permanent_del_by_cc=0) OR 
+                                            (bcc_id='$userId' AND delete_by_bcc=1 AND permanent_del_by_bcc=0)
+                                          )");
+            if($trashQueryCcBcc->num_rows > 0){
+                return "trash";
+            }
+        }
     }
 }
 
