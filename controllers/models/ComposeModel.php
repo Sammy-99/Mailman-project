@@ -50,7 +50,7 @@ class ComposeModel{
         
         if($reciever){
             $recieverId = $reciever['id'];
-            if($buttonId == '2'){
+            if($buttonId == 'close'){
                 $ccBccArray = array("cc" => $cc, "bcc" => $bcc);
                 $serializeCcBcc = serialize($ccBccArray);
                 $insertQuery = "INSERT INTO email_inbox (sender_id, reciever_id, subject, content, attachment_file, cc_bcc_draft_participants, is_draft, created_at)
@@ -72,7 +72,7 @@ class ComposeModel{
                 }
             }
             if($result){
-                if($buttonId == '2'){
+                if($buttonId == 'close'){
                     return json_encode(["type" => "email_drafted", "message" => "Email Saved as Draft.", "status" => true]);
                 }
                 return json_encode(["type" => "email_inserted", "message" => "Email Sent", "status" => true]);

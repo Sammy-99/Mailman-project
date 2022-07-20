@@ -658,19 +658,41 @@ $(document).ready(function() {
         var bcc = $("#bcc-recipient-email").val();
         var subject = $("#email-subject").val();
         var content = $("#email-content").val();
+        var buttonVal = $("#button-id").val();
         var modalFormData = new FormData(this);
+        alert(buttonVal);
 
-        if (to == '' || to == null) {
-            $("#email_error").text("Please Enter Email");
-        } else {
-            $("#email_error").text("");
-            var pattern = /^[\w.+\-]+@mailman\.com$/;
-            if (!pattern.test(to)) {
-                $("#email_error").text("Invalid Email Format");
+        if(buttonVal == "close"){
+            to_email = true;
+            email_subj = true;
+            email_content = true;
+        }else{
+            if (to == '' || to == null) {
+                $("#email_error").text("Please Enter Email");
             } else {
                 $("#email_error").text("");
-                to_email = true;
+                var pattern = /^[\w.+\-]+@mailman\.com$/;
+                if (!pattern.test(to)) {
+                    $("#email_error").text("Invalid Email Format");
+                } else {
+                    $("#email_error").text("");
+                    to_email = true;
+                }
             }
+            if (subject == '' || subject == null) {
+                $("#subject_error").text("Please Mention a Subject");
+                email_subj = false;
+            } else {
+                email_subj = true;
+            }
+
+            if (content == '' || content == null) {
+                $("#content_error").text("Please Enter a Message");
+                email_content = false;
+            } else {
+                email_content = true;
+            }
+
         }
 
         if (cc == '' || cc == null) {
@@ -699,7 +721,6 @@ $(document).ready(function() {
                     }
                 });
             }
-
         }
 
         if (bcc == '' || bcc == null) {
@@ -731,21 +752,8 @@ $(document).ready(function() {
 
         }
 
-        if (subject == '' || subject == null) {
-            $("#subject_error").text("Please Mention a Subject");
-            email_subj = false;
-        } else {
-            email_subj = true;
-        }
-
-        if (content == '' || content == null) {
-            $("#content_error").text("Please Enter a Message");
-            email_content = false;
-        } else {
-            email_content = true;
-        }
-
         if (to_email == true && cc_email == true && bcc_email == true && email_subj && email_content) {
+            alert("inn")
             $.ajax({
                 url: "./controllers/Compose.php",
                 method: "POST",
@@ -799,10 +807,13 @@ $(document).ready(function() {
         var to = $("#recipient-email").val();
         var cc = $("#cc-recipient-email").val();
         var bcc = $("#bcc-recipient-email").val();
+        var subject = $("#email-subject").val();
+        var content = $("#email-content").val();
         var current_tab = $("#current-sidebar").val();
         $("#button-id").val('');
-        $("#button-id").val('2');
-        if (to != '' && current_tab != "draft") {
+        $("#button-id").val('close');
+        if (to != '' || cc != '' || bcc != '' || subject != '' || content != '') {
+            alert("close");
             $('#compose-email').trigger('submit');
         }
     });
