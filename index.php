@@ -88,12 +88,14 @@ $(document).ready(function() {
 
         if (user_name == '' || user_name == null) {
             $("#email_error").text("Please Enter Email or Username");
+            $("#credential_error").text('');
         } else {
             $("#email_error").text("");
         }
 
         if (user_pass == '' || user_pass == null) {
             $("#pass_error").text("Please Enter Password");
+            $("#credential_error").text('');
             return false;
         } else {
             $("#pass_error").text("");
