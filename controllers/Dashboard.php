@@ -197,7 +197,6 @@ class Dashboard{
         if($value != '' && !empty($value)){
             $searchDataRows = DashboardModel::getSearchEmails($value, $userId, $pageNo);
             $searchRowsHtml = $this->getEmailDataInHtml($searchDataRows, "search");
-            // print_r($searchRowsHtml); die(" vvvvv ");
         }
         echo json_encode(["type" => "empty","message" => "empty value", "status" => false]);exit;
     }
@@ -228,7 +227,6 @@ class Dashboard{
                 $currentTab = DashboardModel::checkTabForSearchBarData($emailId, $userId);
             }
             $emailData = DashboardModel::getEmailPageData($emailId, $userId);
-            // print_r($currentTab);  die("  hhhh ");
             $email_id = $emailData[0]['id'];
             $sender_email = $emailData[0]['sender_email'];
             $reciever_id = $emailData[0]['reciever_email'];
@@ -275,9 +273,9 @@ class Dashboard{
             $fileArray = explode(",", $attachment_file);
             $fileHtml = '';
             foreach($fileArray as $file){
-                $fileName = explode("-",$file);
+                // $fileName = explode("-",$file);
                 // $fileHtml .= "<a href='/launchpadtwo/attachedfiles/" . trim($file) . "' target='_blank'>" . trim($fileName[1]) . "</a></br>";
-                $fileHtml .= "<a href='/Mailman-project/attachedfiles/" . trim($file) . "' target='_blank'>" . trim($fileName[1]) . "</a></br>";
+                $fileHtml .= "<a href='/Mailman-project/attachedfiles/" . trim($file) . "' target='_blank'>" . trim($file) . "</a></br>";
             }
             $fileHtml .= "</br>";
             return $fileHtml;
