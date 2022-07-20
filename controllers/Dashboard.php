@@ -273,9 +273,9 @@ class Dashboard{
             $fileArray = explode(",", $attachment_file);
             $fileHtml = '';
             foreach($fileArray as $file){
-                // $fileName = explode("-",$file);
-                // $fileHtml .= "<a href='/launchpadtwo/attachedfiles/" . trim($file) . "' target='_blank'>" . trim($fileName[1]) . "</a></br>";
-                $fileHtml .= "<a href='/Mailman-project/attachedfiles/" . trim($file) . "' target='_blank'>" . trim($file) . "</a></br>";
+                $fileName = explode("-",$file);
+                // $fileHtml .= "<a href='/launchpadtwo/attachedfiles/" . trim($file) . "' target='_blank'>" . trim($fileName[count($fileName) -1]) . "</a></br>";
+                $fileHtml .= "<a href='/tse/Mailman-project/attachedfiles/" . trim($file) . "' target='_blank'>" . trim($fileName[count($fileName) -1]) . "</a></br>";
             }
             $fileHtml .= "</br>";
             return $fileHtml;
