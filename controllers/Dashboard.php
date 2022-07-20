@@ -273,7 +273,7 @@ class Dashboard{
             $fileArray = explode(",", $attachment_file);
             $fileHtml = '';
             foreach($fileArray as $file){
-                $fileName = explode("-",$file);
+                $fileName = explode("-",$file, 2);
                 // $fileHtml .= "<a href='/launchpadtwo/attachedfiles/" . trim($file) . "' target='_blank'>" . trim($fileName[count($fileName) -1]) . "</a></br>";
                 $fileHtml .= "<a href='/tse/Mailman-project/attachedfiles/" . trim($file) . "' target='_blank'>" . trim($fileName[count($fileName) -1]) . "</a></br>";
             }
