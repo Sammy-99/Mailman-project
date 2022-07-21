@@ -660,7 +660,7 @@ $(document).ready(function() {
         var content = $("#email-content").val();
         var buttonVal = $("#button-id").val();
         var modalFormData = new FormData(this);
-        alert(buttonVal);
+        // alert(buttonVal);
 
         if(buttonVal == "close"){
             to_email = true;
@@ -753,7 +753,7 @@ $(document).ready(function() {
         }
 
         if (to_email == true && cc_email == true && bcc_email == true && email_subj && email_content) {
-            alert("inn")
+            // alert("inn")
             $.ajax({
                 url: "./controllers/Compose.php",
                 method: "POST",
@@ -813,7 +813,7 @@ $(document).ready(function() {
         $("#button-id").val('');
         $("#button-id").val('close');
         if (to != '' || cc != '' || bcc != '' || subject != '' || content != '') {
-            alert("close");
+            // alert("close");
             $('#compose-email').trigger('submit');
         }
     });
