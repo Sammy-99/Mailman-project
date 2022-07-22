@@ -1,4 +1,5 @@
 <?php
+print_r($_SESSION); die(" llsssss ");
 session_start();
 if (!isset($_SESSION['username'])) {
     header("location:index.php");
@@ -14,7 +15,6 @@ if (empty($userData['user_image'])) {
     $userData['user_image'] = "p.png";
 }
 
-print_r($_SESSION); 
 
 include_once("./layout/head.php");
 
