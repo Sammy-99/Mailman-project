@@ -1,9 +1,6 @@
 <?php
-print_r($_SESSION);
-echo " after ";
 session_start();
-print_r($_SESSION);
-echo " after again ";
+
 if (!isset($_SESSION['username'])) {
     header("location:index.php");
 }
