@@ -341,7 +341,7 @@ $(document).ready(function() {
         $("#searchData").val('');
         var identity = $(".inbox").data("inbox-value");
         $("#current-sidebar").val(identity);
-        hideButtons()
+        // hideButtons()
         getDashboardData(identity);
     });
 
@@ -352,7 +352,7 @@ $(document).ready(function() {
         $("#searchData").val('');
         var identity = $(".sent").data("sent-value");
         $("#current-sidebar").val(identity);
-        hideButtons()
+        // hideButtons()
         getDashboardData(identity);
     });
 
@@ -363,7 +363,7 @@ $(document).ready(function() {
         var identity = $(".draft").data("draft-value");
         $("#current-sidebar").val(identity);
         $(".current-sidebar").val(identity);
-        hideButtons()
+        // hideButtons()
         getDashboardData(identity);
     });
 
@@ -374,7 +374,7 @@ $(document).ready(function() {
         var identity = $(".trash").data("trash-value");
         $("#current-sidebar").val(identity);
         $(".current-sidebar").val('');
-        hideButtons();
+        // hideButtons();
         getDashboardData(identity);
     });
 
@@ -463,6 +463,7 @@ $(document).ready(function() {
                         $(".main_content").html('');
                         $(".main_content").append(data.message);
                         $(".main_content").show();
+                        hideButtons();
                     }
                     if (data.status == true && data.type == "html_data_found") {
                         $("#mainCheckbox").show();
@@ -471,6 +472,7 @@ $(document).ready(function() {
                         $(".main_content").html('');
                         $(".main_content").append(data.html);
                         $(".main_content").show();
+                        hideButtons();
                     }
                 }
             });
@@ -486,7 +488,7 @@ $(document).ready(function() {
         var page_no = $(this).attr("id");
         var identity = $("#current-sidebar").val();
         var current_field_action = $("#search-field").val();
-        hideButtons();
+        // hideButtons();
         if(current_field_action == "search"){
             $("#page-number").val(page_no);
             search_value = $("#searchData").val();
@@ -525,7 +527,7 @@ $(document).ready(function() {
             success: function(response) {
                 var data = JSON.parse(response);
                 if ((data.type == "email_deleted" || data.type == "email_permanent_deleted") && data.status == true) {
-                        hideButtons();
+                        // hideButtons();
                         alertSuccessMessage(data.message);
                         getDashboardData(data.tab);
                 }
@@ -859,7 +861,7 @@ $(document).ready(function() {
             success: function(response) {
                 var email_open = $("#read_unread_email").val();
                 if (email_open != "email_opened") {
-                    hideButtons();
+                    // hideButtons();
                     getDashboardData("inbox");
                 }
             }
@@ -989,7 +991,7 @@ $(document).ready(function() {
             getSearchResult(search_value, page_no);
         }
         else{
-            hideButtons();
+            // hideButtons();
             getDashboardData(identity, page_no);
         }
     });
