@@ -200,13 +200,20 @@ class DashboardModel{
                             (cc_bcc.bcc_id=$userId AND cc_bcc.permanent_del_by_bcc=0)
                         )
                         and ei.subject like '%$value%' ORDER BY ei.id DESC";
-        $searchEmailData = Self::$dbc->query($serchQuery . " LIMIT $offset, $limitPage");
-        if($searchEmailData){
-            $searchResultRows = $searchEmailData->fetch_all(MYSQLI_ASSOC);
-            $searchResult = self::$dbc->query($serchQuery);
-            Self::$totalRecords = count($searchResult->fetch_all(MYSQLI_ASSOC));
-            // print_r($searchResultRows); die(" pp search ");
-            return $searchResultRows;
+        
+        $distinctRowsQuery = Self::$dbc->query(" SELECT distinct email_id FROM (" .$serchQuery. ") AS inbox");
+        if($distinctRowsQuery->num_rows >0){
+            Self::$totalRecords = count($distinctRowsQuery->fetch_all(MYSQLI_ASSOC));
+
+            $runQueryDistinct = Self::$dbc->query(" SELECT distinct email_id FROM (" .$serchQuery. ") AS ie ORDER BY email_id DESC LIMIT $offset, $limitPage");
+            $fetchLimitedRows = $runQueryDistinct->fetch_all(MYSQLI_ASSOC);
+            $distinctIdsStr = join(', ', array_column($fetchLimitedRows, "email_id"));
+
+            $singlePageDataQuery = Self::$dbc->query("SELECT * FROM (" .$serchQuery. ") AS inbox_data WHERE email_id IN (" .$distinctIdsStr. ")");
+            if($singlePageDataQuery){
+                $singlePageData = $singlePageDataQuery->fetch_all(MYSQLI_ASSOC);
+                return $singlePageData;
+            }
         }
     } 
 
