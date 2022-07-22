@@ -1,7 +1,7 @@
 <?php
 
 include_once("./layout/head.php");
-
+print_r($_SESSION);
 ?>
 
 <div class="container">
