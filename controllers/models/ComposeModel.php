@@ -25,10 +25,36 @@ class ComposeModel{
         $bccError = '';
         $date = date('Y-m-d H:i:s');
         $reciever = self::checkUser($to);
+
+        if($buttonId == 'close'){
+            $recieverId = ($reciever != '' && count($reciever) > 0) ? $reciever['id'] : 0 ;
+            $ccBccArray = ["to" => $to, "cc" => $cc, "bcc" => $bcc];
+            $serializeCcBcc = serialize($ccBccArray);
+
+            if($draftEmailId != '' && !empty($draftEmailId) && $currentTab == "draft"){
+                $updateRow = "UPDATE email_inbox SET sender_id='$userId', reciever_id='$recieverId', subject='$subject', content='$content', 
+                                attachment_file='$attachedFiles', cc_bcc_draft_participants='$serializeCcBcc' WHERE id=$draftEmailId";
+                $rowData = self::$dbc->query($updateRow);
+
+                return json_encode(["type" => "drafted_email_updated", "message" => "Email Updated.", "status" => true]);
+            }
             
-        if(!$reciever){
+            $insertQuery = "INSERT INTO email_inbox (sender_id, reciever_id, subject, content, attachment_file, cc_bcc_draft_participants, is_draft, created_at)
+                            VALUES ('$userId', '$recieverId', '$subject', '$content', '$attachedFiles', '$serializeCcBcc', 1, '$date')";
+        
+            $result = self::$dbc->query($insertQuery); 
+            
+            if($result){
+                return json_encode(["type" => "email_drafted", "message" => "Email Saved as Draft.", "status" => true]);
+            }
+            
+            return json_encode(["type" => "email_not_drafted", "message" => "Something went wrong to saved email as Draft.", "status" => false]);
+        }
+            
+        if($reciever == '' || empty($reciever)){
             $toError = "Not a registered Mailman Address";
         }
+
         if(!empty($cc) && $cc != null){
             $ccMailArray = explode(", ", $cc);
             $invalidCc = self::checkCcBccUser($ccMailArray);
@@ -36,6 +62,7 @@ class ComposeModel{
                 $ccError = "Invalid or non registered Mailman Addresses - ". join(", ", $invalidCc) . "";
             }
         }
+
         if(!empty($bcc) && $bcc != null){
             $bccMailArray = explode(", ", $bcc);
             $invalidBcc = self::checkCcBccUser($bccMailArray);
@@ -48,36 +75,24 @@ class ComposeModel{
             return json_encode(["type" => "mail_reciever_error", "to_error" => $toError, "cc_error" => $ccError, "bcc_error" => $bccError, "status" => false]);
         }
         
-        if($reciever){
-            $recieverId = $reciever['id'];
-            if($buttonId == 'close'){
-                $ccBccArray = array("cc" => $cc, "bcc" => $bcc);
-                $serializeCcBcc = serialize($ccBccArray);
-                $insertQuery = "INSERT INTO email_inbox (sender_id, reciever_id, subject, content, attachment_file, cc_bcc_draft_participants, is_draft, created_at)
-                                VALUES ('$userId', '$recieverId', '$subject', '$content', '$attachedFiles', '$serializeCcBcc', 1, '$date')";
+        if($reciever != '' && $buttonId == '1'){
             
-                $result = self::$dbc->query($insertQuery); 
+            $recieverId = $reciever['id'];
+            if($currentTab == "draft"){
+                $deleteQuery = self::$dbc->query("DELETE FROM email_inbox WHERE id=$draftEmailId");
             }
-            if($buttonId == '1'){
-                if($currentTab == "draft"){
-                    $deleteQuery = self::$dbc->query("DELETE FROM email_inbox WHERE id=$draftEmailId");
-                }
-                $insertQuery = "INSERT INTO email_inbox (sender_id, reciever_id, subject, content, attachment_file, created_at)
-                                VALUES ('$userId', '$recieverId', '$subject', '$content', '$attachedFiles', '$date')";
-                $result = self::$dbc->query($insertQuery); 
+            $insertQuery = "INSERT INTO email_inbox (sender_id, reciever_id, subject, content, attachment_file, created_at)
+                            VALUES ('$userId', '$recieverId', '$subject', '$content', '$attachedFiles', '$date')";
+            $result = self::$dbc->query($insertQuery); 
 
-                if($result && (!empty($cc) || !empty($bcc))){
-                        $insertCcBccData = self::insertData($cc, $bcc);
-                        echo $insertCcBccData; exit;
-                }
+            if($result && (!empty($cc) || !empty($bcc))){
+                    $insertCcBccData = self::insertData($cc, $bcc);
+                    echo $insertCcBccData; exit;
             }
             if($result){
-                if($buttonId == 'close'){
-                    return json_encode(["type" => "email_drafted", "message" => "Email Saved as Draft.", "status" => true]);
-                }
                 return json_encode(["type" => "email_inserted", "message" => "Email Sent", "status" => true]);
             }
-            return json_encode(["type" => "email_not_inserted", "message" => "Email not Sent", "status" => false]);
+            return json_encode(["type" => "email_not_inserted", "message" => "Email not Sent", "status" => false]);   
         }
         return json_encode(["type" => "email_not_found", "message" => "This Mailman address not found", "status" => false]); 
     }
@@ -166,9 +181,12 @@ class ComposeModel{
     public static function checkCcBccUser($mailArray)
     {
         $runQuery = self::$dbc->query("SELECT user_email from users");
-        $allUserMail = array_column($runQuery->fetch_all(), 0);
-        $invalidMails = array_diff(array_map('strtolower', $mailArray), array_map('strtolower', $allUserMail));
-        return $invalidMails;
+        if($runQuery->num_rows > 0){
+            $allUserMail = array_column($runQuery->fetch_all(), 0);
+            $invalidMails = array_diff(array_map('strtolower', $mailArray), array_map('strtolower', $allUserMail));
+            return $invalidMails;
+        }
+        return [];
     }
 
     /**
@@ -177,7 +195,7 @@ class ComposeModel{
     public static function checkUser($to)
     {
         $runQuery = self::$dbc->query("SELECT id from users WHERE user_email='$to'");
-        $reciever = $runQuery->fetch_assoc();
+        $reciever = ($runQuery->num_rows > 0) ? $runQuery->fetch_assoc() : "" ;
         return $reciever;
     }
 

@@ -23,7 +23,6 @@ class UpdateProfile{
             $this->lastname = trim($_POST['edit-lastname']);
             $this->second_email = trim($_POST['edit-second-email']);
             $this->user_id =  $_POST['user-id'];
-            // print_r($_SESSION); die(" lllll ");
 
             $updateUserDetails = Crud::updateUserData($this->user_id, $this->firstname, $this->lastname, $this->second_email, $this->profile_image);
             echo $updateUserDetails; exit;
@@ -67,7 +66,3 @@ $updateProfile = new UpdateProfile();
 if(isset($_POST) || isset($_FILES)){
     $updateProfile->updateUserProfile();
 }
-
-// print_r($_SESSION);
-// print_r($_POST);
-// print_r($_FILES); die(" kkk ");

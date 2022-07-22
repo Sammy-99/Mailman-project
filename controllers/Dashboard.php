@@ -124,12 +124,19 @@ class Dashboard{
      * This function return the html that has been read by the logged in user.
      */
     public function isReadOrUnread($html, $email)
-    {                   
+    {        
+        if(array_key_exists('is_draft', $email)){
+            if($email['user_email'] == 0 && $email['is_draft'] == 1){
+                $participants = unserialize($email['d_participants']);
+                $email['user_email'] = ($participants['to'] != '' || $participants['to'] != 0) ? $participants['to'] : "(no name)";
+            }
+        }      
         if(array_key_exists("current_id", $email)){
             if($email['current_id'] == $_SESSION['id']){
                 $email['user_email'] = $email['reciever'];
             }
         }
+        $email['subject'] = ($email['subject'] == '' || $email['subject'] == null) ? "( no subject )" : $email['subject'] ;
         $html.= "<tr class='table'>";
         $html.= "<td scope='row'> <input type='checkbox' class='pick-checkbox checkbox' name='checkbox' value = '".$email['email_id']."'> </td>";
         $html.= "<td>". $email['user_email'] ."</td>";
@@ -232,6 +239,7 @@ class Dashboard{
             $reciever_id = $emailData[0]['reciever_email'];
             $subject = $emailData[0]['subject'];
             $content = $emailData[0]['content'];
+            // print_r(($content)); die(" test draft ");
             $attachment_file = $emailData[0]['attachment_file'];
             $cc_id = array_filter(array_column($emailData, 'cc_id'));
             $bcc_id = array_filter(array_column($emailData, 'bcc_id'));
@@ -317,8 +325,6 @@ if(!empty($_POST['button_value'])){
 if(!empty($_POST['email_id'])){
     $dashboard->getDedicatedEmailPage($_POST['email_id'], $_POST['current_tab'], $_POST['search_field_value']);
 }
-
-
 
 
 

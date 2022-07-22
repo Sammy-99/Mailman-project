@@ -6,7 +6,6 @@ spl_autoload_register(function ($className) {
     require_once("./controllers/models/" . $className . ".php");
 });
 
-// $userData = Crud::getUserData($_SESSION['id']);
 include_once("./layout/head.php"); 
 
 if(empty($_GET['user_id']) && !isset($_SESSION['username'])){
@@ -16,7 +15,7 @@ if(!empty($_GET['user_id'])){
     $user_id = $_GET['user_id'];
 }
 if(array_key_exists("reset_password", $_SESSION)){
-    if($_SESSION["reset_password"] != "user_exist"){
+    if($_SESSION["reset_password"] != "user_exist" && empty($_SESSION['id'])){
         echo "<h2>Link Expired. You can only use once a url to reset the password.</h2>"; die;
     }
 }
@@ -25,7 +24,7 @@ if(array_key_exists("reset_password", $_SESSION)){
 
 <div class="container-fluid">
 
-<?php
+    <?php
     if(isset($_SESSION['username'])):
         $user_id = $_SESSION['id'];
         $userData = Crud::getUserData($_SESSION['id']);
@@ -34,29 +33,31 @@ if(array_key_exists("reset_password", $_SESSION)){
         }
 ?>
 
-
     <div class="row align-items-center">
         <div class="col-12 col-md-2 mt-2 font-weight-bolder">
-        <h2 class="font-weight-bold">Mailman</h2>
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <h2 class="font-weight-bold"><a href="./dashboard.php"> Mailman </a></h2>
+            </nav>
         </div>
         <div class="col-8 col-md-6">
             <div class="form-outline">
-                <input type="search" id="form1" class="form-control border border-primery rounded"
+                <input type="search" id="searchData" class="form-control border border-primery rounded"
                     style="margin:0 !important;" placeholder="Search" aria-label="Search" />
             </div>
         </div>
         <div class="col-4 col-md-4 mt-2">
             <nav class="navbar navbar-expand-sm">
                 <div class="collapse navbar-collapse d-flex justify-content-end" id="navbar-list-4">
-                    <div class="user-name"><?=$userData['username']?> </div> &nbsp;
+                    <div class="user-name"> <?= $userData['username']; ?> </div> &nbsp;
                     <ul class="navbar-nav dashboard-profile">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="./uploadedimage/<?=$userData['user_image']?>" width="40" height="40"
+                                <img src="./uploadedimage/<?= $userData['user_image']; ?>" width="40" height="40"
                                     class="rounded-circle">
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <div class="dropdown-menu " style="margin-left:-70px;"
+                                aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="./dashboard.php">Home</a>
                                 <a class="dropdown-item" href="./profile.php">Edit Profile</a>
                                 <a class="dropdown-item" href="./logout.php">Log Out</a>
@@ -65,11 +66,12 @@ if(array_key_exists("reset_password", $_SESSION)){
                     </ul>
                 </div>
             </nav>
+
         </div>
     </div>
     <hr>
 
-<?php endif;?>
+    <?php endif;?>
 
     <div class="row m-5 h-100 justify-content-center align-items-center">
         <div class="col-10 col-md-6 col-lg-6">
@@ -137,7 +139,6 @@ $(document).ready(function() {
         } else if (reset_password != c_password) {
             $("#cpass_error").text("Password must be same");
         } else if (reset_password == c_password && reset_password != '' && c_password != '') {
-            // alert(4444444444444)
             $("#cpass_error").text("");
             user_password = true;
             c_password = true;

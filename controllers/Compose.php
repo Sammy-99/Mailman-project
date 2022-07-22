@@ -18,30 +18,28 @@ class Compose{
      */
     public function composedEmail($post, $files)
     {
-        if(!empty($post['recipient-email'])){
-            $attachedFiles = NULL;
-            if(count($_FILES["attachedfile"]["name"]) >= 20){
-                echo json_encode(["type" => "file_count_error", "message" => "The count of attached files should not be greater than 20", "status" => false]);
-                exit;
-            }
-           
-            if(array_key_exists('0', $_FILES["attachedfile"]["name"])){
-                $attachedFiles = !empty($_FILES["attachedfile"]["name"][0]) ? $this->chechFilesValidation() : false ;
-            }
-
-            $userId = $_SESSION['id'];
-            $to = trim($_POST['recipient-email']);
-            $cc = $_POST['cc-recipient-email'];
-            $bcc = $_POST['bcc-recipient-email'];
-            $subject = $_POST['email-subject'];
-            $content = $_POST['email-content'];
-            $buttonId = $_POST['button-id']; 
-            $currentTab = $_POST['current-sidebar'];
-            $draftEmailId = $_POST['drafted_email'];
-            $saveComposeEmail = ComposeModel::saveComposeEmailData($to, $cc, $bcc, $subject, $content, $attachedFiles, $userId, $buttonId, $currentTab, $draftEmailId);
-
-            echo $saveComposeEmail; exit;
+        $attachedFiles = NULL;
+        if(count($_FILES["attachedfile"]["name"]) > 20){
+            echo json_encode(["type" => "file_count_error", "message" => "The count of attached files should not be greater than 20", "status" => false]);
+            exit;
         }
+        
+        if(array_key_exists('0', $_FILES["attachedfile"]["name"])){
+            $attachedFiles = !empty($_FILES["attachedfile"]["name"][0]) ? $this->chechFilesValidation() : false ;
+        }
+
+        $userId = $_SESSION['id'];
+        $to = trim($_POST['recipient-email']);
+        $cc = $_POST['cc-recipient-email'];
+        $bcc = $_POST['bcc-recipient-email'];
+        $subject = $_POST['email-subject'];
+        $content = $_POST['email-content'];
+        $buttonId = $_POST['button-id']; 
+        $currentTab = $_POST['current-sidebar'];
+        $draftEmailId = $_POST['drafted_email'];
+        $saveComposeEmail = ComposeModel::saveComposeEmailData($to, $cc, $bcc, $subject, $content, $attachedFiles, $userId, $buttonId, $currentTab, $draftEmailId);
+
+        echo $saveComposeEmail; exit;
     }
 
     /**
@@ -66,9 +64,11 @@ class Compose{
                 } 
             }
             $this->attachmentFiles = join(", ", $fileNameArray);
+            return $this->attachmentFiles;
+        }else{
+            echo json_encode(["type" => "file_size_error", "message" => "Total size of the attached files should not greater than 25 MB", "status" => false]);
+            exit;
         }
-        
-        return $this->attachmentFiles;
     }
 
     /**
@@ -112,7 +112,7 @@ $compose = new Compose();
 /**
  * This function responsible to compose the email.
  */
-if(isset($_POST['recipient-email'])){
+if(isset($_POST['recipient-email']) || isset($_POST['button-id'])){
     $compose->composedEmail($_POST, $_FILES);
 }
 

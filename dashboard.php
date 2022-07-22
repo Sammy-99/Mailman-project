@@ -1,11 +1,8 @@
 <?php
-// echo "<pre>";
-// print_r($_SERVER); die(" llll ");
 session_start();
 if (!isset($_SESSION['username'])) {
     header("location:index.php");
 }
-
 
 spl_autoload_register(function ($className) {
     require_once("./controllers/models/" . $className . ".php");
@@ -13,24 +10,20 @@ spl_autoload_register(function ($className) {
 
 $userData = Crud::getUserData($_SESSION['id']);
 
-// echo "<pre>";
-// print_r($_SERVER); die(" hh ");
-
 if (empty($userData['user_image'])) {
     $userData['user_image'] = "p.png";
 }
-// print_r($userData);die(" session");
 
 include_once("./layout/head.php");
 
 ?>
 
-
 <div class="container-fluid">
     <div class="row align-items-center">
         <div class="col-12 col-md-2 mt-2 font-weight-bolder">
             <nav class="navbar navbar-expand-lg navbar-light">
-                <h2 class="font-weight-bold">Mailman</h2>
+                <!-- <h2 class="font-weight-bold">Mailman</h2> -->
+                <h2 class="font-weight-bold"><a href="./dashboard.php"> Mailman </a></h2>
                 <!-- <a class="navbar-brand" href="#">Navbar</a> -->
                 <button class="navbar-toggler d-block d-sm-block d-md-none" type="button" data-toggle="collapse"
                     data-target="#sidebarMenu" aria-controls="navbarNavAltMarkup" aria-expanded="false"
@@ -56,7 +49,7 @@ include_once("./layout/head.php");
                                 <img src="./uploadedimage/<?= $userData['user_image']; ?>" width="40" height="40"
                                     class="rounded-circle">
                             </a>
-                            <div class="dropdown-menu " style="margin-left:-50px;"
+                            <div class="dropdown-menu " style="margin-left:-70px;"
                                 aria-labelledby="navbarDropdownMenuLink">
                                 <!-- <a class="dropdown-item" href="#">Dashboard</a> -->
                                 <a class="dropdown-item" href="./profile.php">Edit Profile</a>
@@ -186,7 +179,7 @@ include_once("./layout/head.php");
                             Featured
                         </div> -->
                         <div class="card-body">
-                            <h5 class="card-title mail_subject"></h5>
+                            <h5 class="card-title mail_subject font-weight-bold"></h5>
                             <hr>
                             <div class="row">
                                 <div class="col-md-9">
@@ -346,7 +339,6 @@ $(document).ready(function() {
         $(".current-sidebar").val('');
         $("#search-field").val("");
         $("#searchData").val('');
-        console.log($("#search-field").val());
         var identity = $(".inbox").data("inbox-value");
         $("#current-sidebar").val(identity);
         hideButtons()
@@ -358,7 +350,6 @@ $(document).ready(function() {
         $(".current-sidebar").val('');
         $("#search-field").val("");
         $("#searchData").val('');
-        console.log($("#search-field").val());
         var identity = $(".sent").data("sent-value");
         $("#current-sidebar").val(identity);
         hideButtons()
@@ -369,7 +360,6 @@ $(document).ready(function() {
         $("#current-sidebar").val('');
         $("#search-field").val("");
         $("#searchData").val('');
-        console.log($("#search-field").val());
         var identity = $(".draft").data("draft-value");
         $("#current-sidebar").val(identity);
         $(".current-sidebar").val(identity);
@@ -381,7 +371,6 @@ $(document).ready(function() {
         $("#current-sidebar").val('');
         $("#search-field").val("");
         $("#searchData").val('');
-        console.log($("#search-field").val());
         var identity = $(".trash").data("trash-value");
         $("#current-sidebar").val(identity);
         $(".current-sidebar").val('');
@@ -398,7 +387,9 @@ $(document).ready(function() {
             $('.checkbox').each(function() {
                 this.checked = true;
             });
-            showButtons();
+
+            ($("#search-field").val() != '') ? $(".deleteEmail").removeClass("d-none") : showButtons() ;
+
         } else {
             $('.checkbox').each(function() {
                 this.checked = false;
@@ -410,11 +401,9 @@ $(document).ready(function() {
     $(document).on("click", ".checkbox", function(event) {
         $("#open-email").val('');
         event.stopPropagation();
-        if ($('.checkbox:checked').length > 0) {
-            showButtons();
-        } else {
-            hideButtons()
-        }
+        
+        ($('.checkbox:checked').length > 0) ? (($("#search-field").val() != '') ? $(".deleteEmail").removeClass("d-none") : showButtons()) : hideButtons() ;
+
         if ($('.checkbox:checked').length == $('.checkbox').length) {
             $('#mainCheckbox').prop('checked', true);
         } else {
@@ -497,6 +486,7 @@ $(document).ready(function() {
         var page_no = $(this).attr("id");
         var identity = $("#current-sidebar").val();
         var current_field_action = $("#search-field").val();
+        hideButtons();
         if(current_field_action == "search"){
             $("#page-number").val(page_no);
             search_value = $("#searchData").val();
@@ -524,7 +514,6 @@ $(document).ready(function() {
 
     function deleteEmail(selected_mails, current_tab) {
         var button_val = $(".deleteEmail").val();
-        console.log(button_val);
         $.ajax({
             url: "./controllers/Dashboard.php",
             method: "POST",
@@ -535,10 +524,10 @@ $(document).ready(function() {
             },
             success: function(response) {
                 var data = JSON.parse(response);
-                if ((data.type == "email_deleted" || data.type == "email_permanent_deleted") && data
-                    .status == true) {
-                    alertSuccessMessage(data.message);
-                    getDashboardData(data.tab);
+                if ((data.type == "email_deleted" || data.type == "email_permanent_deleted") && data.status == true) {
+                        hideButtons();
+                        alertSuccessMessage(data.message);
+                        getDashboardData(data.tab);
                 }
             }
         });
@@ -575,7 +564,7 @@ $(document).ready(function() {
                 else if (data.status == false) {
                     alertErrorMessage(data.message)
                 }
-                hideButtons()
+                hideButtons();
             }
         });
     }
@@ -592,6 +581,7 @@ $(document).ready(function() {
         if(search_value == '' || search_value == null){
             $("#search-field").val("");
             $("#page-number").val('');
+            hideButtons();
         }
         
         getSearchResult($(this).val());
@@ -608,7 +598,6 @@ $(document).ready(function() {
             success: function(response) {
 
                 var data = JSON.parse(response);
-                console.log(data);
                 if (data.type == "html_data_found" && data.status == true) {
                     hideButtons();
                     $("#mainCheckbox").show();
@@ -649,6 +638,8 @@ $(document).ready(function() {
         $("#bcc_error").text('');
         $("#content_error").text('');
         $("#subject_error").text('');
+        $("#drafted_email").val('');
+        $("#attached-files").val('');
     })
 
     $("#compose-email").on("submit", function(e) {
@@ -666,6 +657,8 @@ $(document).ready(function() {
             to_email = true;
             email_subj = true;
             email_content = true;
+            cc_email = true;
+            bcc_email = true;
         }else{
             if (to == '' || to == null) {
                 $("#email_error").text("Please Enter Email");
@@ -683,6 +676,7 @@ $(document).ready(function() {
                 $("#subject_error").text("Please Mention a Subject");
                 email_subj = false;
             } else {
+                $("#subject_error").text("");
                 email_subj = true;
             }
 
@@ -690,10 +684,11 @@ $(document).ready(function() {
                 $("#content_error").text("Please Enter a Message");
                 email_content = false;
             } else {
+                $("#content_error").text("");
                 email_content = true;
             }
 
-        }
+        
 
         if (cc == '' || cc == null) {
             cc_email = true;
@@ -714,7 +709,6 @@ $(document).ready(function() {
                     if (!pattern.test($.trim(val))) {
                         $("#cc_error").text("Invalid Email Format");
                         cc_email = false;
-                        return false;
                     } else {
                         $("#cc_error").text("");
                         cc_email = true;
@@ -742,17 +736,16 @@ $(document).ready(function() {
                     if (!pattern.test($.trim(val))) {
                         $("#bcc_error").text("Invalid Email Format");
                         bcc_email = false;
-                        return false;
                     } else {
                         $("#bcc_error").text("");
                         bcc_email = true;
                     }
                 });
             }
-
         }
+    }
 
-        if (to_email == true && cc_email == true && bcc_email == true && email_subj && email_content) {
+        if (to_email && cc_email && bcc_email && email_subj && email_content) {
             // alert("inn")
             $.ajax({
                 url: "./controllers/Compose.php",
@@ -770,8 +763,13 @@ $(document).ready(function() {
                         $("#content_error").text(data.message);
                     } 
                     else if (data.type == "file_count_error") {
-                        alertErrorMessage(data.message);
+                        // alertErrorMessage(data.message);
+                        $("#content_error").text(data.message);
                     } 
+                    else if(data.type == "file_size_error"){
+                        // alertErrorMessage(data.message);
+                        $("#content_error").text(data.message);
+                    }
                     else if (data.type == "email_inserted") {
                         $('#compose-email-modal').modal('hide');
                         alertSuccessMessage(data.message);
@@ -790,17 +788,20 @@ $(document).ready(function() {
                         if (data.bcc_error != '') {
                             $("#bcc_error").text(data.bcc_error);
                         }
-
                     } 
                     else if (data.type == 'email_drafted') {
                         $('#compose-email-modal').modal('hide');
                         alertSuccessMessage(data.message);
                     }
+                    else if(data.type == 'drafted_email_updated'){
+                        $('#compose-email-modal').modal('hide');
+                        var current_tab = $("#current-sidebar").val();
+                        getDashboardData(current_tab);
+                    }
                     $("#button-id").val('1');
                 }
             });
         }
-
     });
 
     $('.close-email').click(function() {
@@ -810,10 +811,10 @@ $(document).ready(function() {
         var subject = $("#email-subject").val();
         var content = $("#email-content").val();
         var current_tab = $("#current-sidebar").val();
+        var attached_file = $("#attached-files").val();
         $("#button-id").val('');
         $("#button-id").val('close');
-        if (to != '' || cc != '' || bcc != '' || subject != '' || content != '') {
-            // alert("close");
+        if (to != '' || cc != '' || bcc != '' || subject != '' || content != '' || attached_file !='') {
             $('#compose-email').trigger('submit');
         }
     });
@@ -830,7 +831,6 @@ $(document).ready(function() {
             selected_mails.push(this.value);
         });
         (selected_mails.length == 0) ? selected_mails.push(open_email_id) : "";
-        console.log(selected_mails);
 
         isReadUnread(selected_mails, button_value);
     });
@@ -844,7 +844,7 @@ $(document).ready(function() {
             selected_mails.push(this.value);
         });
         (selected_mails.length == 0) ? selected_mails.push(open_email_id) : "";
-        console.log(selected_mails);
+        
         isReadUnread(selected_mails, button_value);
     });
 
@@ -859,9 +859,9 @@ $(document).ready(function() {
             success: function(response) {
                 var email_open = $("#read_unread_email").val();
                 if (email_open != "email_opened") {
+                    hideButtons();
                     getDashboardData("inbox");
                 }
-                console.log(response);
             }
         });
     }
@@ -896,7 +896,6 @@ $(document).ready(function() {
                 var open_email_id = $("#open-email").val();
                 var button_value = "read";
                 selected_mails.push(open_email_id);
-                console.log(data.attachment_file);
 
                 if (data.status == true && data.current_tab != "draft") {
                     let to = data.reciever_email.indexOf(data.my_email);
@@ -947,9 +946,13 @@ $(document).ready(function() {
                 }
 
                 if (data.current_tab == "draft") {
+                    $("#email_error").text('');
+                    $("#cc_error").text('');
+                    $("#bcc_error").text('');
+                    $("#content_error").text('');
+                    $("#subject_error").text('');
                     $("#compose-email-modal").modal("show");
-                    console.log(data);
-                    $("#recipient-email").val(data.reciever_email);
+                    (data.reciever_email != null) ? $("#recipient-email").val(data.reciever_email) : $("#recipient-email").val(data.draft_participants.to) ;
                     $("#cc-recipient-email").val(data.draft_participants.cc);
                     $("#bcc-recipient-email").val(data.draft_participants.bcc);
                     $("#email-subject").val(data.subject);
@@ -974,15 +977,14 @@ $(document).ready(function() {
         var identity = $("#current-sidebar").val();
         var open_email = $("#open-email").val('');
         var page_no = parseInt($("#pagination .active a").text());
-        console.log(typeof parseInt(page_no))
         $("#read_unread_email").val("");
         $("#mainCheckbox").show();
         $(".participants").addClass("d-none");
+
         if($("#search-field").val() == "search" && $("#searchData").val() != ''){
             var identity = "";
             search_value = $("#searchData").val();
             page_no = $("#page-number").val();
-            console.log("pageno--"+$("#page-number").val() + " " + "search Val--" + search_value);
             hideButtons();
             getSearchResult(search_value, page_no);
         }
@@ -990,10 +992,6 @@ $(document).ready(function() {
             hideButtons();
             getDashboardData(identity, page_no);
         }
-        // $(".main_content").show();
-        // $("#mainCheckbox").show();
-        // $(".email_page").addClass("d-none");
-        
     });
 
     /**
@@ -1026,16 +1024,25 @@ $(document).ready(function() {
                     if (current_tab == "sent") {
                         $("#recipient-email").val(data.email_data.reciever_email);
                     }
-                    $("#email-subject").val(data.email_data.subject);
-                } else {
+                    if(data.email_data.subject.indexOf("Re") == -1){
+                        $("#email-subject").val("Re - " + data.email_data.subject);
+                    }else{
+                        $("#email-subject").val(data.email_data.subject);
+                    }
+                } 
+                else {
                     $("#recipient-email").val(data.sender);
                     if (current_tab == "sent") {
                         $("#recipient-email").val(data.reciever);
                     }
                     $("#cc-recipient-email").val(data.cc);
-                    $("#email-subject").val(data.subject);
+                    // $("#email-subject").val("Re - " + data.subject);
+                    if(data.subject.indexOf("Re") == -1){
+                        $("#email-subject").val("Re - " + data.subject);
+                    }else{
+                        $("#email-subject").val(data.subject);
+                    }
                 }
-                console.log(data);
                 $("#compose-email-modal").modal("show");
             }
         });

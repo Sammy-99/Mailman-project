@@ -12,7 +12,7 @@ class DashboardModel{
 
     protected static $dbc;
 
-    public static $per_page_limit = 5;
+    public static $per_page_limit = 10;
     public static $totalRecords;
     public static $pageNumber;
 
@@ -70,9 +70,9 @@ class DashboardModel{
         Self::$pageNumber = $pageNo;
         $offset = ($pageNo -1) * Self::$per_page_limit;
         $limitPage = Self::$per_page_limit;
-        $select = " SELECT ei.id as email_id, users.user_email, ei.subject, ei.created_at
+        $select = " SELECT ei.id as email_id, users.user_email, ei.subject, ei.cc_bcc_draft_participants as d_participants, ei.is_draft, ei.created_at
                     FROM email_inbox as ei
-                    JOIN users ON ei.reciever_id=users.id
+                    LEFT JOIN users ON ei.reciever_id=users.id
                     WHERE ei.sender_id=$userId AND ei.delete_by_sender=0 AND ei.is_draft=$isDraft
                     ORDER BY ei.id DESC";
         $sendEmailData = Self::$dbc->query($select . " LIMIT $offset, $limitPage");
@@ -253,8 +253,8 @@ class DashboardModel{
         $selectQuery = "SELECT ei.id, ei.sender_id, u.user_email as sender_email, ei.reciever_id, users.user_email as reciever_email, ei.subject, ei.content, ei.attachment_file, cb.cc_id, cb.bcc_id, ei.cc_bcc_draft_participants, ei.created_at 
                         from email_inbox as  ei
                         left join cc_bcc cb on ei.id=cb.email_id
-                        join users u on ei.sender_id=u.id
-                        join users on ei.reciever_id=users.id
+                        left join users u on ei.sender_id=u.id
+                        left join users on ei.reciever_id=users.id
                         where ei.id=$emailId or cb.email_id=$emailId";
         $result = self::$dbc->query($selectQuery);
         $searchResultRows = $result->fetch_all(MYSQLI_ASSOC);
