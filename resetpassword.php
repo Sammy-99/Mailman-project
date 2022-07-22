@@ -119,28 +119,32 @@ $(document).ready(function() {
 
         if (reset_password == '' || reset_password == null) {
             $("#pass_error").text("Please Enter Password");
-            // return false;
+            user_password = false;
         } else {
             $("#pass_error").text("");
             var pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/;
             if (reset_password.length < 6) {
                 $("#pass_error").text("Password must be 6 charactors long");
+                user_password = false;
             } else if (!pattern.test(reset_password)) {
                 $("#pass_error").text(
                     "Password must contain atleast 1 small character, 1 upper case character, 1 numeric key and 1 special"
                 );
+                user_password = false;
             } else {
                 $("#pass_error").text("");
+                user_password = true;
             }
         }
 
         if (c_password == '' || c_password == null) {
             $("#cpass_error").text("Please Enter Confirm password");
+            c_password = false;
         } else if (reset_password != c_password) {
             $("#cpass_error").text("Password must be same");
+            c_password = false;
         } else if (reset_password == c_password && reset_password != '' && c_password != '') {
             $("#cpass_error").text("");
-            user_password = true;
             c_password = true;
             password_matched = true;
         }
