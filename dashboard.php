@@ -14,6 +14,8 @@ if (empty($userData['user_image'])) {
     $userData['user_image'] = "p.png";
 }
 
+print_r($_SESSION); die(" jj ");
+
 include_once("./layout/head.php");
 
 ?>
