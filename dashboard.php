@@ -1,6 +1,6 @@
 <?php
-print_r($_SESSION);
 session_start();
+print_r($_SESSION); die(" ppp ");
 if (!isset($_SESSION['username'])) {
     header("location:index.php");
 }
