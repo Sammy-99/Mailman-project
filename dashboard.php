@@ -1,5 +1,5 @@
 <?php
-print_r($_SESSION); die(" llsssss ");
+print_r($_SESSION);
 session_start();
 if (!isset($_SESSION['username'])) {
     header("location:index.php");
@@ -14,7 +14,6 @@ $userData = Crud::getUserData($_SESSION['id']);
 if (empty($userData['user_image'])) {
     $userData['user_image'] = "p.png";
 }
-
 
 include_once("./layout/head.php");
 
