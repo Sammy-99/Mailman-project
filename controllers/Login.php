@@ -160,8 +160,8 @@ class Login{
             $mail->isSMTP();                                           
             $mail->Host       = 'smtp.gmail.com';                     
             $mail->SMTPAuth   = true;                                   
-            $mail->Username   = 'samirhestabit999@gmail.com';                    
-            $mail->Password   = '';                             
+            $mail->Username   = Config::EMAIL;                    
+            $mail->Password   = Config::APP_PASSWORD;                             
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            
             $mail->Port       = 465;                                    
 
