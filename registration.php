@@ -1,324 +1,263 @@
-<!-- <div class="bgimage">
-
-</div> -->
-<!-- 
-<div class="container-fluid bgimage">
-    <div class="row">
-        <div class="col-md-2 col-sm-2 col-xs-12"></div>
-        <div class="col-md-6 col-sm-6 col-xs-12 form-background"> -->
-            <!-- registration form start -->
-
-            <!-- <form class="form-container"> -->
-                <!-- <div class="row">
-
-                    <div class="col-lg-6">
-                        <label for="Username">User Name</label>
-                        <input type="text" class="form-control" id="username" name="username"  placeholder="Enter Username">
-                    </div>
-                    <div class="col-lg-6">
-                        <label for="Firstname">First Name</label>
-                        <input type="text" class="form-control" id="firstname" name="firstname" placeholder="Enter First Name">
-                    </div>
-                </div> -->
-                <!-- <button type="submit" class="btn btn-success btn-block">Submit</button> -->
-            <!-- </form> -->
-
-            <!-- form end -->
-        <!-- </div>
-        <div class="col-md-4 col-sm-4 col-xs-12"></div>
-    </div>
-</div> -->
-
 <?php
 
 include_once("./layout/head.php");
 
 ?>
 
-
 <div class="alert alert-success d-none" role="alert">
     Your account created successfully. We are redirecting you on Login page, you can Login now with you creadentials.
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-1">
         </div>
-        <div class="col-md-7 reg-form">
+        <div class="col-md-10 reg-form">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 class="text-left reg-label">Create Your Account</h3>
+                    <h3 class="text-left reg-label font-weight-bold">Create Your Account</h3>
                 </div>
             </div>
             <hr>
-            <form action="" id="registration-form" method="post">
-                <div class="row">
-                    <div class="col-md-7 order-2 order-md-1">
-                        <div class="row">
-                            <div class="col-md-11">
-                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
-                                <small class="field-error" id="username_error"></small>
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-11">
-                                <input type="text" class="form-control" id="firstname"  name="firstname" placeholder="Enter First Name">
-                                <small class="field-error" id="fname_error"></small>
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-11">
-                                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter Last Name">
-                                <small class="field-error" id="lname_error"></small>
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-7 col-sm-8 col-8">
-                                <input type="text" class="form-control" id="useremail" name="useremail" placeholder="Enter Email"> 
-                                <small class="field-error" id="email_error"></small>
-                            </div>
-                            <span class="col-md-5 col-sm-4 col-4 mail-suffix">@mailman.com</span>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-11">
-                                <input type="password" class="form-control" id="userpassword" name="userpassword" placeholder="Enter Password">
-                                <small class="field-error" id="pass_error"></small>
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-11">
-                                <input type="password" class="form-control" id="c-password" name="c-password" placeholder="Confirm Password">
-                                <small class="field-error" id="cpass_error"></small>
-                            </div>
-                            <div class="col-md-1"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-5 order-1 order-md-2">
-                        <div class="row">
-                            <div class="col-md-1"></div>
-                            <div class="col-md-9">
-                                <div class="mt-3">
-                                    <img src="./layout/assets/p.png" alt="profile-picture" width="150px">
 
-                                </div>
-                                <br>
-                                <input type="file" class="mt-2" name="user-image">
+            <form id="registration-form" method="post">
+                <div class="row mb-4">
+                    <div class="col-sm-6 order-2 order-md-1">
+                        <div class="form-outline">
+                            <label class="form-label" for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="Enter Username">
+                            <small class="field-error" id="username_error"></small>
+                        </div>
+                        <br>
+                        <div class="form-outline">
+                            <label class="form-label" for="firstname">First name</label>
+                            <input type="text" class="form-control" id="firstname" name="firstname"
+                                placeholder="Enter Firstname">
+                            <small class="field-error" id="fname_error"></small>
+                        </div>
+                        <br>
+                        <div class="form-outline">
+                            <label class="form-label" for="lastname">Lastname name</label>
+                            <input type="text" class="form-control" id="lastname" name="lastname"
+                                placeholder="Enter Lastname">
+                            <small class="field-error" id="lname_error"></small>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6 text-center order-1 order-md-2 mt-4">
+                        <div class="form-outline">
+                            <div>
+                                <img src="./layout/assets/p.png" id="previews" class="mt-4" width="150px" alt="">
                             </div>
-                            <div class="col-md-2"></div>
+                            <br>
+                            <input type="file" hidden id="user-image" class="form-control" name="user-image" />
+                            <label class="form-label btn-link cursor-pointer font-weight-bold" for="user-image">Upload Image</label>
+                            <br>
+                            <span class="field-error" id="file_error"></span>
                         </div>
                     </div>
                 </div>
-                
-                <div class="row">
-                    <div class="col-md-7">
-                        <div class="row">
-                            <div class="col-md-11">
-                                <input type="text" class="form-control" id="secondary-email" name="secondary-email" placeholder="Enter Your Gmail Address">
-                                <small class="field-error" id="semail_error"></small>
-                            </div>
+
+                <div class="form-outline">
+                    <label class="form-label" for="useremail">Email</label>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="useremail" name="useremail" placeholder="Enter Email">
+                            <small class="field-error" id="email_error"></small>
                         </div>
-                    </div>
-                    <div class="col-md-5 dob-input">
-                        <div class="row">
-                            <div class="col-md-11">
-                                <!-- <input type="date" class="form-control" id="birth-date" name="birth-date" placeholder="Enter your DOB">
-                                <small id="emailHelp" class="form-text text-muted">Date of Birth.</small>
-                                <small class="field-error" id="dob_error"></small> -->
-                            </div>
+                        <div class="col-md-3 mt-2 font-weight-bold">
+                            <span class="mail-suffix">@mailman.com</span>
                         </div>
                     </div>
                 </div>
                 <br>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="userpassword">Password</label>
+                    <input type="password" class="form-control" id="userpassword" name="userpassword"
+                        placeholder="Enter Password">
+                    <small class="field-error" id="pass_error"></small>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="c-password">Confirm Password</label>
+                    <input type="password" class="form-control" id="c-password" name="c-password"
+                        placeholder="Confirm Password">
+                    <small class="field-error" id="cpass_error"></small>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="secondary-email">Secondary Email</label>
+                    <input type="text" class="form-control" id="secondary-email" name="secondary-email"
+                        placeholder="Enter Your Email Address">
+                    <small class="field-error" id="semail_error"></small>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <input type="checkbox" id="checkbox">
+                    <label class="form-label" for="checkbox">Term and Conditions</label><br>
+                    <small class="field-error" id="checkbox_error"></small>
+                </div>
                 <div class="row">
-                    <div class="col-md-8">
-                        <input type="checkbox" id="checkbox"> Term and Conditions <br>
-                        <small class="field-error" id="checkbox_error"></small>
-                        <small class="field-error" id="backend_error"></small>
+                    <div class="col-sm-6">
+                        <button type="submit" class="btn btn-primary btn-block mb-4 signup-btn">Sign up</button>
+                    </div>
+                    <div class="col-sm-6 font-weight-bold mt-2">
+                        <span>Already have an account? <a href="index.php"> Sign In </a></span>
                     </div>
                 </div>
                 <br>
-                <div class="row">
-                    <div class="col-md-7">
-                        <div class="row">
-                            <div class="col-md-11">
-                                
-                                <button type="submit" class="btn btn-success btn-block signup-btn">Sign Up</button> 
-                            </div>
-                        </div>  
-                    </div>
-                    <div class="col-md-5 signin-msg mt-1">
-                        <span>Already have an account? <a href="./index.php">Sign In</a></span>
-                    </div>
-                </div>
-                <br><br>  
+
             </form>
         </div>
-        
+        <div class="col-md-1">
+        </div>
+
     </div>
 </div>
 
 <?php include_once("./layout/footer.php"); ?>
 
 <script>
-    $(document).ready(function(){
-       
-        $("#registration-form").on('submit', function(e){
-            e.preventDefault();
-            var formData = new FormData(this);
+$(document).ready(function() {
 
-            var user_name = $("#username").val();
-            var f_name = $("#firstname").val();
-            var l_name = $("#lastname").val();
-            var email = $("#useremail").val();
-            var password = $("#userpassword").val();
-            var c_password = $("#c-password").val();
-            var second_email = $("#secondary-email").val();
-            var checkbox = false;
-            console.log(email);
+    $("#username").on("change keyup", function() {
+        $("#username_error").text("");
+    });
 
-            if(user_name == '' || user_name == null){
-                $("#username_error").text("Please Enter Username");
-                // return false;
-            }else{
-                $("#username_error").text("");
-                var pattern = new RegExp('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$');
-                if(!pattern.test(user_name)){
-                    $("#username_error").text("Username should be Alphanumeric!");
-                    // return false;
-                }else{
-                    user_name = true; 
-                }
-            }
+    $("#firstname").on("change keyup", function() {
+        $("#fname_error").text("");
+    });
 
-            if(f_name == '' || f_name == null){
-                $("#fname_error").text("Please Enter First Name");
-                // return false;
-            }else{
-                $("#fname_error").text("");
-                var pattern = /^[a-zA-Z]+$/ ;
-                if(!pattern.test(f_name)){
-                    $("#fname_error").text("Name should be Alphabetic!");
-                    // return false;
-                }else{
-                    $("#fname_error").text("");
-                    f_name = true ;
-                }
-            }
+    $("#lastname").on("change keyup", function() {
+        $("#lname_error").text("");
+    });
 
-            if(l_name == '' || l_name == null){
-                $("#lname_error").text("Please Enter Last Name");
-                // return false;
-            }else{
-                $("#lname_error").text("");
-                var pattern = /^[a-zA-Z]+$/ ;
-                if(!pattern.test(l_name)){
-                    $("#lname_error").text("Name should be Alphabetic!");
-                    // return false;
-                }else{
-                    $("#lname_error").text("");
-                    l_name = true;
-                }
-            }
+    $("#useremail").on("change keyup", function() {
+        $("#email_error").text("");
+    });
 
-            if(email == '' || email == null){
-                $("#email_error").text("Please Enter Email");
-                // return false;
-            }else{
-                var properEmail = email.trim() + "@mailman.com";
-                // console.log(properEmail);
-                $("#email_error").text("");
-                var pattern = /^[\w.+\-]+@mailman\.com$/ ;
-                if(!pattern.test(properEmail.trim())){
-                    $("#email_error").text("Invalid Email Format");
-                    // return false;
-                }else{
-                    $("#email_error").text("");
-                    email = true ;
-                }
-            }
+    $("#userpassword").on("change keyup", function() {
+        $("#pass_error").text("");
+    });
 
-            if(password == '' || password == null){
-                $("#pass_error").text("Please Enter Password");
-                // return false;
-            }else{
-                $("#pass_error").text("");
-                var pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/;
-                if(password.length < 6){
-                    $("#pass_error").text("Password must be 6 charactors long");
-                    // return false;
-                }else if(!pattern.test(password)){
-                    $("#pass_error").text("Password must contain atleast 1 small character, 1 upper case character, 1 numeric key and 1 special");
-                    // return false;
-                }else{
-                    $("#pass_error").text("");
-                }
-            }
+    $("#c-password").on("change keyup", function() {
+        $("#cpass_error").text("");
+    });
 
-            if(c_password == '' || c_password == null){
-                $("#cpass_error").text("Please Enter Confirm password");
-            }
-            else if(password != c_password){
-                $("#cpass_error").text("Password must be same");
-            }
-            else if(password == c_password){
-                // alert(4444444444444)
-                $("#cpass_error").text("");
-                password = true ;
-                c_password = true;
-                password_matched = true;
-            }
+    $("#secondary-email").on("change keyup", function() {
+        $("#semail_error").text("");
+    });
 
-            if(second_email == '' || second_email == null){
-                $("#semail_error").text("Please Enter Secondary Email");
-                // return false;
-            }else{
-                $("#semail_error").text("");
-                var pattern = /^[\w.+\-]+@gmail\.com$/ ;
-                if(!pattern.test(second_email)){
-                    $("#semail_error").text("Invalid Email Address");
-                    // return false;
-                }else{
-                    $("#semail_error").text("");
-                    second_email = true;
-                }
-            }
+    $("#user-image").on("change", function() {
+        const [file] = (this).files
+        if (file) {
+            previews.src = URL.createObjectURL(file)
+        } else {
+            console.log('sdkl')
+            $('#previews').prop('src', './layout/assets/p.png')
+        }
+    })
+
+    $("#registration-form").on('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+
+        var user_name = $("#username").val();
+        var f_name = $("#firstname").val();
+        var l_name = $("#lastname").val();
+        var email = $("#useremail").val();
+        var password = $("#userpassword").val();
+        var c_password = $("#c-password").val();
+        var second_email = $("#secondary-email").val();
+        var allowed_ext = ["jpg", "png"];
+        var checkbox = false;
+        var image_file = true;
+
+
+        if (user_name == '' || user_name == null) {
+            $("#username_error").text("Please Enter Username");
+        }
+
+        if (f_name == '' || f_name == null) {
+            $("#fname_error").text("Please Enter First Name");
+        }
+
+        if (l_name == '' || l_name == null) {
+            $("#lname_error").text("Please Enter Last Name");
+        }
+
+        if (email == '' || email == null) {
+            $("#email_error").text("Please Enter Email");
+        }
+
+        if (password == '' || password == null) {
+            $("#pass_error").text("Please Enter Password");
+        }
+
+        if (c_password == '' || c_password == null) {
+            $("#cpass_error").text("Please Enter Confirm password");
+        }
+
+        if (second_email == '' || second_email == null) {
+            $("#semail_error").text("Please Enter Secondary Email");
+        }
+
+        if (user_name != '' && f_name != '' && l_name != '' && email != '' && password != '' &&
+            c_password != '' && second_email != '') {
 
             if ($("#checkbox").is(":checked")) {
                 $("#checkbox_error").text('');
                 checkbox = true;
-            }else{
+            } else {
                 $("#checkbox_error").text("Please tick Term and Conditions.")
+                checkbox = false;
             }
+        }
 
-            if(user_name==true && f_name==true && l_name==true && email==true && password==true && c_password==true && password_matched==true && second_email==true && checkbox==true)
-            {
-                $.ajax({
-                    url : "./controllers/Signup.php",
-                    method : "POST",
-                    data : formData,
-                    // dataType: 'json',
-                    cache : false,
-                    processData: false,
-                    contentType: false,
-                    success : function(response){
-                        var error_type = ['invalid_filetype', 'invalid_filesize', 'user_exist', 'not_inserted', 'error'];
-                        console.log(response);
-                        if(response.status == false){
-                            $("#backend_error").text(response.message);
-                        }
-                        else if(response.status == true && response.type == "inserted"){
-                            setTimeout(function(){
-                                window.location.href = "index.php";
-                           }, 5000);
-                           $(".alert").removeClass("d-none")
-                        }
-                    },
-                });
+        var image_path = $("#user-image").val();
+        if (image_path == '' || image_path == null) {
+            image_file = true;
+        } else {
+            var extension = image_path.substring(image_path.lastIndexOf('.') + 1).toLowerCase();
+            if (allowed_ext.indexOf(extension) !== -1) {
+                var file_size = $("#user-image")[0].files[0].size;
+                if (file_size > 2097152) {
+                    $("#file_error").text("Please choose less than 2MB file");
+                    image_file = false;
+                } else {
+                    image_file = true;
+                }
+            } else {
+                $("#file_error").text("Choose only JPG, PNG image");
+                image_file = false;
             }
+        }
 
-        });
+        if (checkbox == true && image_file == true) {
+            $.ajax({
+                url: "./controllers/Signup.php",
+                method: "POST",
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    var res = JSON.parse(response)
+                    console.log(res);
+                    if (res.status == false) {
+                        $.each(res.error, function(key, val) {
+                            $("#" + key + "").text(val);
+                        });
+                    } else if (res.status == true && res.type == "inserted") {
+                        setTimeout(function() {
+                            window.location.href = "index.php";
+                        }, 5000);
+                        $(".alert").removeClass("d-none")
+                    }
+                },
+            });
+        }
     });
+});
 </script>

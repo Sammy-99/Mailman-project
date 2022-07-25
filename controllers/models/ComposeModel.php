@@ -56,7 +56,7 @@ class ComposeModel{
         }
 
         if(!empty($cc) && $cc != null){
-            $ccMailArray = explode(", ", $cc);
+            $ccMailArray = array_map('trim', explode(",", $cc));
             $invalidCc = self::checkCcBccUser($ccMailArray);
             if(count($invalidCc) > 0){
                 $ccError = "Invalid or non registered Mailman Addresses - ". join(", ", $invalidCc) . "";
@@ -64,7 +64,7 @@ class ComposeModel{
         }
 
         if(!empty($bcc) && $bcc != null){
-            $bccMailArray = explode(", ", $bcc);
+            $bccMailArray = array_map('trim', explode(",", $bcc));
             $invalidBcc = self::checkCcBccUser($bccMailArray);
             if(count($invalidBcc) > 0){
                 $bccError = "Invalid or non registered Mailman Addresses - ". join(", ", $invalidBcc) . "";

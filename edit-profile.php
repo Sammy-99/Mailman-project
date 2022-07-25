@@ -23,7 +23,7 @@ include_once("./layout/head.php");
 ?>
 
 <div class="container-fluid">
-    <div class="row align-items-center">
+    <div class="row align-items-center bg-light">
         <div class="col-12 col-md-2 mt-2 font-weight-bolder">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <h2 class="font-weight-bold"><a href="./dashboard.php"> Mailman </a></h2>

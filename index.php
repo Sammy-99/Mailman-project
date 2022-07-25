@@ -21,9 +21,8 @@ include_once("./layout/head.php");
     </div>
     <!-- custom alert end -->
     <div class="row">
-        <div class="col-md-5">
-            <!-- <h1 class="text-left">Registartion Form</h1>
-            <p class="text-left">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Adipisci qui eligendi voluptatum inventore. Quis perferendis perspiciatis, ipsam quo in deserunt ad illo assumenda dicta excepturi explicabo aspernatur quos et culpa.</p> -->
+        <div class="col-md-5 logo-image">
+            <img src="./layout/assets/gmail.png" style="max-width: 100%;" alt="">
         </div>
         <div class="col-md-7 reg-form">
             <div class="row">
@@ -32,45 +31,42 @@ include_once("./layout/head.php");
                 </div>
             </div>
             <hr>
-            <form action="#" id="login-form">
-                <div class="row">
-                    <label class="col-md-4 label control-label">Email/Username</label>
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" id="user_name" name="user_name"
-                            placeholder="Enter Email">
-                        <small class="field-error" id="email_error"></small>
-                    </div>
-                </div>
-                <div class="row">
-                    <label class="col-md-4 label control-label">Password</label>
-                    <div class="col-md-8">
-                        <input type="password" class="form-control" id="userpass" name="userpass"
-                            placeholder="Enter Password">
-                        <small class="field-error" id="pass_error"></small>
-                    </div>
+            <form id="login-form" method="post">
+
+                <div class="form-outline">
+                    <label class="form-label" for="useremail">Email/Username</label>
+                    <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Enter Email or Username">
+                    <small class="field-error" id="email_error"></small>
                 </div>
                 <br>
-                <div class="row">
-                    <label class="col-md-4 label control-label"></label>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="userpassword">Password</label>
+                    <input type="password" class="form-control" id="userpass" name="userpass"
+                        placeholder="Enter Password">
+                    <small class="field-error" id="pass_error"></small>
+                </div>
+                <br>
+                <div class="form-outline mb-4">
                     <div class="col-md-8">
                         <a href="" id="forgot_password">Forgot Password?</a>
                     </div>
                 </div>
-                <br><br>
                 <div class="row">
                     <div class="col-md-6 text-danger" id="credential_error"></div>
                     <div class="col-md-6"></div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <button type="submit" class="btn btn-success btn-block btn-login">Log In</button>
-                    </div>
-                    <div class="col-md-2"></div>
-                    <label class="col-md-4 label control-label"><a href="./registration.php">Sign Up Instead</a>
-                    </label>
-                </div>
 
-                <br><br>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button type="submit" class="btn btn-primary btn-block mb-4 signup-btn btn-login">Sign In</button>
+                    </div>
+                    <div class="col-sm-6 mt-2">
+                        <span>Do not have an account? <a href="registration.php"> Create Account </a></span>
+                    </div>
+                </div>
+                <br>
+
             </form>
         </div>
 
@@ -116,7 +112,7 @@ $(document).ready(function() {
                 contentType: false,
                 success: function(response) {
                     var res = JSON.parse(response);
-                    // console.log(res)
+                    
                     if (res.status == false) {
                         $("#credential_error").text(res.message);
                     }

@@ -1,0 +1,217 @@
+<?php
+
+include_once("./layout/head.php");
+
+?>
+
+<div class="alert alert-success d-none" role="alert">
+    Your account created successfully. We are redirecting you on Login page, you can Login now with you creadentials.
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10 reg-form">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="text-left reg-label">Create Your Account</h3>
+                </div>
+            </div>
+            <hr>
+            <form id="registration-form" method="post">
+                <!-- 2 column grid layout with text inputs for the first and last names -->
+                <div class="row mb-4">
+                    <div class="col-sm-6 order-2 order-md-1">
+                        <div class="form-outline">
+                            <label class="form-label" for="username">First name</label>
+                            <!-- <input type="text" id="form3Example1" class="form-control" /> -->
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
+                            <small class="field-error" id="username_error"></small>
+                        </div>
+                        <div class="form-outline">
+                            <label class="form-label" for="form3Example1">Lastname name</label>
+                            <!-- <input type="text" id="form3Example1" class="form-control" /> -->
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
+                            <small class="field-error" id="username_error"></small>
+                        </div>
+                        <div class="form-outline">
+                            <label class="form-label" for="form3Example1">Useername</label>
+                            <input type="text" id="form3Example1" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-sm-6 text-center order-1 order-md-2 mt-4">
+                        <div class="form-outline">
+                            <div>
+                                <img src="./layout/assets/p.png" id="previews" width="150px" alt="">
+                            </div>
+                            <input type="file" hidden id="uploadImage" class="form-control" />
+                            <label class="form-label btn-link cursor-pointer" for="uploadImage">Upload Image</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="form3Example3">Email address</label>
+                    <input type="email" id="form3Example3" class="form-control" />
+                </div>
+
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="form3Example4">Password</label>
+                    <input type="password" id="form3Example4" class="form-control" />
+                </div>
+
+                <!-- Checkbox -->
+
+                <!-- Submit button -->
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button type="submit" class="btn btn-primary btn-block mb-4">Sign up</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="submit" class="btn btn-primary btn-block mb-4">Sign up</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="col-md-1">
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+<!-- <form action="" id="registration-form" method="post">
+                
+                <div class="row">
+                    <div class="col-md-7 order-2 order-md-1">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter Username">
+                                <small class="field-error" id="username_error"></small>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <input type="text" class="form-control" id="firstname"  name="firstname" placeholder="Enter First Name">
+                                <small class="field-error" id="fname_error"></small>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter Last Name">
+                                <small class="field-error" id="lname_error"></small>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-7 col-sm-8 col-8">
+                                <input type="text" class="form-control" id="useremail" name="useremail" placeholder="Enter Email"> 
+                                <small class="field-error" id="email_error"></small>
+                            </div>
+                            <span class="col-md-5 col-sm-4 col-4 mail-suffix">@mailman.com</span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <input type="password" class="form-control" id="userpassword" name="userpassword" placeholder="Enter Password">
+                                <small class="field-error" id="pass_error"></small>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <input type="password" class="form-control" id="c-password" name="c-password" placeholder="Confirm Password">
+                                <small class="field-error" id="cpass_error"></small>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 order-1 order-md-2">
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-9">
+                                <div class="mt-3">
+                                    <img src="./layout/assets/p.png" alt="profile-picture" width="150px">
+
+                                </div>
+                                <br>
+                                <input type="file" class="mt-2" id="user-image" name="user-image">
+                                <br>
+                                <span id="file_error"></span>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <input type="text" class="form-control" id="secondary-email" name="secondary-email" placeholder="Enter Your Gmail Address">
+                                <small class="field-error" id="semail_error"></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 dob-input">
+                        <div class="row">
+                            <div class="col-md-11">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-8">
+                        <input type="checkbox" id="checkbox"> Term and Conditions <br>
+                        <small class="field-error" id="checkbox_error"></small>
+                        <small class="field-error" id="backend_error"></small>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="row">
+                            <div class="col-md-11">
+                                
+                                <button type="submit" class="btn btn-success btn-block signup-btn">Sign Up</button> 
+                            </div>
+                        </div>  
+                    </div>
+                    <div class="col-md-5 signin-msg mt-1">
+                        <span>Already have an account? <a href="./index.php">Sign In</a></span>
+                    </div>
+                </div>
+                <br><br>  
+            </form> -->
+
+
+
+
+
+
+
+            
+
+<?php include_once("./layout/footer.php"); ?>
+<script>
+    var imgInp = document.getElementById('uploadImage');
+    imgInp.onchange = evt => {
+        const [file] = imgInp.files
+        if (file) {
+            previews.src = URL.createObjectURL(file)
+        }else{
+            console.log('sdkl')
+            $('#previews').prop('src','./layout/assets/p.png')
+        }
+    }
+</script>

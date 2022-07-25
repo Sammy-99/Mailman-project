@@ -30,10 +30,10 @@ class Compose{
 
         $userId = $_SESSION['id'];
         $to = trim($_POST['recipient-email']);
-        $cc = $_POST['cc-recipient-email'];
-        $bcc = $_POST['bcc-recipient-email'];
-        $subject = $_POST['email-subject'];
-        $content = $_POST['email-content'];
+        $cc = trim($_POST['cc-recipient-email']);
+        $bcc = trim($_POST['bcc-recipient-email']);
+        $subject = trim($_POST['email-subject']);
+        $content = trim($_POST['email-content']);
         $buttonId = $_POST['button-id']; 
         $currentTab = $_POST['current-sidebar'];
         $draftEmailId = $_POST['drafted_email'];

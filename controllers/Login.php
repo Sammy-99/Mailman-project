@@ -30,14 +30,17 @@ class Login{
     public function checkUserAuthentication()
     {
         if(isset($_POST['user_name']) && isset($_POST['userpass'])){
-            $this->password = trim($_POST['userpass']);
+            
+            $checkValidDetails = $this->isValidDetails($_POST['user_name'], $_POST['userpass']);
 
+            if($checkValidDetails !== true){
+                echo json_encode(["status" => false, "type" => "login_error", "error" => $checkValidDetails]); exit;
+            }
+            
             if(filter_var($_POST['user_name'], FILTER_VALIDATE_EMAIL)){
-                $this->email = trim($_POST['user_name']);
-                $userAuth = Validate::authenticateUser($this->username, $this->email, $this->password);
+                $userAuth = Validate::authenticateUser($this->username, $this->password);
             }else{
-                $this->username = trim($_POST['user_name']);
-                $userAuth = Validate::authenticateUser($this->username, $this->email, $this->password);
+                $userAuth = Validate::authenticateUser($this->username, $this->password);
             }
 
             $userAuthJson = json_decode($userAuth, true);
@@ -56,6 +59,61 @@ class Login{
             }
         }
 
+    }
+
+    public function isValidDetails($username, $password)
+    {
+        $result = [];
+        $username = trim($username);
+        $password = trim($password);
+
+        switch ($username) {
+            case "":
+                $result['username_error'] = "Please Enter Username";
+                break;
+            case (strpos($username, " ") > 0):
+                $result['username_error'] = "Username should not contain spaces";
+                break;
+            case (strlen($username) < 5):
+                $result['username_error'] = "Username should be atleast 5 characters long";
+                break;
+            case ((strpos($username, "'") !== false) || (strpos($username, "=") !== false)):
+                $result['username_error'] = "Illegal Characters";
+                break;
+            case ((strpos($username, "<") !== false) || (strpos($username, ">") !== false)):
+                $result['username_error'] = "Illegal Characters";
+                break;
+            default:
+                $result['username_error'] = "";
+                $this->username = $username;
+        }
+
+        switch ($password) {
+            case "":
+                $result['pass_error'] = "Please Enter Password";
+                break;
+            case (strpos($password, " ") > 0):
+                $result['pass_error'] = "Password should not contain spaces";
+                break;
+            case ((strpos($password, "'") !== false) || (strpos($password, "=") !== false)):
+                $result['pass_error'] = "Illegal Characters";
+                break;
+            case ((strpos($password, "<") !== false) || (strpos($password, ">") !== false)):
+                $result['pass_error'] = "Illegal Characters";
+                break;
+            case (strlen($password) < 6):
+                $result['pass_error'] = "Password should be atleast 6 characters long";
+                break;
+            default:
+                $result['pass_error'] = "";
+                $this->password = $password;
+        }
+
+        if($result['username_error'] == '' && $result['pass_error'] == ''){
+            return true;
+        }
+
+        return $result;
     }
 
     /**
@@ -103,7 +161,7 @@ class Login{
             $mail->Host       = 'smtp.gmail.com';                     
             $mail->SMTPAuth   = true;                                   
             $mail->Username   = 'samirhestabit999@gmail.com';                    
-            $mail->Password   = 'ojsdtutobkfxayxw';                             
+            $mail->Password   = '';                             
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            
             $mail->Port       = 465;                                    
 
@@ -130,8 +188,12 @@ spl_autoload_register(function ($className) {
     require_once("./models/" . $className . ".php");
 });
 
+// print_r($_POST); die(" kkkkk ");
 $login = new Login();
-$login->checkUserAuthentication();
+
+if(isset($_POST['user_name']) && isset($_POST['userpass'])){
+    $login->checkUserAuthentication();
+}
 
 if(isset($_POST['user_name']) && isset($_POST['forgot_password'])){
     $login->resetPassword();

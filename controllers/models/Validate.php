@@ -46,7 +46,6 @@ class Validate{
      */
     public static function checkImageType($file)
     {
-        ini_set('upload_max_filesize', 5*self::MB);
         $filename = $file['user-image']['name'];
         $ext = pathinfo($filename, PATHINFO_EXTENSION);
         if (!in_array($ext, self::$allowedFileExtension)) {
@@ -61,21 +60,16 @@ class Validate{
     /**
      * This function Authenticate the user for SignIn.
      */
-    public static function authenticateUser($username = null, $email = null, $password)
+    public static function authenticateUser($username, $password)
     {
-        $username = Self::removeSpecialCharsAndSlashes(Self::$dbc->real_escape_string($username));
-        $email = Self::removeSpecialCharsAndSlashes(Self::$dbc->real_escape_string($email)); 
-        $password = Self::removeSpecialCharsAndSlashes(Self::$dbc->real_escape_string($password));
-        $selectQuery = "Select * from users where (username='".$username."' OR user_email='".$email."') AND status=1";
+        $username = Self::$dbc->real_escape_string($username);
+        $password = Self::$dbc->real_escape_string($password);
+        $selectQuery = "Select * from users where (username='".$username."' OR user_email='".$username."') AND status=1";
         $result = Self::$dbc->query($selectQuery);
-        $row = $result->fetch_assoc();
-        if(empty($row)){
-            return json_encode([
-                "type" => "no_user_found",
-                "message" => "Credentials not matched",
-                "status" => false
-            ]);
-        }else{
+        
+        if($result->num_rows > 0){
+            $row = $result->fetch_assoc();
+            
             if(password_verify($password, $row['password'])){ 
                 return json_encode([
                     "type" => "password_matched",
@@ -92,15 +86,14 @@ class Validate{
                 "message" => "Credentials not matched",
                 "status" => false
             ]);
+            
+        }else{
+            return json_encode([
+                "type" => "no_user_found",
+                "message" => "Credentials not matched",
+                "status" => false
+            ]);
         }
-    }
-
-    protected static function removeSpecialCharsAndSlashes($value)
-    {
-        $value = trim($value);
-        $value = htmlspecialchars($value);
-        $value = stripslashes($value);
-        return $value;
     }
 
     /**
