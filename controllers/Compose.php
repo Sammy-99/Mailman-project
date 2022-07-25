@@ -18,14 +18,21 @@ class Compose{
      */
     public function composedEmail($post, $files)
     {
+        $removedFiles = [];
         $attachedFiles = NULL;
-        if(count($_FILES["attachedfile"]["name"]) > 20){
+        if(!empty($_POST['removed_files']) || $_POST['removed_files'] != null){
+            $removedFiles = array_filter(array_map("trim", explode(",", $_POST['removed_files'])));
+        }
+        
+        $total_count = count(array_filter($_FILES["attachedfile"]["name"])) - count($removedFiles);
+        
+        if($total_count > 20){
             echo json_encode(["type" => "file_count_error", "message" => "The count of attached files should not be greater than 20", "status" => false]);
             exit;
         }
         
         if(array_key_exists('0', $_FILES["attachedfile"]["name"])){
-            $attachedFiles = !empty($_FILES["attachedfile"]["name"][0]) ? $this->chechFilesValidation() : false ;
+            $attachedFiles = !empty($_FILES["attachedfile"]["name"][0]) ? $this->chechFilesValidation($removedFiles) : false ;
         }
 
         $userId = $_SESSION['id'];
@@ -45,23 +52,33 @@ class Compose{
     /**
      * This function check the validation of the attached Files.
      */
-    public function chechFilesValidation()
+    public function chechFilesValidation($removedFiles)
     {
         $fileNameArray = [];
-        $filesName = array_filter($_FILES["attachedfile"]["name"]);
-        $fileSize = array_filter($_FILES["attachedfile"]["size"]);
-        $fileTmpName = array_filter($_FILES["attachedfile"]["tmp_name"]);
         $total_files = count($_FILES["attachedfile"]["name"]);
+        if(count($removedFiles) > 0){
+            $fileSize = [];
+            for($k = 0; $k < $total_files; $k++){
+                if(!in_array($_FILES['attachedfile']['name'][$k], $removedFiles)){
+                    array_push($fileSize, $_FILES['attachedfile']['size'][$k]);
+                }
+            }
+        }else{
+            $fileSize = array_filter($_FILES["attachedfile"]["size"]);
+        }
+        
         $totalFilesSize = array_sum($fileSize);
         if ($totalFilesSize > 0 && $totalFilesSize < 25 * Validate::MB){      
             // $todir = "/var/www/html/launchpadtwo/attachedfiles/";
             // $todir = StoreUrl::$baseUrl . "attachedfiles/";
             $todir = "../attachedfiles/";
             for($i=0; $i<$total_files; $i++){
-                $uniqueSaveName = time()."-".$_FILES['attachedfile']['name'][$i] ;
-                if (move_uploaded_file( $_FILES['attachedfile']['tmp_name'][$i], $todir . $uniqueSaveName)){
-                    array_push($fileNameArray, $uniqueSaveName);
-                } 
+                if(!in_array($_FILES['attachedfile']['name'][$i], $removedFiles)){
+                    $uniqueSaveName = time()."-".$_FILES['attachedfile']['name'][$i] ;
+                    if (move_uploaded_file( $_FILES['attachedfile']['tmp_name'][$i], $todir . $uniqueSaveName)){
+                        array_push($fileNameArray, $uniqueSaveName);
+                    } 
+                }
             }
             $this->attachmentFiles = join(", ", $fileNameArray);
             return $this->attachmentFiles;

@@ -232,7 +232,7 @@ include_once("./layout/head.php");
                 </button>
             </div>
             <div class="modal-body">
-                <form id="compose-email">
+                <form id="compose-email" enctype="multipart/form-data">
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-2 mt-1">
@@ -292,7 +292,8 @@ include_once("./layout/head.php");
                     <hr>
                     <div class="row">
                         <div class="col-md-9">
-                            <input type="file" class="mr-5" multiple name="attachedfile[]" id="attached-files">
+                            <input type="file" class="mr-5 file-input" onclick="myFunction(this)" multiple name="attachedfile[]" id="attached-files">
+                            <input type="hidden" name="removed_files" id="removed_files" value="">
 
                         </div>
                         <div class="col-md-3">
@@ -302,6 +303,7 @@ include_once("./layout/head.php");
 
                         </div>
                     </div>
+                    <div class="filenames"></div>
                 </form>
             </div>
             <!-- <div class="modal-footer">

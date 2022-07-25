@@ -38,12 +38,12 @@ include_once("./layout/head.php");
         <div class="col-4 col-md-4 mt-2">
             <nav class="navbar navbar-expand-sm">
                 <div class="collapse navbar-collapse d-flex justify-content-end" id="navbar-list-4">
-                    <div class="user-name"> <?= $userData['username']; ?> </div> &nbsp;
+                    <div class="user-name"> <?=$userData['username']; ?> </div> &nbsp;
                     <ul class="navbar-nav dashboard-profile">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="./uploadedimage/<?= $userData['user_image']; ?>" width="40" height="40"
+                                <img src="./uploadedimage/<?=$userData['user_image']; ?>" width="40" height="40"
                                     class="rounded-circle">
                             </a>
                             <div class="dropdown-menu " style="margin-left:-70px;"

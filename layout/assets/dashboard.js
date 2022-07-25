@@ -1,3 +1,34 @@
+function myFunction(obj) {
+    $(obj).hide();
+    $("#compose-email").append("<input class='file-input' type='file' onclick='myFunction(this)' name='attachedfile[]' multiple />");
+}
+
+$(document).on("change",".file-input" , function(){
+
+    var domArray = $('.file-input');
+    $('.filenames').html('');
+    for (var i = 0; i < domArray.length; i++) {
+        var files =  domArray[i].files;
+    
+        for (var j = 0; j < files.length; j++){
+            $('.filenames').append('<div><label class="file_label"> x </label> &nbsp; <a href="#" class="name">' + files[j].name + '</a></div>');
+        }
+    };
+
+});
+
+$(document).on("click",".file_label" , function(){
+    var removed_file = $(this).siblings("a").text();
+
+    var all_removed_file = $("#removed_files").val();
+    var rm_file_str = all_removed_file + "," + removed_file;
+    $("#removed_files").val(rm_file_str);
+    // $(this).siblings("a").html('');
+    $(this).parent().html('');
+
+    console.log($("#removed_files").val());
+})
+
 $(document).ready(function() {
 
     var identity = $(".inbox").data("inbox-value");
