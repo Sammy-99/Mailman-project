@@ -116,7 +116,7 @@ class Validate{
         }else{
             return json_encode([
                 "type" => "username_not_exist",
-                "message" => "Credentials not matches for forgot password",
+                "message" => "Not a valid Username or Mailman Address.",
                 "status" => false
             ]);
         }
