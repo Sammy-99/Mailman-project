@@ -102,12 +102,12 @@ if(array_key_exists("reset_password", $_SESSION)){
             <form class="form-example" action="" method="post" style="padding:20px;">
                 <h2 class="font-weight-bolder">Reset Password</h2>
                 <div class="form-group">
-                    <label for="password">Password :</label>
+                    <label class="font-weight-bolder" for="password">Password :</label>
                         <input type="password" id="userpassword" name="userpassword" class="form-control form-control-lg w-75 mb-3 password" placeholder="Enter Password" />
                         <div class="field-error font-weight-bolder" id="pass_error"></div>
                 </div>
                 <div class="form-group">
-                    <label for="password">Confirm Password :</label>
+                    <label class="font-weight-bolder" for="password">Confirm Password :</label>
                     <input type="password" id="c_password" name="c_password" class="form-control form-control-lg w-75 mb-3 password" placeholder="Confirm Password" />
                     <div class="field-error font-weight-bolder" id="cpass_error"></div>
                 </div>
