@@ -100,7 +100,7 @@ if(array_key_exists("reset_password", $_SESSION)){
         <div class="col-md-1"></div>
         <div class="col-10 col-md-5 col-lg-5  password_reset_form">
             <form class="form-example" action="" method="post" style="padding:20px;">
-                <h2>Reset Password</h2>
+                <h2 class="font-weight-bolder">Reset Password</h2>
                 <div class="form-group">
                     <label for="password">Password :</label>
                         <input type="password" id="userpassword" name="userpassword" class="form-control form-control-lg w-75 mb-3 password" placeholder="Enter Password" />
