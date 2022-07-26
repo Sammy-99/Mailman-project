@@ -634,7 +634,7 @@ $(document).ready(function() {
                     $(".email_content").text(data.content);
                     $(".attached_files").html('');
                     $(".attached_files").html(data.attachment_file);
-                    if (to == -1 && cc == -1) {
+                    if (bcc != -1 ) {
                         $(".bcc_participants").removeClass("d-none");
                     } else {
                         $(".bcc_participants").addClass("d-none");
