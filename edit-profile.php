@@ -31,8 +31,8 @@ include_once("./layout/head.php");
         </div>
         <div class="col-8 col-md-6">
             <div class="form-outline">
-                <input type="search" id="searchData" class="form-control border border-primery rounded"
-                    style="margin:0 !important;" placeholder="Search" aria-label="Search" />
+                <!-- <input type="search" id="searchData" class="form-control border border-primery rounded"
+                    style="margin:0 !important;" placeholder="Search" aria-label="Search" /> -->
             </div>
         </div>
         <div class="col-4 col-md-4 mt-2">
