@@ -37,7 +37,7 @@ include_once("./layout/head.php");
                 <div class="form-outline">
                     <label class="form-label font-weight-bolder" for="useremail">Email/Username</label>
                     <input type="text" class="form-control form-control-lg w-100 mb-3" id="user_name" name="user_name" placeholder="Enter Email or Username">
-                    <small class="field-error" id="email_error"></small>
+                    <span class="field-error font-weight-bolder" id="email_error"></span>
                 </div>
                 <br>
 
@@ -45,7 +45,7 @@ include_once("./layout/head.php");
                     <label class="form-label font-weight-bolder" for="userpassword">Password</label>
                     <input type="password" class="form-control form-control-lg w-100 mb-3" id="userpass" name="userpass"
                         placeholder="Enter Password">
-                    <small class="field-error" id="pass_error"></small>
+                    <span class="field-error font-weight-bolder" id="pass_error"></span>
                 </div>
                 <br>
                 <div class="form-outline mb-4">
@@ -55,7 +55,7 @@ include_once("./layout/head.php");
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 text-danger" id="credential_error"></div>
+                    <div class="col-md-6 text-danger font-weight-bolder" id="credential_error"></div>
                     <div class="col-md-6"></div>
                 </div>
 
@@ -115,9 +115,9 @@ $(document).ready(function() {
                 contentType: false,
                 success: function(response) {
                     var res = JSON.parse(response);
-                    
+                    console.log(res);
                     if (res.status == false) {
-                        $("#credential_error").text(res.message);
+                        $("#pass_error").text("Credentials not mached.");
                     }
                     if (res.status == true && res.type == "password_matched") {
                         window.location.href = "dashboard.php";
