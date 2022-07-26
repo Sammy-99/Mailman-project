@@ -79,7 +79,7 @@ include_once("./layout/head.php");
                     <label class="form-label font-weight-bold" for="userpassword">Password</label>
                     <input type="password" class="form-control" id="userpassword" name="userpassword"
                         placeholder="Enter Password">
-                        <small class="font-weight-bold">Password should contain - 1 upper case character, 1 small case character, 1 special character, 1 numeric character and must be atleast 6 character long.</small>
+                        <small class="font-weight-bold">Password should contain: 1 upper case character, 1 small case character, 1 special character, 1 numeric character and must be atleast 6 character long.</small>
                     <div class="field-error" id="pass_error"></div>
                 </div>
 
