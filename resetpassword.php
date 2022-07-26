@@ -104,14 +104,14 @@ if(array_key_exists("reset_password", $_SESSION)){
                 <div class="form-group">
                     <label for="password">Password :</label>
                         <input type="password" id="userpassword" name="userpassword" class="form-control form-control-lg w-75 mb-3 password" placeholder="Enter Password" />
-                        <div class="field-error" id="pass_error"></div>
+                        <div class="field-error font-weight-bolder" id="pass_error"></div>
                 </div>
                 <div class="form-group">
                     <label for="password">Confirm Password :</label>
                     <input type="password" id="c_password" name="c_password" class="form-control form-control-lg w-75 mb-3 password" placeholder="Confirm Password" />
-                    <div class="field-error" id="cpass_error"></div>
+                    <div class="field-error font-weight-bolder" id="cpass_error"></div>
                 </div>
-                <div class="text-success" id="pass_updated"></div><br>
+                <div class="text-success font-weight-bolder" id="pass_updated"></div><br>
                 <div class="row">
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-primary btn-customized reset-button">Reset</button>
