@@ -23,10 +23,9 @@ $(document).on("click",".file_label" , function(){
     var all_removed_file = $("#removed_files").val();
     var rm_file_str = all_removed_file + "," + removed_file;
     $("#removed_files").val(rm_file_str);
-    // $(this).siblings("a").html('');
+
     $(this).parent().html('');
 
-    console.log($("#removed_files").val());
 })
 
 $(document).ready(function() {
@@ -620,6 +619,8 @@ $(document).ready(function() {
                 if (data.status == true && data.current_tab != "draft") {
                     let to = data.reciever_email.indexOf(data.my_email);
                     let cc = data.cc_emails.indexOf(data.my_email);
+                    let bcc = data.bcc_emails.indexOf(data.my_email);
+                    console.log(bcc);
                     $(".main_content").hide();
                     $("#mainCheckbox").hide();
                     $(".email_page").removeClass("d-none");
