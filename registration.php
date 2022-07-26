@@ -30,7 +30,7 @@ include_once("./layout/head.php");
                         </div>
                         <br>
                         <div class="form-outline">
-                            <label class="form-label" for="firstname">First name</label>
+                            <label class="form-label" for="firstname">Firstname</label>
                             <input type="text" class="form-control" id="firstname" name="firstname"
                                 placeholder="Enter Firstname">
                             <span class="field-error" id="fname_error"></span>
