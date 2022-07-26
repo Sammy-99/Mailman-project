@@ -231,6 +231,7 @@ $(document).ready(function() {
                     image_file = false;
                 } else {
                     image_file = true;
+                    $("#file_error").text("");
                 }
             } else {
                 $("#file_error").text("Choose only JPG, PNG image");
