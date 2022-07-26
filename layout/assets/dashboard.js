@@ -1,6 +1,6 @@
 function myFunction(obj) {
     $(obj).hide();
-    $("#compose-email").append("<input class='file-input' type='file' onclick='myFunction(this)' name='attachedfile[]' multiple />");
+    $(".append_file_input").append("<input class='file-input' type='file' onclick='myFunction(this)' name='attachedfile[]' multiple />");
 }
 
 $(document).on("change",".file-input" , function(){
@@ -346,7 +346,9 @@ $(document).ready(function() {
         $("#content_error").text('');
         $("#subject_error").text('');
         $("#drafted_email").val('');
-        $("#attached-files").val('');
+        $(".filenames").html('');
+        $(".file-input").val('');
+        $("#removed_files").val('');
     })
 
     $("#compose-email").on("submit", function(e) {
@@ -484,10 +486,16 @@ $(document).ready(function() {
                     else if (data.type == "email_inserted") {
                         $('#compose-email-modal').modal('hide');
                         alertSuccessMessage(data.message);
+                        $("#removed_files").val('');
+                        var current_tab = $("#current-sidebar").val();
+                        getDashboardData(current_tab);
                     } 
                     else if (data.type == "bcc_inserted_cc_updated" || data.type == "cc_inserted_bcc_updated") {
                         $('#compose-email-modal').modal('hide');
                         alertSuccessMessage(data.message);
+                        $("#removed_files").val('');
+                        var current_tab = $("#current-sidebar").val();
+                        getDashboardData(current_tab);
                     } 
                     else if (data.type == "mail_reciever_error") {
                         if (data.to_error != '') {
@@ -510,6 +518,7 @@ $(document).ready(function() {
                         getDashboardData(current_tab);
                     }
                     $("#button-id").val('1');
+                    $("#removed_files").val('');
                 }
             });
         }

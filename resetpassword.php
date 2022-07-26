@@ -33,7 +33,7 @@ if(array_key_exists("reset_password", $_SESSION)){
         }
 ?>
 
-    <div class="row align-items-center bg-light">
+    <div class="row align-items-center">
         <div class="col-12 col-md-2 mt-2 font-weight-bolder">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <h2 class="font-weight-bold"><a href="./dashboard.php"> Mailman </a></h2>
@@ -71,23 +71,47 @@ if(array_key_exists("reset_password", $_SESSION)){
     </div>
     <hr>
 
+    <?php else :?>
+
+        <div class="row align-items-center ">
+            <div class="col-12 col-md-2 mt-2 font-weight-bolder">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <h2 class="font-weight-bold"><a href="./dashboard.php"> Mailman </a></h2>
+                </nav>
+            </div>
+            <div class="col-8 col-md-4">
+                <div class="form-outline">
+                </div>
+            </div>
+            <div class="col-4 col-md-6 mt-2">
+                <div class="collapse navbar-collapse d-flex justify-content-end mr-4" id="navbar-list-4">
+                    <button type="button" class="btn btn-primary"><a href="registration.php" class="text-light"> Sign
+                            Up</a></button> &nbsp; &nbsp; &nbsp;
+                    <button type="button" class="btn btn-primary"><a href="index.php" class="text-light"> Sign
+                            In</a></button>
+                </div>
+            </div>
+        </div>
+        <hr>
+
     <?php endif;?>
 
-    <div class="row m-5 h-100 justify-content-center align-items-center">
-        <div class="col-10 col-md-6 col-lg-6">
-            <form class="form-example" action="" method="post">
+    <div class="row h-100 align-items-center">
+        <div class="col-md-1"></div>
+        <div class="col-10 col-md-5 col-lg-5  password_reset_form">
+            <form class="form-example" action="" method="post" style="padding:20px;">
                 <h2>Reset Password</h2>
                 <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" class="form-control border password" id="userpassword"
-                        placeholder="Enter Password" name="userpassword">
-                    <small class="field-error" id="pass_error"></small>
+                    <label for="password">Password :</label>
+                        <input type="password" id="userpassword" name="userpassword" class="form-control form-control-lg w-75 mb-3 password" placeholder="Enter Password" />
+                        <div class="field-error" id="pass_error"></div>
                 </div>
                 <div class="form-group">
-                    <label for="password">Confirm Password:</label>
-                    <input type="password" class="form-control border password" id="c_password"
-                        placeholder="Confirm Password" name="c_password">
-                    <small class="field-error" id="cpass_error"></small>
+                    <label for="password">Confirm Password :</label>
+                    <!-- <input type="password" class="form-control border password" id="c_password"
+                        placeholder="Confirm Password" name="c_password"> -->
+                    <input type="password" id="c_password" name="c_password" class="form-control form-control-lg w-75 mb-3 password" placeholder="Confirm Password" />
+                    <div class="field-error" id="cpass_error"></div>
                 </div>
                 <div class="text-danger" id="pass_error"></div>
                 <div class="text-success" id="pass_updated"></div><br>
@@ -96,13 +120,18 @@ if(array_key_exists("reset_password", $_SESSION)){
                         <button type="submit" class="btn btn-primary btn-customized reset-button">Reset</button>
                     </div>
                     <?php if(!empty($_GET['user_id'])): ?>
-                    <div class="col-md-10"><a href="./index.php">Back to Login!</a></div>
+                        <!-- <div class="col-md-10"><a href="./index.php">Back to Login!</a></div> -->
                     <?php endif ; ?>
                 </div>
 
             </form>
         </div>
-        <div class="col-md-6"></div>
+        <div class="col-md-5">
+            <div class="key_photo">
+                <img src="./layout/assets/key.png" width="400rem" alt="">
+            </div>
+        </div>
+        <div class="col-md-1"></div>
     </div>
 </div>
 

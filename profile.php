@@ -20,7 +20,7 @@ include_once("./layout/head.php");
 ?>
 
 <div class="container-fluid">
-    <div class="row align-items-center bg-light">
+    <div class="row align-items-center">
         <div class="col-12 col-md-2 mt-2 font-weight-bolder">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <h2 class="font-weight-bold"><a href="./dashboard.php"> Mailman </a></h2>
@@ -65,30 +65,38 @@ include_once("./layout/head.php");
     <div class="row my-4">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <div class="row border">
-                <div class="col-md-6">
-
-                    <div><label for="FirstName"></label>
-                        <input type="text" id="FirstName" class="form-control form-control-lg w-75 mb-3"
-                            value="<?=$userData['username']?>" disabled />
+            <div class="row ">
+                <div class="col-md-8">
+                    <div class="row profile_input">
+                        <div class="col-md-8 profile_user">
+        
+                            <div>
+                                <label for=""> Username :</label>
+                                <input type="text" id="FirstName" class="form-control form-control-lg w-75 mb-3"
+                                    value="<?=$userData['username']?>" disabled />
+                            </div>
+                            <div>
+                            <label for=""> Mailman Id : </label>
+                                <input type="text" id="LastName" class="form-control form-control-lg w-75 mb-3"
+                                    placeholder="Last Name" value="<?=$userData['user_email'] ?>" disabled />
+                            </div>
+                            <div>
+                                <label for=""> Recovery Email : </label>
+                                <input type="email" id="AltEmail" class="form-control form-control-lg w-75 mb-3"
+                                    placeholder="Enter Email" value="<?=$userData['secondary_email']?>" disabled />
+                            </div>
+                            <div>
+                                <label for=""> Name : </label>
+                                <input type="email" id="AltEmail" class="form-control form-control-lg w-75 mb-3"
+                                    placeholder="Enter Email" value="<?=$userData['firstname']?> <?=$userData['lastname']?>"
+                                    disabled />
+                            </div>
+                        </div>
+                        <div class="col-md-4 mt-4">
+                            <img src="./uploadedimage/<?=$userData['user_image']?>" alt="userimage" width="200px" height="200px"
+                                class="rounded-circle">
+                        </div>
                     </div>
-                    <div>
-                        <input type="text" id="LastName" class="form-control form-control-lg w-75 mb-3"
-                            placeholder="Last Name" value="<?=$userData['user_email'] ?>" disabled />
-                    </div>
-                    <div>
-                        <input type="email" id="AltEmail" class="form-control form-control-lg w-75 mb-3"
-                            placeholder="Enter Email" value="<?=$userData['secondary_email']?>" disabled />
-                    </div>
-                    <div>
-                        <input type="email" id="AltEmail" class="form-control form-control-lg w-75 mb-3"
-                            placeholder="Enter Email" value="<?=$userData['firstname']?> <?=$userData['lastname']?>"
-                            disabled />
-                    </div>
-                </div>
-                <div class="col-md-2 mt-4">
-                    <img src="./uploadedimage/<?=$userData['user_image']?>" alt="userimage" width="200px" height="200px"
-                        class="rounded-circle">
                 </div>
                 <div class="col-md-4">
 

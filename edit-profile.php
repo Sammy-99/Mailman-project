@@ -23,7 +23,7 @@ include_once("./layout/head.php");
 ?>
 
 <div class="container-fluid">
-    <div class="row align-items-center bg-light">
+    <div class="row align-items-center ">
         <div class="col-12 col-md-2 mt-2 font-weight-bolder">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <h2 class="font-weight-bold"><a href="./dashboard.php"> Mailman </a></h2>
@@ -67,23 +67,23 @@ include_once("./layout/head.php");
 
     <div class="row my-4">
         <div class="col-md-2"></div>
-        <div class="col-md-8">
+        <div class="col-md-8 user_edit_form">
             <form id="edit-user-details-form">
-                <div class="row">
+                <div class="row user_details_input">
                     <div class="col-md-7">
                         <div class="form-group row">
-                            <label for="" class="col-sm-2 col-form-label pt-3">Firstname</label>
+                            <label for="" class="col-sm-2 col-form-label pt-2">Firstname</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control border" name="edit-firstname" id="edit-firstname"
+                                <input type="text" class="form-control form-control-lg w-75 mb-3" name="edit-firstname" id="edit-firstname"
                                     value="<?=$userData['firstname']?>" placeholder="Fisrtname">
                                 <input type="hidden" name="user-id" value="<?=$_SESSION['id']?>">
                                 <small class="text-danger" id="fname_error"></small>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="" class="col-sm-2 col-form-label pt-3">Lastname</label>
+                            <label for="" class="col-sm-2 col-form-label pt-2">Lastname</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control border" name="edit-lastname"
+                                <input type="text" class="form-control form-control-lg w-75 mb-3" name="edit-lastname"
                                     value="<?=$userData['lastname']?>" id="edit-lastname" placeholder="Lastname">
                                 <small class="text-danger" id="lname_error"></small>
                             </div>
@@ -91,7 +91,7 @@ include_once("./layout/head.php");
                         <div class="form-group row">
                             <label for="" class="col-sm-2 col-form-label ">Recovery Email</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control border" name="edit-second-email"
+                                <input type="text" class="form-control form-control-lg w-75 mb-3" name="edit-second-email"
                                     value="<?=$userData['secondary_email']?>" id="edit-second-email"
                                     placeholder="Fisrtname">
                                 <small class="text-danger" id="email_error"></small>
@@ -99,7 +99,7 @@ include_once("./layout/head.php");
                         </div>
                     </div>
                     <div class="col-md-5">
-                        <img src="./uploadedimage/<?=$userData['user_image']?>" alt="userimage" width="200px"
+                        <img src="./uploadedimage/<?=$userData['user_image']?>" alt="userimage" width="200px" id="userImgPreview"
                             height="200px" class="rounded-circle">
                     </div>
                 </div>
@@ -112,7 +112,8 @@ include_once("./layout/head.php");
                         <button type="submit" class="btn btn-outline-success py-1 update-profile-btn">Submit</button>
                     </div>
                     <div class="col-md-5 ">
-                        <input type="file" name="user-image">
+                        <label class="font-weight-bolder text-primary ml-5" for="user_profile_img" style="cursor: pointer;"> Upload Image </label>
+                        <input type="file" name="user-image" id="user_profile_img" hidden>
                     </div>
                 </div>
             </form>
@@ -127,6 +128,18 @@ include_once("./layout/head.php");
 
 <script>
 $(document).ready(function() {
+
+    $("#user_profile_img").on("change", function() {
+        const [file] = (this).files
+        if (file) {
+            userImgPreview.src = URL.createObjectURL(file)
+        } 
+        // else {
+        //     console.log('sdkl')
+        //     $('#previews').prop('src', './layout/assets/p.png')
+        // }
+    });
+
     $("#edit-user-details-form").submit(function(e) {
         e.preventDefault();
         var updateProfileData = new FormData(this);

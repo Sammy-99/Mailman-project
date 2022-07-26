@@ -11,7 +11,7 @@ include_once("./layout/head.php");
     <div class="row">
         <div class="col-md-1">
         </div>
-        <div class="col-md-10 reg-form">
+        <div class="col-md-10 mt-4 reg-form">
             <div class="row">
                 <div class="col-md-12">
                     <h3 class="text-left reg-label font-weight-bold">Create Your Account</h3>
@@ -157,7 +157,7 @@ $(document).ready(function() {
             console.log('sdkl')
             $('#previews').prop('src', './layout/assets/p.png')
         }
-    })
+    });
 
     $("#registration-form").on('submit', function(e) {
         e.preventDefault();
