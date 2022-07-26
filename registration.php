@@ -23,21 +23,21 @@ include_once("./layout/head.php");
                 <div class="row mb-4">
                     <div class="col-sm-6 order-2 order-md-1">
                         <div class="form-outline">
-                            <label class="form-label" for="username">Username</label>
+                            <label class="form-label font-weight-bold" for="username">Username</label>
                             <input type="text" class="form-control" id="username" name="username"
                                 placeholder="Enter Username">
                             <span class="field-error" id="username_error"></span>
                         </div>
                         <br>
                         <div class="form-outline">
-                            <label class="form-label" for="firstname">Firstname</label>
+                            <label class="form-label font-weight-bold" for="firstname">Firstname</label>
                             <input type="text" class="form-control" id="firstname" name="firstname"
                                 placeholder="Enter Firstname">
                             <span class="field-error" id="fname_error"></span>
                         </div>
                         <br>
-                        <div class="form-outline">
-                            <label class="form-label" for="lastname">Lastname</label>
+                        <div class="form-outline"> 
+                            <label class="form-label font-weight-bold" for="lastname">Lastname</label>
                             <input type="text" class="form-control" id="lastname" name="lastname"
                                 placeholder="Enter Lastname">
                             <span class="field-error" id="lname_error"></span>
@@ -59,7 +59,7 @@ include_once("./layout/head.php");
                 </div>
 
                 <div class="form-outline">
-                    <label class="form-label" for="useremail">Email</label>
+                    <label class="form-label font-weight-bold" for="useremail">Email</label>
                     <div class="row">
                         <div class="col-md-9">
                             <input type="text" class="form-control" id="useremail" name="useremail" placeholder="Enter Email">
@@ -76,7 +76,7 @@ include_once("./layout/head.php");
                 <br>
 
                 <div class="form-outline mb-4">
-                    <label class="form-label" for="userpassword">Password</label>
+                    <label class="form-label font-weight-bold" for="userpassword">Password</label>
                     <input type="password" class="form-control" id="userpassword" name="userpassword"
                         placeholder="Enter Password">
                         <small class="font-weight-bold">Password should contain - 1 upper case character, 1 small case character, 1 special character, 1 numeric character and must be atleast 6 character long.</small>
@@ -84,14 +84,14 @@ include_once("./layout/head.php");
                 </div>
 
                 <div class="form-outline mb-4">
-                    <label class="form-label" for="c-password">Confirm Password</label>
+                    <label class="form-label font-weight-bold" for="c-password">Confirm Password</label>
                     <input type="password" class="form-control" id="c-password" name="c-password"
                         placeholder="Confirm Password">
                     <span class="field-error" id="cpass_error"></span>
                 </div>
 
                 <div class="form-outline mb-4">
-                    <label class="form-label" for="secondary-email">Secondary Email</label>
+                    <label class="form-label font-weight-bold" for="secondary-email">Secondary Email</label>
                     <input type="text" class="form-control" id="secondary-email" name="secondary-email"
                         placeholder="Enter Your Email Address">
                     <span class="field-error" id="semail_error"></span>
@@ -99,7 +99,7 @@ include_once("./layout/head.php");
 
                 <div class="form-outline mb-4">
                     <input type="checkbox" id="checkbox">
-                    <label class="form-label" for="checkbox">Term and Conditions</label><br>
+                    <label class="form-label font-weight-bold" for="checkbox">Term and Conditions</label><br>
                     <span class="field-error" id="checkbox_error"></span>
                 </div>
                 <div class="row">
