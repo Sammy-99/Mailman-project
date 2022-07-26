@@ -20,7 +20,7 @@ ini_set( "display_errors", 1 );
      * This property contains the username for database connection.
      * @var string
      */
-    // private const USERNAME = "root"; git 
+    // private const USERNAME = "root";
     private const USERNAME = "tse"; 
 
     /**

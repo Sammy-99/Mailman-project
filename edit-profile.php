@@ -105,15 +105,18 @@ include_once("./layout/head.php");
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-5">
-                        <small class="backend_error text-danger"></small>
-                        <small class="backend_success text-success"></small>
+                        <span class="backend_error text-danger"></span>
+                        <span class="backend_success text-success"></span>
                     </div>
                     <div class="col-md-2">
                         <button type="submit" class="btn btn-outline-success py-1 update-profile-btn">Submit</button>
                     </div>
                     <div class="col-md-5 ">
-                        <label class="font-weight-bolder text-primary ml-5" for="user_profile_img" style="cursor: pointer;"> Upload Image </label>
                         <input type="file" name="user-image" id="user_profile_img" hidden>
+                        <input type="hidden" name="current-user-img" value="<?=$userData['user_image']?>">
+                        <label class="font-weight-bolder text-primary ml-5" for="user_profile_img" style="cursor: pointer;"> Upload Image </label>
+                        <br>
+                        <span class="field-error" id="file_error"></span>
                     </div>
                 </div>
             </form>
@@ -146,7 +149,9 @@ $(document).ready(function() {
         var f_name = $("#edit-firstname").val();
         var l_name = $("#edit-lastname").val();
         var second_email = $("#edit-second-email").val();
-        // alert(f_name + l_name + email);
+        var allowed_ext = ["jpg", "png"];
+        var image_file = true;
+        // alert(f_name + l_name + second_email);
 
         if (f_name == '' || f_name == null) {
             // f_name = true;
@@ -208,22 +213,44 @@ $(document).ready(function() {
             }
         }
 
-        if (f_name == true && l_name == true && email == true) {
+        var image_path = $("#user_profile_img").val();
+        if (image_path == '' || image_path == null) {
+            image_file = true;
+        } else {
+            var extension = image_path.substring(image_path.lastIndexOf('.') + 1).toLowerCase();
+            if (allowed_ext.indexOf(extension) !== -1) {
+                var file_size = $("#user_profile_img")[0].files[0].size;
+                if (file_size > 2097152) {
+                    $("#file_error").text("Please choose less than 2MB file");
+                    image_file = false;
+                } else {
+                    image_file = true;
+                }
+            } else {
+                $("#file_error").text("Choose only JPG, PNG image");
+                image_file = false;
+            }
+        }
+
+        if (f_name == true && l_name == true && email == true && image_file == true) {
             $.ajax({
                 url: "./controllers/UpdateProfile.php",
                 method: "POST",
                 data: updateProfileData,
-                // dataType: 'json',
                 cache: false,
                 processData: false,
                 contentType: false,
                 success: function(response) {
                     var data = JSON.parse(response);
                     console.log(data);
-                    if (data.status == false) {
+                    if (data.status == false && data.type != "user_details_same") {
                         $(".backend_success").text('');
                         $(".backend_error").text(data.message);
-                    } else if (data.status == true && data.type == "user_details_updated") {
+                    } 
+                    else if (data.status == true && data.type == "user_details_updated") {
+                        setTimeout(function() {
+                            window.location.href = "edit-profile.php";
+                        }, 3000);
                         $(".backend_error").text('');
                         $(".backend_success").text(data.message);
                     }

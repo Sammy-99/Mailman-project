@@ -108,12 +108,9 @@ if(array_key_exists("reset_password", $_SESSION)){
                 </div>
                 <div class="form-group">
                     <label for="password">Confirm Password :</label>
-                    <!-- <input type="password" class="form-control border password" id="c_password"
-                        placeholder="Confirm Password" name="c_password"> -->
                     <input type="password" id="c_password" name="c_password" class="form-control form-control-lg w-75 mb-3 password" placeholder="Confirm Password" />
                     <div class="field-error" id="cpass_error"></div>
                 </div>
-                <div class="text-danger" id="pass_error"></div>
                 <div class="text-success" id="pass_updated"></div><br>
                 <div class="row">
                     <div class="col-md-2">
@@ -149,42 +146,27 @@ $(document).ready(function() {
         if (reset_password == '' || reset_password == null) {
             $("#pass_error").text("Please Enter Password");
             user_password = false;
-        } else {
+        }else{
             $("#pass_error").text("");
-            var pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/;
-            if (reset_password.length < 6) {
-                $("#pass_error").text("Password must be 6 charactors long");
-                user_password = false;
-            } else if (!pattern.test(reset_password)) {
-                $("#pass_error").text(
-                    "Password must contain atleast 1 small character, 1 upper case character, 1 numeric key and 1 special"
-                );
-                user_password = false;
-            } else {
-                $("#pass_error").text("");
-                user_password = true;
-            }
+            user_password = true;
         }
 
         if (c_password == '' || c_password == null) {
             $("#cpass_error").text("Please Enter Confirm password");
-            c_password = false;
-        } else if (reset_password != c_password) {
-            $("#cpass_error").text("Password must be same");
-            c_password = false;
-        } else if (reset_password == c_password && reset_password != '' && c_password != '') {
+            c_pass = false;
+        } else{
             $("#cpass_error").text("");
-            c_password = true;
-            password_matched = true;
+            c_pass = true;
         }
 
-        if (user_password == true && c_password == true && password_matched == true) {
+        if (user_password == true && c_pass == true ) {
 
             $.ajax({
                 url: "./controllers/Login.php",
                 method: "POST",
                 data: {
                     reset_password,
+                    c_password,
                     user_id
                 },
                 success: function(data) {
@@ -192,11 +174,15 @@ $(document).ready(function() {
                     if (response.type == "password_updated" && response.status == true) {
                         // $("#pass_update").addClass("text-primery");
                         $("#pass_updated").text(response.message);
-                    } else if (response.status == false) {
+                    } 
+                    else if (response.status == false) {
                         // $("#pass_update").addClass("text-danger");
-                        $("#pass_error").text(response.message);
+                        // $("#pass_error").text(response.message);
+                        $.each(response.error, function(key, val) {
+                            $("#" + key + "").text(val);
+                        });
                     }
-                    console.log(response)
+                    // console.log(response)
                 }
             });
         }

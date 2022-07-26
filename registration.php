@@ -26,21 +26,21 @@ include_once("./layout/head.php");
                             <label class="form-label" for="username">Username</label>
                             <input type="text" class="form-control" id="username" name="username"
                                 placeholder="Enter Username">
-                            <small class="field-error" id="username_error"></small>
+                            <span class="field-error" id="username_error"></span>
                         </div>
                         <br>
                         <div class="form-outline">
                             <label class="form-label" for="firstname">First name</label>
                             <input type="text" class="form-control" id="firstname" name="firstname"
                                 placeholder="Enter Firstname">
-                            <small class="field-error" id="fname_error"></small>
+                            <span class="field-error" id="fname_error"></span>
                         </div>
                         <br>
                         <div class="form-outline">
                             <label class="form-label" for="lastname">Lastname name</label>
                             <input type="text" class="form-control" id="lastname" name="lastname"
                                 placeholder="Enter Lastname">
-                            <small class="field-error" id="lname_error"></small>
+                            <span class="field-error" id="lname_error"></span>
                         </div>
 
                     </div>
@@ -51,7 +51,7 @@ include_once("./layout/head.php");
                             </div>
                             <br>
                             <input type="file" hidden id="user-image" class="form-control" name="user-image" />
-                            <label class="form-label btn-link cursor-pointer font-weight-bold" for="user-image">Upload Image</label>
+                            <label class="form-label btn-link cursor-pointer font-weight-bold" for="user-image" style="cursor: pointer;">Upload Image</label>
                             <br>
                             <span class="field-error" id="file_error"></span>
                         </div>
@@ -63,12 +63,15 @@ include_once("./layout/head.php");
                     <div class="row">
                         <div class="col-md-9">
                             <input type="text" class="form-control" id="useremail" name="useremail" placeholder="Enter Email">
-                            <small class="field-error" id="email_error"></small>
+                            <small class="font-weight-bold">Do not add '@mailman.com'. It will be added automatically.</small>
+                            
                         </div>
                         <div class="col-md-3 mt-2 font-weight-bold">
                             <span class="mail-suffix">@mailman.com</span>
                         </div>
                     </div>
+                    <div><span class="field-error" id="email_error"></span></div>
+                   
                 </div>
                 <br>
 
@@ -76,27 +79,28 @@ include_once("./layout/head.php");
                     <label class="form-label" for="userpassword">Password</label>
                     <input type="password" class="form-control" id="userpassword" name="userpassword"
                         placeholder="Enter Password">
-                    <small class="field-error" id="pass_error"></small>
+                        <small class="font-weight-bold">Password should contain - 1 upper case character, 1 small case character, 1 special character, 1 numeric character and must be atleast 6 character long.</small>
+                    <div class="field-error" id="pass_error"></div>
                 </div>
 
                 <div class="form-outline mb-4">
                     <label class="form-label" for="c-password">Confirm Password</label>
                     <input type="password" class="form-control" id="c-password" name="c-password"
                         placeholder="Confirm Password">
-                    <small class="field-error" id="cpass_error"></small>
+                    <span class="field-error" id="cpass_error"></span>
                 </div>
 
                 <div class="form-outline mb-4">
                     <label class="form-label" for="secondary-email">Secondary Email</label>
                     <input type="text" class="form-control" id="secondary-email" name="secondary-email"
                         placeholder="Enter Your Email Address">
-                    <small class="field-error" id="semail_error"></small>
+                    <span class="field-error" id="semail_error"></span>
                 </div>
 
                 <div class="form-outline mb-4">
                     <input type="checkbox" id="checkbox">
                     <label class="form-label" for="checkbox">Term and Conditions</label><br>
-                    <small class="field-error" id="checkbox_error"></small>
+                    <span class="field-error" id="checkbox_error"></span>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">

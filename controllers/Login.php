@@ -117,7 +117,7 @@ class Login{
     }
 
     /**
-     * Function to reset the password.
+     * Function to fetch the recovery email and send reset link.
      */
     public function resetPassword(){
 
@@ -133,17 +133,52 @@ class Login{
         }
     }
 
-    public function updateUserPassword($newPasssword, $userId)
+    /**
+     * Function to update the user's password.
+     */
+    public function updateUserPassword($newPasssword, $cPassword, $userId)
     {
-        if(!empty($newPasssword) && !empty($userId)){
-            $newPasssword = password_hash(trim($newPasssword), PASSWORD_DEFAULT);
-            $updatePassword = Crud::updatePassword($newPasssword, $userId);
-            $updatePasswordJson = json_decode($updatePassword, true);
-            if($updatePasswordJson['type'] == "password_updated"){
-                echo $updatePassword; exit;
-            }
+        $result = [];
+        $newPasssword = trim($newPasssword);
+        switch ($newPasssword) {
+            case "":
+                $result['pass_error'] = "Please Enter Password";
+                break;
+            case (strpos($newPasssword, " ") > 0):
+                $result['pass_error'] = "Password should not contain spaces";
+                break;
+            case ((strpos($newPasssword, "'") !== false) || (strpos($newPasssword, "=") !== false)):
+                $result['pass_error'] = "Illegal Characters";
+                break;
+            case ((strpos($newPasssword, "<") !== false) || (strpos($newPasssword, ">") !== false)):
+                $result['pass_error'] = "Illegal Characters";
+                break;
+            case (strlen($newPasssword) < 6):
+                $result['pass_error'] = "Password should be atleast 6 characters long";
+                break;
+            default:
+                if(preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{6,})/i', $newPasssword)){
+                    $result['pass_error'] = "";
+                }else{
+                    $result['pass_error'] = "Password must contain atleast 1 small character, 1 upper case character, 1 numeric key and 1 special character";
+                }
+        }
 
-            echo $updatePassword; exit; 
+        if($result['pass_error'] != ""){
+            echo json_encode(["status" => false, "error" => $result]); exit;
+        }
+        if($result['pass_error'] == ""){
+            
+            $result['cpass_error'] = ($newPasssword == $cPassword) ? true : "Password must be same!";
+            
+            if($result['cpass_error'] === true){
+                $newPasssword = password_hash($newPasssword, PASSWORD_DEFAULT);
+                $updatePassword = Crud::updatePassword($newPasssword, $userId);
+
+                echo $updatePassword; exit; 
+            }else{
+                echo json_encode(["status" => false, "error" => $result]); exit;
+            }
         }
     }
 
@@ -200,7 +235,7 @@ if(isset($_POST['user_name']) && isset($_POST['forgot_password'])){
 }
 
 if(isset($_POST['reset_password']) && isset($_POST['user_id'])){
-    $login->updateUserPassword($_POST['reset_password'], $_POST['user_id']);
+    $login->updateUserPassword($_POST['reset_password'], $_POST['c_password'], $_POST['user_id']);
 }
 
 // print_r($_POST); die(" reset ");

@@ -47,7 +47,6 @@ class Crud{
      */
     public static function updatePassword($newPassword, $userId)
     {
-        // print_r($_SESSION); die(" ggg ");
         $updateQuery = "UPDATE users SET password='".$newPassword."' WHERE id=".$userId."";
         $result = self::$dbc->query($updateQuery); 
         if($result){
@@ -66,26 +65,19 @@ class Crud{
         $selectQuery = " SELECT * from users where id=$userId";
         $result = self::$dbc->query($selectQuery);
         $user = $result->fetch_assoc();
-        if(empty($firstname)){
-            $firstname = $user['firstname'];
-        }
-        if(empty($lastname)){
-            $lastname = $user['lastname'];
-        }
-        if(empty($second_email)){
-            $second_email = $user['secondary_email'];
-        }
-        if(empty($profile_image)){
-            $profile_image = $user['user_image'];
-        }
-        if(!empty($userId)){
-            $updateQuery = "UPDATE users SET firstname='$firstname', lastname='$lastname', secondary_email='$second_email', user_image='$profile_image' WHERE id=".$userId."";
-            $result = self::$dbc->query($updateQuery);
-            if($result){
-                return json_encode(["type" => "user_details_updated", "message" => "Details Successfully Updated.", "status" => true]);
+        
+        if($firstname != $user['firstname'] || $lastname != $user['lastname'] || $second_email != $user['secondary_email'] || $profile_image != $user['user_image']){
+            if(!empty($userId)){
+                $updateQuery = "UPDATE users SET firstname='$firstname', lastname='$lastname', secondary_email='$second_email', user_image='$profile_image' WHERE id=".$userId."";
+                $result = self::$dbc->query($updateQuery);
+                if($result){
+                    return json_encode(["type" => "user_details_updated", "message" => "Details Successfully Updated.", "status" => true]);
+                }
+                return json_encode(["type" => "user_details_not_updated", "message" => "Details not Updated.", "status" => false]);  
             }
-            return json_encode(["type" => "user_details_not_updated", "message" => "Details not Updated.", "status" => false]);  
-        }
+        }  
+        
+        return json_encode(["type" => "user_details_same", "message" => "Details are same.", "status" => false]); 
     }
 }
 
