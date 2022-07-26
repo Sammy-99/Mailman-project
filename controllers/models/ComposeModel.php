@@ -149,21 +149,21 @@ class ComposeModel{
    }
 
     public static function insertBccDataFirst($ccArr, $bccArr, $date)
-    {
+    {        
         $getLastId = self::$dbc->query("SELECT id from email_inbox Order BY id DESC LIMIT 1"); 
         $email_id = $getLastId->fetch_assoc();
         foreach($bccArr as $email){
             $selectBccUserId = self::$dbc->query("SELECT id from users where LOWER(user_email)=LOWER('" .trim($email). "')"); 
             $bccUserId = $selectBccUserId->fetch_assoc();
             $insertdata = " INSERT INTO cc_bcc (email_id, bcc_id, created_at) VALUES (". $email_id['id'] .", ". $bccUserId['id'] .", '$date')";
-            $result = self::$dbc->query($insertdata);    
+            $result = self::$dbc->query($insertdata);   
         }
+        
         $getLastInsertedRows = self::$dbc->query("SELECT id from cc_bcc Where email_id=" .$email_id['id']. " Order BY id ASC");
         $lastIdsArray = array_column($getLastInsertedRows->fetch_all(), 0);
         for($i = 0; $i < count($ccArr); $i++){
             if(array_key_exists($i, $ccArr) && !empty($ccArr[$i])){
-                // print_r($lastIdsArray); die(" hh ");
-                $selectCcUserId = self::$dbc->query("SELECT id from users where LOWER(user_email)=LOWER('".$ccArr[$i]."')");
+                $selectCcUserId = self::$dbc->query("SELECT id from users where LOWER(user_email)=LOWER('".trim($ccArr[$i])."')");
                 $ccUserId = $selectCcUserId->fetch_assoc();
                 $result = self::$dbc->query("UPDATE cc_bcc SET cc_id=". $ccUserId['id'] ." WHERE id=" .$lastIdsArray[$i]. "");
             }
