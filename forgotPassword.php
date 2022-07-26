@@ -40,7 +40,7 @@ include_once("./layout/head.php");
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-5 my-auto">
-            <div class="">
+            <div class=" forgot_password_form">
                 <label class="font-weight-bolder" for="user_name" style="font-size:25px;">Enter Your Username/Mailman Address : </label>
                 <input type="text" id="user_name" name="user_name" class="form-control form-control-lg w-75 mb-3" placeholder="Enter Username/Mailman Address" />
             </div>

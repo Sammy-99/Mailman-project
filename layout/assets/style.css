@@ -214,3 +214,7 @@ body{
 .update-profile-btn{
     margin-left: -3rem;
 }
+
+.forgot_password_form input{
+    border: 2px solid black ;
+}
