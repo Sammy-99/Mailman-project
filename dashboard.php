@@ -248,7 +248,7 @@ include_once("./layout/head.php");
                                 <small class="text-danger" id="email_error"></small>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mt-3">
                             <div class="col-md-2 mt-1">
                                 <label for="recipient-name" class="col-form-label">Cc </label>
                             </div>
@@ -258,7 +258,7 @@ include_once("./layout/head.php");
                                 <small class="text-danger" id="cc_error"></small>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mt-3">
                             <div class="col-md-2 mt-1">
                                 <label for="recipient-name" class="col-form-label">Bcc </label>
                             </div>
@@ -268,7 +268,7 @@ include_once("./layout/head.php");
                                 <small class="text-danger" id="bcc_error"></small>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mt-3">
                             <div class="col-md-2 mt-1">
                                 <label for="recipient-name" class="col-form-label">Subject </label>
                             </div>
@@ -277,7 +277,7 @@ include_once("./layout/head.php");
                                 <small class="text-danger" id="subject_error"></small>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mt-3">
                             <div class="col-md-2 mt-1">
                                 <label for="recipient-name" class="col-form-label">Message </label>
                             </div>
