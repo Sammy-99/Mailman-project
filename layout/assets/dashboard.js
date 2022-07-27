@@ -234,6 +234,7 @@ $(document).ready(function() {
         });
         (selected_mails.length == 0) ? selected_mails.push(open_email_id): "";
         var current_tab = $("#current-sidebar").val();
+        console.log(selected_mails);
         deleteEmail(selected_mails, current_tab);
 
     });

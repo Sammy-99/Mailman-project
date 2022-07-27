@@ -167,12 +167,13 @@ class DashboardModel{
      */
     public static function deleteEmailPermanently($selectedEmail, $userId, $tab)
     {
-        $emailId = $selectedEmail[0];
         if(count($selectedEmail) > 0){
-            $senderDel = self::$dbc->query("UPDATE email_inbox SET permanent_deleted_by_sender=1 WHERE id=$emailId AND sender_id=$userId");
-            $recieverDel = self::$dbc->query("UPDATE email_inbox SET permanent_deleted_by_reciever=1 WHERE id=$emailId AND reciever_id=$userId");
-            $ccDel = self::$dbc->query("UPDATE cc_bcc SET permanent_del_by_cc=1 WHERE email_id=$emailId AND cc_id=$userId");
-            $bccDel = self::$dbc->query("UPDATE cc_bcc SET permanent_del_by_bcc=1 WHERE email_id=$emailId AND bcc_id=$userId");
+            foreach($selectedEmail as $emailId){
+                $senderDel = self::$dbc->query("UPDATE email_inbox SET permanent_deleted_by_sender=1 WHERE id=$emailId AND sender_id=$userId");
+                $recieverDel = self::$dbc->query("UPDATE email_inbox SET permanent_deleted_by_reciever=1 WHERE id=$emailId AND reciever_id=$userId");
+                $ccDel = self::$dbc->query("UPDATE cc_bcc SET permanent_del_by_cc=1 WHERE email_id=$emailId AND cc_id=$userId");
+                $bccDel = self::$dbc->query("UPDATE cc_bcc SET permanent_del_by_bcc=1 WHERE email_id=$emailId AND bcc_id=$userId");
+            }
             if($senderDel || $recieverDel || $ccDel || $bccDel){
                 return json_encode(["type" => "email_permanent_deleted", "message" => "Email Deleted Successfully", "tab" => $tab, "status" => true]);
             }
