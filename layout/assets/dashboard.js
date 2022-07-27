@@ -1,22 +1,43 @@
+/**
+ * Function to hide last input[type="file"] and append new one.
+ */
 function myFunction(obj) {
     $(obj).hide();
     $(".append_file_input").append("<input class='file-input' type='file' onclick='myFunction(this)' name='attachedfile[]' multiple />");
 }
 
+/**
+ * Funtion to choose files one by one and create the html for those file.
+ */
 $(document).on("change",".file-input" , function(){
 
     var domArray = $('.file-input');
     $('.filenames').html('');
+
+    var rm_files = $("#removed_files").val();
+    var rm_files_Arr = [];
+    if(rm_files != '' || rm_files != null){
+        var rm_files_Arr = $.map(rm_files.split(','), function (el) {
+            return el !== '' ? el : null;
+        });
+    } 
+
     for (var i = 0; i < domArray.length; i++) {
         var files =  domArray[i].files;
     
         for (var j = 0; j < files.length; j++){
-            $('.filenames').append('<div><label class="file_label"> x </label> &nbsp; <a href="#" class="name">' + files[j].name + '</a></div>');
+            var result = $.inArray(files[j].name, rm_files_Arr);
+            if(result == -1){
+                $('.filenames').append('<div><label class="file_label"> x </label> &nbsp; <a href="#" data-size="' + files[j].size + '" class="name">' + files[j].name + '</a></div>');
+            }
         }
     };
 
 });
 
+/**
+ * Function to remove the attached files from selected files.
+ */
 $(document).on("click",".file_label" , function(){
     var removed_file = $(this).siblings("a").text();
 
@@ -25,8 +46,7 @@ $(document).on("click",".file_label" , function(){
     $("#removed_files").val(rm_file_str);
 
     $(this).parent().html('');
-
-})
+});
 
 $(document).ready(function() {
 
@@ -348,6 +368,7 @@ $(document).ready(function() {
         $(".filenames").html('');
         $(".file-input").val('');
         $("#removed_files").val('');
+        $("#file_error").text('');
     })
 
     $("#compose-email").on("submit", function(e) {
@@ -359,7 +380,10 @@ $(document).ready(function() {
         var content = $("#email-content").val();
         var buttonVal = $("#button-id").val();
         var modalFormData = new FormData(this);
+        var file_status = true;
+        var to_email;
         // alert(buttonVal);
+
 
         if(buttonVal == "close"){
             to_email = true;
@@ -457,8 +481,40 @@ $(document).ready(function() {
             }
         }
 
-        if (to_email && cc_email && bcc_email && email_subj && email_content) {
-            // alert("inn")
+        // file validation starts -
+
+        // var myFile = $('input[type="file"]').prop('files');
+
+        if($('.filenames a').length  != 0){
+
+            var file_size_arr = [];
+            var total_file_size = 0;
+
+            $('.filenames a').each(function () {
+                one_file_size = $(this).data("size")
+                file_size_arr.push(one_file_size);
+                total_file_size += parseFloat(one_file_size) || 0; 
+            });
+
+            if(file_size_arr.length >20){
+                $("#file_error").text("The number of files should not be greater than 20");
+                file_status = false;
+            }else{
+                if(total_file_size > 25*1048576){
+                    $("#file_error").text("File size too large. Please choose files less than 25MB");
+                    file_status = false;
+                }else{
+                    file_status = true;
+                    $("#file_error").text('');
+                }
+            }
+        }else{
+            $("#file_error").text('');
+            file_status = true;
+        }
+
+        if (to_email && cc_email && bcc_email && email_subj && email_content && file_status) {
+        
             $.ajax({
                 url: "./controllers/Compose.php",
                 method: "POST",
@@ -719,6 +775,10 @@ $(document).ready(function() {
      * This event will open a modal with some data to reply the email.
      */
     $(".reply-email").click(function() {
+        $(".filenames").html('');
+        $(".file-input").val('');
+        $("#removed_files").val('');
+        $("#file_error").text('');
         open_email_id = $("#open-email").val();
         btn_value = $(this).data("btn-value");
         replyEmail(open_email_id, btn_value);

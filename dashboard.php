@@ -291,6 +291,9 @@ include_once("./layout/head.php");
                     </div>
                     <hr>
                     <div class="row">
+                        <div class="text-danger ml-3" id="file_error"></div><br>
+                    </div>
+                    <div class="row">
                         <div class="col-md-9 append_file_input">
                             <input type="file" class="mr-5 file-input" onclick="myFunction(this)" multiple name="attachedfile[]" id="attached-files">
                             <input type="hidden" name="removed_files" id="removed_files" value="">
