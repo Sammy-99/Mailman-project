@@ -83,10 +83,8 @@ class ComposeModel{
             }
             $insertQuery = "INSERT INTO email_inbox (sender_id, reciever_id, subject, content, attachment_file, created_at)
                             VALUES ('$userId', '$recieverId', '$subject', '$content', '$attachedFiles', '$date')";
-
-            echo $insertQuery;
+                            
             $result = self::$dbc->query($insertQuery); 
-            var_dump($result);
 
             if($result && (!empty($cc) || !empty($bcc))){
                     $insertCcBccData = self::insertData($cc, $bcc);
