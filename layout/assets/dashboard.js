@@ -2,8 +2,10 @@
  * Function to hide last input[type="file"] and append new one.
  */
 function myFunction(obj) {
+    $(obj).removeAttr("id");
     $(obj).hide();
-    $(".append_file_input").append("<input class='file-input' type='file' onclick='myFunction(this)' name='attachedfile[]' multiple />");
+    console.log($(obj).removeAttr("id"));
+    $(".append_file_input").append("<input class='file-input' type='file' id='attached-files' onclick='myFunction(this)' name='attachedfile[]' multiple hidden />");
 }
 
 /**
@@ -567,6 +569,8 @@ $(document).ready(function() {
                     else if (data.type == 'email_drafted') {
                         $('#compose-email-modal').modal('hide');
                         alertSuccessMessage(data.message);
+                        var current_tab = $("#current-sidebar").val();
+                        getDashboardData(current_tab);
                     }
                     else if(data.type == 'drafted_email_updated'){
                         $('#compose-email-modal').modal('hide');

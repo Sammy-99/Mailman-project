@@ -94,7 +94,7 @@ class DashboardModel{
         $offset = ($pageNo -1) * Self::$per_page_limit;
         Self::$pageNumber = $pageNo;
         $limitPage = Self::$per_page_limit;
-        $select = " SELECT ei.id as email_id, ei.sender_id as current_id, users.user_email as reciever, u.user_email, ei.subject, ei.created_at
+        $select = " SELECT ei.id as email_id, ei.sender_id as current_id, users.user_email as reciever, u.user_email, ei.subject, ei.deleted_at, ei.created_at
                     FROM email_inbox as ei
                     JOIN users as u ON ei.sender_id=u.id
                     JOIN users ON ei.reciever_id=users.id
@@ -106,13 +106,22 @@ class DashboardModel{
                         (cb.bcc_id=$userId AND cb.delete_by_bcc=1 AND cb.permanent_del_by_bcc=0)
                     ) 
                     ORDER BY ei.deleted_at DESC";
-        $sendEmailData = Self::$dbc->query($select . " LIMIT $offset, $limitPage");
-        if($sendEmailData){
-            $emailArray = $sendEmailData->fetch_all(MYSQLI_ASSOC);
-            $totalInboxEmail = Self::$dbc->query($select);
-            Self::$totalRecords = count($totalInboxEmail->fetch_all(MYSQLI_ASSOC));
-            return json_encode(["type" => "trash_data_found", "message" => "Data Found", "data" =>$emailArray,  "status" => true]);
+        $distinctRowsQuery = Self::$dbc->query(" SELECT distinct email_id FROM (" .$select. ") AS inbox");
+
+        if($distinctRowsQuery->num_rows > 0){
+            Self::$totalRecords = count($distinctRowsQuery->fetch_all(MYSQLI_ASSOC));
+            $runQueryDistinct = Self::$dbc->query(" SELECT distinct email_id, deleted_at  FROM (" .$select. ") AS ie ORDER BY ie.deleted_at DESC LIMIT $offset, $limitPage");
+            $fetchLimitedRows = $runQueryDistinct->fetch_all(MYSQLI_ASSOC);
+            
+            $distinctIdsStr = join(', ', array_column($fetchLimitedRows, "email_id"));
+            $singlePageDataQuery = Self::$dbc->query("SELECT * FROM (" .$select. ") AS inbox_data WHERE email_id IN (" .$distinctIdsStr. ") ORDER BY inbox_data.deleted_at DESC");
+
+            if($singlePageDataQuery){
+                $singlePageData = $singlePageDataQuery->fetch_all(MYSQLI_ASSOC);            
+                return json_encode(["type" => "trash_data_found", "message" => "Data Found", "data" =>$singlePageData,  "status" => true]);
+            }
         }
+        
         return json_encode(["type" => "trash_data_not_found", "message" => "No Data Found", "status" => false]);
     }
 
@@ -201,13 +210,20 @@ class DashboardModel{
                             (cc_bcc.bcc_id=$userId AND cc_bcc.permanent_del_by_bcc=0)
                         )
                         and ei.subject like '%$value%' ORDER BY ei.id DESC";
-        $searchEmailData = Self::$dbc->query($serchQuery . " LIMIT $offset, $limitPage");
-        if($searchEmailData){
-            $searchResultRows = $searchEmailData->fetch_all(MYSQLI_ASSOC);
-            $searchResult = self::$dbc->query($serchQuery);
-            Self::$totalRecords = count($searchResult->fetch_all(MYSQLI_ASSOC));
-            // print_r($searchResultRows); die(" pp search ");
-            return $searchResultRows;
+
+        $distinctRowsQuery = Self::$dbc->query(" SELECT distinct email_id FROM (" .$serchQuery. ") AS inbox");
+        if($distinctRowsQuery->num_rows > 0){
+            Self::$totalRecords = count($distinctRowsQuery->fetch_all(MYSQLI_ASSOC));
+            $runQueryDistinct = Self::$dbc->query(" SELECT distinct email_id  FROM (" .$serchQuery. ") AS ie LIMIT $offset, $limitPage");
+            if($runQueryDistinct->num_rows > 0){
+                $fetchLimitedRows = $runQueryDistinct->fetch_all(MYSQLI_ASSOC);
+                $distinctIdsStr = join(', ', array_column($fetchLimitedRows, "email_id"));
+                $singlePageDataQuery = Self::$dbc->query("SELECT * FROM (" .$serchQuery. ") AS inbox_data WHERE email_id IN (" .$distinctIdsStr. ") ");
+
+                $singlePageData = $singlePageDataQuery->fetch_all(MYSQLI_ASSOC); 
+                return $singlePageData;
+
+            }
         }
     } 
 

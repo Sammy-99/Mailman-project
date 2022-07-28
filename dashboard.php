@@ -83,11 +83,9 @@ include_once("./layout/head.php");
     </div>
     <div class="row ">
         <div class="col-md-2 mb-3">
-            <!-- <div class="border"> -->
 
-            <!--Main Navigation-->
+            <!-- Sidebar -->
             <header>
-                <!-- Sidebar -->
                 <nav id="sidebarMenu" class="collapse d-lg-block sidebar bg-white">
                     <div class="position-sticky border">
                         <div class="list-group list-group-flush mx-3 mt-4">
@@ -117,12 +115,9 @@ include_once("./layout/head.php");
 
                     </div>
                 </nav>
-                <!-- Sidebar -->
-
             </header>
-            <!--Main Navigation-->
+            <!-- Sidebar -->
 
-            <!-- </div> -->
         </div>
         <div class="col-md-10 border">
             <div class="row">
@@ -290,17 +285,18 @@ include_once("./layout/head.php");
                         </div>
                     </div>
                     <hr>
-                    <div class="row">
+                    
                         <div class="text-danger ml-3" id="file_error"></div><br>
-                    </div>
+                    
                     <div class="row">
                         <div class="col-md-9 append_file_input">
-                            <input type="file" class="mr-5 file-input" onclick="myFunction(this)" multiple name="attachedfile[]" id="attached-files">
+                            <label for="attached-files" class="mt-2 text-primary font-weight-bolder" > Attach Files + </label>
+                            <input type="file" class="mr-5 file-input" onclick="myFunction(this)" multiple name="attachedfile[]" id="attached-files" hidden>
                             <input type="hidden" name="removed_files" id="removed_files" value="">
 
                         </div>
                         <div class="col-md-3">
-                            <button type="button" class="btn btn-outline-danger close-email" data-dismiss="modal"
+                            <button type="button" class="btn btn-outline-danger close-email mr-3" data-dismiss="modal"
                                 value="3">Close</button>
                             <button type="submit" class="btn btn-outline-success" id="send-email">Send</button>
 

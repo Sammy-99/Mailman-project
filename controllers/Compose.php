@@ -48,19 +48,21 @@ class Compose{
     public function chechFilesValidation($removedFiles)
     {
         $fileNameArray = [];
-        $total_files = count(array_filter($_FILES["attachedfile"]["name"]));
-        $files_name = array_filter($_FILES["attachedfile"]["name"]);
-        $files_tmp_name = array_filter($_FILES['attachedfile']['tmp_name']);     
+        $total_files = count(($_FILES["attachedfile"]["name"]));
+        $files_name = ($_FILES["attachedfile"]["name"]);
+        $files_tmp_name = ($_FILES['attachedfile']['tmp_name']);     
          
         // $todir = "/var/www/html/launchpadtwo/attachedfiles/";
         // $todir = StoreUrl::$baseUrl . "attachedfiles/";
         $todir = "../attachedfiles/";
         for($i=0; $i<$total_files; $i++){
-            if(!in_array($files_name[$i], $removedFiles)){
-                $uniqueSaveName = time()."-".$files_name[$i] ;
-                if (move_uploaded_file( $files_tmp_name[$i], $todir . $uniqueSaveName)){
-                    array_push($fileNameArray, $uniqueSaveName);
-                } 
+            if(!empty($files_name[$i]) || $files_name[$i] != null){
+                if(!in_array($files_name[$i], $removedFiles)){
+                    $uniqueSaveName = time()."-".$files_name[$i] ;
+                    if (move_uploaded_file( $files_tmp_name[$i], $todir . $uniqueSaveName)){
+                        array_push($fileNameArray, $uniqueSaveName);
+                    } 
+                }
             }
         }
         $this->attachmentFiles = join(", ", $fileNameArray);

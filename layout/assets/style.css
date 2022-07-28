@@ -190,3 +190,12 @@ body{
 .forgot_password_form input{
     border: 2px solid black ;
 }
+
+label[for="attached-files"] {
+    cursor:pointer;
+    font-size: 20px;
+ }
+
+ label[for="attached-files"]:hover {
+    text-decoration: underline;
+ }
