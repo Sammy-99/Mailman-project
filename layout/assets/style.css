@@ -60,6 +60,15 @@ body{
     .signin-msg{
         margin-left: -24px;
     }
+
+    .logo-image-suffix{
+        display: none;
+    }
+
+    .searchData{
+        margin-left: 36px ;
+    }
+    
 }
 
 @media only screen and (max-width: 768px) {
@@ -85,6 +94,45 @@ body{
     #datatable{
         display: block !important;
         overflow-x: auto !important;
+    }
+
+    .mail-suffix{
+        display: none;
+    }
+
+    .logo-image{
+        margin-top: 10px !important;
+        width: 100px !important;
+    }
+
+    .login_form{
+        margin-top: 10px !important;
+    }
+
+    .logo-image-suffix{
+        margin-top: 32px;
+        font-size: 2rem;
+        margin-left: -9px;
+    }
+
+    .update-profile-btn {
+        margin-left: 2rem !important;
+    }
+
+    .key_photo{
+        /* width: 200px !important; */
+        height: 0px !important;
+        width: 120px !important;
+        transform: scale(0.2);
+        margin-top: 10px !important;
+ 
+    }
+
+}
+
+@media only screen and (max-width: 568px){
+    .user-name{
+        display: none;
     }
 }
 

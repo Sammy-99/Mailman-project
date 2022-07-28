@@ -66,11 +66,11 @@ include_once("./layout/head.php");
     </div>
 
     <div class="row my-4">
-        <div class="col-md-2"></div>
-        <div class="col-md-8 user_edit_form">
+        <div class="col-lg-2"></div>
+        <div class="col-md-12 col-lg-8 user_edit_form">
             <form id="edit-user-details-form">
                 <div class="row user_details_input">
-                    <div class="col-md-7">
+                    <div class="col-md-7 order-2 order-md-1">
                         <div class="form-group row">
                             <label for="" class="col-sm-2 col-form-label pt-2">Firstname</label>
                             <div class="col-sm-10">
@@ -98,9 +98,16 @@ include_once("./layout/head.php");
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-5 order-1 order-md-2">
                         <img src="./uploadedimage/<?=$userData['user_image']?>" alt="userimage" width="200px" id="userImgPreview"
                             height="200px" class="rounded-circle">
+                            <div>
+                            <input type="file" name="user-image" id="user_profile_img" hidden>
+                        <input type="hidden" name="current-user-img" value="<?=$userData['user_image']?>">
+                        <label class="font-weight-bolder text-primary ml-5" for="user_profile_img" style="cursor: pointer;"> Upload Image </label>
+                        <br>
+                        <span class="field-error" id="file_error"></span>
+                            </div>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -112,17 +119,13 @@ include_once("./layout/head.php");
                         <button type="submit" class="btn btn-outline-success py-1 update-profile-btn">Submit</button>
                     </div>
                     <div class="col-md-5 ">
-                        <input type="file" name="user-image" id="user_profile_img" hidden>
-                        <input type="hidden" name="current-user-img" value="<?=$userData['user_image']?>">
-                        <label class="font-weight-bolder text-primary ml-5" for="user_profile_img" style="cursor: pointer;"> Upload Image </label>
-                        <br>
-                        <span class="field-error" id="file_error"></span>
+                        
                     </div>
                 </div>
             </form>
 
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-lg-2"></div>
     </div>
 </div>
 

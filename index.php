@@ -23,8 +23,9 @@ include_once("./layout/head.php");
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-4 logo-image">
-            <img src="./layout/assets/gmail.png" style="max-width: 100%;" alt="">
+            <img src="./layout/assets/gmail.png" style="max-width: 100%;"  alt="">
         </div>
+        <span class="logo-image-suffix font-weight-bolder"> AILMAN </span>
         <div class="col-md-5 reg-form login_form">
             <div class="row">
                 <div class="col-md-12">

@@ -97,8 +97,8 @@ if(array_key_exists("reset_password", $_SESSION)){
     <?php endif;?>
 
     <div class="row h-100 align-items-center">
-        <div class="col-md-1"></div>
-        <div class="col-10 col-md-5 col-lg-5  password_reset_form">
+        <div class="col-md-1 col-lg-1"></div>
+        <div class="col-10 col-md-5 col-lg-5 order-2 order-md-1 password_reset_form">
             <form class="form-example" action="" method="post" style="padding:20px;">
                 <h2 class="font-weight-bolder">Reset Password</h2>
                 <div class="form-group">
@@ -123,12 +123,12 @@ if(array_key_exists("reset_password", $_SESSION)){
 
             </form>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-5 col-lg-5 order-1 order-md-2">
             <div class="key_photo">
                 <img src="./layout/assets/key.png" width="400rem" alt="">
             </div>
         </div>
-        <div class="col-md-1"></div>
+        <div class="col-md-1 col-lg-1"></div>
     </div>
 </div>
 

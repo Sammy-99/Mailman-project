@@ -20,19 +20,19 @@ include_once("./layout/head.php");
 ?>
 
 <div class="container-fluid">
-    <div class="row align-items-center">
-        <div class="col-12 col-md-2 mt-2 font-weight-bolder">
+    <div class="row col-sm-12 align-items-center">
+        <div class="col-sm-8 col-md-8 mt-2 font-weight-bolder">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <h2 class="font-weight-bold"><a href="./dashboard.php"> Mailman </a></h2>
             </nav>
         </div>
-        <div class="col-8 col-md-6">
-            <div class="form-outline">
-                <!-- <input type="search" id="searchData" class="form-control border border-primery rounded"
-                    style="margin:0 !important;" placeholder="Search" aria-label="Search" /> -->
-            </div>
-        </div>
-        <div class="col-4 col-md-4 mt-2">
+        <!-- <div class=" col-sm-1 col-md-6"> -->
+            <!-- <div class="form-outline">
+                <input type="search" id="searchData" class="form-control border border-primery rounded"
+                    style="margin:0 !important;" placeholder="Search" aria-label="Search" />
+            </div> -->
+        <!-- </div> -->
+        <div class="col-sm-3 col-md-4 mt-2">
             <nav class="navbar navbar-expand-sm">
                 <div class="collapse navbar-collapse d-flex justify-content-end" id="navbar-list-4">
                     <div class="user-name"> <?= $userData['username']; ?> </div> &nbsp;
@@ -63,12 +63,12 @@ include_once("./layout/head.php");
     </div>
 
     <div class="row my-4">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
+        <div class="col-md-2 col-lg-2"></div>
+        <div class="col-md-8 col-lg-8">
             <div class="row ">
-                <div class="col-md-8">
+                <div class="col-md-12 col-lg-12">
                     <div class="row profile_input">
-                        <div class="col-md-8 profile_user">
+                        <div class="col-lg-8 profile_user order-2 order-lg-1">
         
                             <div>
                                 <label for=""> Username :</label>
@@ -92,13 +92,13 @@ include_once("./layout/head.php");
                                     disabled />
                             </div>
                         </div>
-                        <div class="col-md-4 mt-4">
+                        <div class="col-lg-4 mt-4 order-1 order-lg-2">
                             <img src="./uploadedimage/<?=$userData['user_image']?>" alt="userimage" width="200px" height="200px"
                                 class="rounded-circle">
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class=" ">
 
                 </div>
             </div>
@@ -114,8 +114,8 @@ include_once("./layout/head.php");
                 <!-- <div class="col-md-2"></div> -->
             </div>
         </div>
+        <div class="col-md-2 col-lg-2"></div>
     </div>
-    <div class="col-md-2"></div>
 </div>
 </div>
 

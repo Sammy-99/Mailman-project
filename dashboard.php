@@ -22,24 +22,24 @@ include_once("./layout/head.php");
 <div class="container-fluid">
     <div class="row align-items-center">
         <div class="col-12 col-md-2 mt-2 font-weight-bolder">
-            <nav class="navbar navbar-expand-lg navbar-light">
+            <nav class="navbar navbar-expand-lg navbar-light dashboard-nav">
                 <!-- <h2 class="font-weight-bold">Mailman</h2> -->
-                <h2 class="font-weight-bold"><a href="./dashboard.php"> Mailman </a></h2>
                 <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+                <h2 class="font-weight-bold dashboard-logo"><a href="./dashboard.php"> Mailman </a></h2>
                 <button class="navbar-toggler d-block d-sm-block d-md-none" type="button" data-toggle="collapse"
-                    data-target="#sidebarMenu" aria-controls="navbarNavAltMarkup" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                data-target="#sidebarMenu" aria-controls="navbarNavAltMarkup" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
                 </button>
             </nav>
         </div>
         <div class="col-8 col-md-6">
-            <div class="form-outline">
+            <div class="form-outline searchData">
                 <input type="search" id="searchData" class="form-control border border-primery rounded"
-                    style="margin:0 !important;" placeholder="Search" aria-label="Search" />
+                     placeholder="Search" aria-label="Search" />
             </div>
         </div>
-        <div class="col-4 col-md-4 mt-2">
+        <div class="col-4 col-md-4 user-profile-option">
             <nav class="navbar navbar-expand-sm">
                 <div class="collapse navbar-collapse d-flex justify-content-end" id="navbar-list-4">
                     <div class="user-name"> <?= $userData['username']; ?> </div> &nbsp;
@@ -81,12 +81,12 @@ include_once("./layout/head.php");
         <div class="col-md-2"></div>
         <div class="col-md-10"></div>
     </div>
-    <div class="row ">
-        <div class="col-md-2 mb-3">
+    <div class="row mr-1">
+        <div class="col-md-3 col-lg-2  mb-3">
 
             <!-- Sidebar -->
             <header>
-                <nav id="sidebarMenu" class="collapse d-lg-block sidebar bg-white">
+                <nav id="sidebarMenu" class="collapse d-md-block sidebar bg-white">
                     <div class="position-sticky border">
                         <div class="list-group list-group-flush mx-3 mt-4">
                             <a href="#" class="list-group-item list-group-item-action py-2 ripple compose_email"
@@ -119,7 +119,7 @@ include_once("./layout/head.php");
             <!-- Sidebar -->
 
         </div>
-        <div class="col-md-10 border">
+        <div class="col-md-9 col-lg-10  border">
             <div class="row">
                 <div class="col-md-10 my-3 fix-button-row-height">
                     <div class="ml-1">
