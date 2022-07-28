@@ -86,6 +86,7 @@ $(document).ready(function() {
         $("#current-sidebar").val('');
         $("#search-field").val("");
         $("#searchData").val('');
+        $(".filenames").html('');
         var identity = $(".draft").data("draft-value");
         $("#current-sidebar").val(identity);
         $(".current-sidebar").val(identity);
