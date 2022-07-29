@@ -20,27 +20,27 @@ include_once("./layout/head.php");
 ?>
 
 <div class="container-fluid">
-    <div class="row col-sm-12 align-items-center">
-        <div class="col-sm-8 col-md-8 mt-2 font-weight-bolder">
+    <div class="row align-items-center " style="background: #a28089">
+        <div class="col-12 col-md-2 mt-2 font-weight-bolder">
             <nav class="navbar navbar-expand-lg navbar-light">
-                <h2 class="font-weight-bold"><a href="./dashboard.php"> Mailman </a></h2>
+                <h2 class="font-weight-bold"><a href="./dashboard.php" class="text-light"> Mailman </a></h2>
             </nav>
         </div>
-        <!-- <div class=" col-sm-1 col-md-6"> -->
-            <!-- <div class="form-outline">
-                <input type="search" id="searchData" class="form-control border border-primery rounded"
-                    style="margin:0 !important;" placeholder="Search" aria-label="Search" />
-            </div> -->
-        <!-- </div> -->
-        <div class="col-sm-3 col-md-4 mt-2">
+        <div class="col-8 col-md-6">
+            <div class="form-outline">
+                <!-- <input type="search" id="searchData" class="form-control border border-primery rounded"
+                    style="margin:0 !important;" placeholder="Search" aria-label="Search" /> -->
+            </div>
+        </div>
+        <div class="col-4 col-md-4 mt-2">
             <nav class="navbar navbar-expand-sm">
                 <div class="collapse navbar-collapse d-flex justify-content-end" id="navbar-list-4">
-                    <div class="user-name"> <?= $userData['username']; ?> </div> &nbsp;
+                    <div class="user-name text-light"> <?=$userData['username']; ?> </div> &nbsp;
                     <ul class="navbar-nav dashboard-profile">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownMenuLink" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="./uploadedimage/<?= $userData['user_image']; ?>" width="40" height="40"
+                                <img src="./uploadedimage/<?=$userData['user_image']; ?>" width="40" height="40"
                                     class="rounded-circle">
                             </a>
                             <div class="dropdown-menu " style="margin-left:-70px;"
@@ -56,11 +56,18 @@ include_once("./layout/head.php");
 
         </div>
     </div>
-    <hr>
-    <div class="row">
+    <!-- <hr> -->
+    <br>
+    <!-- <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-10"></div>
-    </div>
+    </div> -->
+
+
+
+
+
+
 
     <div class="row my-4">
         <div class="col-md-2 col-lg-2"></div>

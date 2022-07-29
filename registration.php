@@ -4,10 +4,18 @@ include_once("./layout/head.php");
 
 ?>
 
-<div class="alert alert-success d-none" role="alert">
-    Your account created successfully. We are redirecting you on Login page, you can Login now with you creadentials.
-</div>
 <div class="container">
+    <!-- custom alert start -->
+    <div class="col-lg-4 col-md-4 col-sm-5 ml-auto d-none rightSideAlert">
+        <div class="alert alert-success fade show add-alert-prop" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="True">&times;</span>
+            </button>
+            <h4 class="alert-heading"></h4>
+            <p class="alert-message"></p>
+        </div>
+    </div>
+    <!-- custom alert end -->
     <div class="row">
         <div class="col-md-1">
         </div>
@@ -255,14 +263,23 @@ $(document).ready(function() {
                             $("#" + key + "").text(val);
                         });
                     } else if (res.status == true && res.type == "inserted") {
-                        setTimeout(function() {
-                            window.location.href = "index.php";
-                        }, 5000);
-                        $(".alert").removeClass("d-none")
+                        alertSuccessMessage("Your account created successfully. We are redirecting you on Login page, you can Login now with you creadentials.")
                     }
                 },
             });
         }
     });
+
+    function alertSuccessMessage(message){
+        setTimeout(function(){
+            $(".rightSideAlert").addClass("d-none");
+            $(".rightSideAlert").fadeOut(1000);
+            window.location.href = "index.php";
+        }, 5000);
+        $(".add-alert-prop").removeClass("alert-danger").addClass("alert-success");
+        $(".alert-heading").text('').text("Success");
+        $(".alert-message").text('').text(message);
+        $(".rightSideAlert").removeClass("d-none");
+    }
 });
 </script>

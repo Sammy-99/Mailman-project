@@ -4,7 +4,6 @@
 function myFunction(obj) {
     $(obj).removeAttr("id");
     $(obj).hide();
-    console.log($(obj).removeAttr("id"));
     $(".append_file_input").append("<input class='file-input' type='file' id='attached-files' onclick='myFunction(this)' name='attachedfile[]' multiple hidden />");
 }
 
@@ -402,7 +401,7 @@ $(document).ready(function() {
             } else {
                 $("#email_error").text("");
                 var pattern = /^[\w.+\-]+@mailman\.com$/;
-                if (!pattern.test(to)) {
+                if (!pattern.test(to.trim())) {
                     $("#email_error").text("Invalid Email Format");
                 } else {
                     $("#email_error").text("");
@@ -434,7 +433,7 @@ $(document).ready(function() {
             else {
                 if (cc.indexOf(',') == -1) {
                     var pattern = /^[\w.+\-]+@mailman\.com$/;
-                    if (!pattern.test(cc)) {
+                    if (!pattern.test(cc.trim())) {
                         $("#cc_error").text("Invalid Email Format");
                         cc_email = false;
                     } else {
@@ -462,7 +461,7 @@ $(document).ready(function() {
             else {
                 if (bcc.indexOf(',') == -1) {
                     var pattern = /^[\w.+\-]+@mailman\.com$/;
-                    if (!pattern.test(bcc)) {
+                    if (!pattern.test(bcc.trim())) {
                         $("#bcc_error").text("Invalid Email Format");
                         bcc_email = false;
                     } else {
@@ -504,8 +503,8 @@ $(document).ready(function() {
                 $("#file_error").text("The number of files should not be greater than 20");
                 file_status = false;
             }else{
-                if(total_file_size > 25*1048576){
-                    $("#file_error").text("File size too large. Please choose files less than 25MB");
+                if(total_file_size > 12*1048576){
+                    $("#file_error").text("File size too large. Please choose files less than 12MB");
                     file_status = false;
                 }else{
                     file_status = true;
@@ -658,9 +657,6 @@ $(document).ready(function() {
         var drafted_email = $("#drafted_email").val(email_id);
         var search_field_value = $("#searchData").val();
         $("#read_unread_email").val("email_opened");
-        // $(".main_content").hide();
-        // $("#mainCheckbox").hide();
-        // $(".email_page").removeClass("d-none");
 
         $.ajax({
             url: "./controllers/Dashboard.php",
@@ -677,12 +673,12 @@ $(document).ready(function() {
                 var open_email_id = $("#open-email").val();
                 var button_value = "read";
                 selected_mails.push(open_email_id);
+                // console.log(data);
 
-                if (data.status == true && data.current_tab != "draft") {
-                    let to = data.reciever_email.indexOf(data.my_email);
-                    let cc = data.cc_emails.indexOf(data.my_email);
-                    let bcc = data.bcc_emails.indexOf(data.my_email);
-                    console.log(bcc);
+                if (data.status == true && data.current_tab != "draft" && data.draft_participants == '') {
+                    
+                    var bcc = data.bcc_emails.indexOf(data.my_email);
+                
                     $(".main_content").hide();
                     $("#mainCheckbox").hide();
                     $(".email_page").removeClass("d-none");
@@ -696,7 +692,7 @@ $(document).ready(function() {
                     $(".email_content").text(data.content);
                     $(".attached_files").html('');
                     $(".attached_files").html(data.attachment_file);
-                    if (bcc != -1 ) {
+                    if (bcc != -1) {
                         $(".bcc_participants").removeClass("d-none");
                     } else {
                         $(".bcc_participants").addClass("d-none");
@@ -720,6 +716,10 @@ $(document).ready(function() {
                     if (data.current_tab == "sent") {
                         $(".backbutton").removeClass("d-none");
                         $(".deleteEmail").removeClass("d-none");
+                        (data.bcc_emails == '' || data.bcc_emails == null) ? 
+                                $(".bcc_participants").addClass("d-none") : 
+                                $(".bcc_participants").removeClass("d-none");
+                        
                     }
                     if (data.current_tab == "trash") {
                         $(".backbutton").removeClass("d-none");
@@ -728,7 +728,7 @@ $(document).ready(function() {
                     }
                 }
 
-                if (data.current_tab == "draft") {
+                if (data.current_tab == "draft" || data.draft_participants != '') {
                     $("#email_error").text('');
                     $("#cc_error").text('');
                     $("#bcc_error").text('');
@@ -740,6 +740,7 @@ $(document).ready(function() {
                     $("#bcc-recipient-email").val(data.draft_participants.bcc);
                     $("#email-subject").val(data.subject);
                     $("#email-content").val(data.content);
+                    // $(".filenames").append(data.attachment_file);
                 }
             }
         });

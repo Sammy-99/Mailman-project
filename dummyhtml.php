@@ -84,3 +84,21 @@ loginform ---
 
                 <br><br>
             </form> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+            /**
+     * This function find out the tab path for the specific email when user clicks on that email to open.
+     * This function works only for two condition when user search for the emails or when user open an email in trash tab.
+     * It just render the tab name that where from it is coming.
+     */

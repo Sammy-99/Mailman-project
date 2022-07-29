@@ -29,9 +29,9 @@ class ComposeModel{
         if($buttonId == 'close'){
             $recieverId = ($reciever != '' && count($reciever) > 0) ? $reciever['id'] : 0 ;
             $ccBccArray = ["to" => $to, "cc" => $cc, "bcc" => $bcc];
-            $serializeCcBcc = serialize($ccBccArray);
+            $serializeCcBcc = serialize($ccBccArray);            
 
-            if($draftEmailId != '' && !empty($draftEmailId) && $currentTab == "draft"){
+            if($draftEmailId != '' && !empty($draftEmailId)){
                 $updateRow = "UPDATE email_inbox SET sender_id='$userId', reciever_id='$recieverId', subject='$subject', content='$content', 
                                 attachment_file='$attachedFiles', cc_bcc_draft_participants='$serializeCcBcc' WHERE id=$draftEmailId";
                 $rowData = self::$dbc->query($updateRow);
@@ -91,7 +91,7 @@ class ComposeModel{
                     echo $insertCcBccData; exit;
             }
             if($result){
-                return json_encode(["type" => "email_inserted", "message" => "Email Sent", "status" => true]);
+                return json_encode(["type" => "email_inserted", "message" => "Email has been sent", "status" => true]);
             }
             return json_encode(["type" => "email_not_inserted", "message" => "Email not Sent", "status" => false]);   
         }

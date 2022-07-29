@@ -69,6 +69,7 @@ class Dashboard{
      */
     public function getTrashEmails($tableName, $userId, $identity, $pageNo)
     {
+        
         $emailsDataJson = DashboardModel::getTrashEmails($tableName, $userId, $identity, $pageNo);
         $emailsData = json_decode($emailsDataJson, true);
         if($emailsData['status'] == true ){
@@ -131,8 +132,8 @@ class Dashboard{
                 $email['user_email'] = ($participants['to'] != '' || $participants['to'] != 0) ? $participants['to'] : "(no name)";
             }
         }      
-        if(array_key_exists("current_id", $email)){
-            if($email['current_id'] == $_SESSION['id']){
+        if(array_key_exists("current_id", $email) ){
+            if($email['current_id'] == $_SESSION['id'] && ($email['reciever'] != '' || $email['reciever'] != null)){
                 $email['user_email'] = $email['reciever'];
             }
         }
@@ -233,13 +234,13 @@ class Dashboard{
             if(!empty($search_field_value) || $search_field_value != null){
                 $currentTab = DashboardModel::checkTabForSearchBarData($emailId, $userId);
             }
+
             $emailData = DashboardModel::getEmailPageData($emailId, $userId);
             $email_id = $emailData[0]['id'];
             $sender_email = $emailData[0]['sender_email'];
             $reciever_id = $emailData[0]['reciever_email'];
             $subject = $emailData[0]['subject'];
             $content = $emailData[0]['content'];
-            // print_r(($content)); die(" test draft ");
             $attachment_file = $emailData[0]['attachment_file'];
             $cc_id = array_filter(array_column($emailData, 'cc_id'));
             $bcc_id = array_filter(array_column($emailData, 'bcc_id'));
@@ -254,6 +255,7 @@ class Dashboard{
             if(!empty($emailData[0]['cc_bcc_draft_participants']) && $emailData[0]['cc_bcc_draft_participants'] != NULL){
                 $draft_participants = unserialize($emailData[0]['cc_bcc_draft_participants']);
             }
+            
             echo json_encode([
                 "type" => "email_page_data_found", 
                 "message" => "Dedicated Email data found", 
