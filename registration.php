@@ -109,6 +109,7 @@ include_once("./layout/head.php");
                     <input type="checkbox" id="checkbox">
                     <label class="form-label font-weight-bold" for="checkbox">Term and Conditions</label><br>
                     <span class="field-error" id="checkbox_error"></span>
+                    <span class="field-error" id="user_exist_error" style="font-size:20px"></span>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
@@ -135,6 +136,7 @@ $(document).ready(function() {
 
     $("#username").on("change keyup", function() {
         $("#username_error").text("");
+        $("#user_exist_error").text("");
     });
 
     $("#firstname").on("change keyup", function() {
@@ -147,6 +149,7 @@ $(document).ready(function() {
 
     $("#useremail").on("change keyup", function() {
         $("#email_error").text("");
+        $("#user_exist_error").text("");
     });
 
     $("#userpassword").on("change keyup", function() {
@@ -189,30 +192,44 @@ $(document).ready(function() {
 
         if (user_name == '' || user_name == null) {
             $("#username_error").text("Please Enter Username");
+        }else{
+            $("#username_error").text("");
         }
 
         if (f_name == '' || f_name == null) {
             $("#fname_error").text("Please Enter First Name");
+        }else{
+            $("#fname_error").text("");
         }
 
         if (l_name == '' || l_name == null) {
             $("#lname_error").text("Please Enter Last Name");
+        }else{
+            $("#lname_error").text("");
         }
 
         if (email == '' || email == null) {
             $("#email_error").text("Please Enter Email");
+        }else{
+            $("#email_error").text("");
         }
 
         if (password == '' || password == null) {
             $("#pass_error").text("Please Enter Password");
+        }else{
+            $("#pass_error").text("");
         }
 
         if (c_password == '' || c_password == null) {
             $("#cpass_error").text("Please Enter Confirm password");
+        }else{
+            $("#cpass_error").text("");
         }
 
         if (second_email == '' || second_email == null) {
             $("#semail_error").text("Please Enter Secondary Email");
+        }else{
+            $("#semail_error").text("");
         }
 
         if (user_name != '' && f_name != '' && l_name != '' && email != '' && password != '' &&
@@ -248,6 +265,7 @@ $(document).ready(function() {
         }
 
         if (checkbox == true && image_file == true) {
+            $("#user_exist_error").text('');
             $.ajax({
                 url: "./controllers/Signup.php",
                 method: "POST",
@@ -262,7 +280,13 @@ $(document).ready(function() {
                         $.each(res.error, function(key, val) {
                             $("#" + key + "").text(val);
                         });
-                    } else if (res.status == true && res.type == "inserted") {
+
+                        if(res.type == "user_exist"){
+                            $("#user_exist_error").text(res.message);
+                        }
+                    } 
+                    else if (res.status == true && res.type == "inserted") {
+                        $("#user_exist_error").text('');
                         alertSuccessMessage("Your account created successfully. We are redirecting you on Login page, you can Login now with you creadentials.")
                     }
                 },

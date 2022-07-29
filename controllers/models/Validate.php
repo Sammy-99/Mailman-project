@@ -29,7 +29,7 @@ class Validate{
             if(count($rows) > 0){
                 return json_encode([
                     "type" => "user_exist", 
-                    "message" => "Username or Email already exist.",
+                    "message" => "Username or Mailman Id already exist.",
                     "status" => false
                 ]);
             }
