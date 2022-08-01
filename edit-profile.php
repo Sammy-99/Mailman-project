@@ -23,26 +23,26 @@ include_once("./layout/head.php");
 ?>
 
 <div class="container-fluid">
-    <div class="row align-items-center " style="background: #a28089">
-        <div class="col-12 col-md-2 mt-2 font-weight-bolder">
+    <div class="row " style="background: #a28089">
+        <div class="col-8 col-md-8 mt-2 font-weight-bolder">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <h2 class="font-weight-bold"><a href="./dashboard.php" class="text-light"> Mailman </a></h2>
             </nav>
         </div>
-        <div class="col-8 col-md-6">
+        <!-- <div class="col-8 col-md-6">
             <div class="form-outline">
-                <!-- <input type="search" id="searchData" class="form-control border border-primery rounded"
-                    style="margin:0 !important;" placeholder="Search" aria-label="Search" /> -->
+                <input type="search" id="searchData" class="form-control border border-primery rounded"
+                    style="margin:0 !important;" placeholder="Search" aria-label="Search" />
             </div>
-        </div>
-        <div class="col-4 col-md-4 mt-2">
+        </div> -->
+        <div class="col-4 col-md-4 ">
             <nav class="navbar navbar-expand-sm">
                 <div class="collapse navbar-collapse d-flex justify-content-end" id="navbar-list-4">
                     <div class="user-name text-light"> <?=$userData['username']; ?> </div> &nbsp;
                     <ul class="navbar-nav dashboard-profile">
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownMenuLink" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdownMenuLink"
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img src="./uploadedimage/<?=$userData['user_image']; ?>" width="40" height="40"
                                     class="rounded-circle">
                             </a>
@@ -75,8 +75,8 @@ include_once("./layout/head.php");
                         <div class="form-group row">
                             <label for="" class="col-sm-2 col-form-label pt-2">Firstname</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control form-control-lg w-75 mb-3" name="edit-firstname" id="edit-firstname"
-                                    value="<?=$userData['firstname']?>" placeholder="Fisrtname">
+                                <input type="text" class="form-control form-control-lg w-75 mb-3" name="edit-firstname"
+                                    id="edit-firstname" value="<?=$userData['firstname']?>" placeholder="Fisrtname">
                                 <input type="hidden" name="user-id" value="<?=$_SESSION['id']?>">
                                 <small class="text-danger" id="fname_error"></small>
                             </div>
@@ -92,23 +92,24 @@ include_once("./layout/head.php");
                         <div class="form-group row">
                             <label for="" class="col-sm-2 col-form-label ">Recovery Email</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control form-control-lg w-75 mb-3" name="edit-second-email"
-                                    value="<?=$userData['secondary_email']?>" id="edit-second-email"
-                                    placeholder="Fisrtname">
+                                <input type="text" class="form-control form-control-lg w-75 mb-3"
+                                    name="edit-second-email" value="<?=$userData['secondary_email']?>"
+                                    id="edit-second-email" placeholder="Fisrtname">
                                 <small class="text-danger" id="email_error"></small>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-5 order-1 order-md-2">
-                        <img src="./uploadedimage/<?=$userData['user_image']?>" alt="userimage" width="200px" id="userImgPreview"
-                            height="200px" class="rounded-circle">
-                            <div>
+                        <img src="./uploadedimage/<?=$userData['user_image']?>" alt="userimage" width="200px"
+                            id="userImgPreview" height="200px" class="rounded-circle">
+                        <div>
                             <input type="file" name="user-image" id="user_profile_img" hidden>
-                        <input type="hidden" name="current-user-img" value="<?=$userData['user_image']?>">
-                        <label class="font-weight-bolder text-primary ml-5" for="user_profile_img" style="cursor: pointer;"> Upload Image </label>
-                        <br>
-                        <span class="field-error" id="file_error"></span>
-                            </div>
+                            <input type="hidden" name="current-user-img" value="<?=$userData['user_image']?>">
+                            <label class="font-weight-bolder text-primary ml-5" for="user_profile_img"
+                                style="cursor: pointer;"> Upload Image </label>
+                            <br>
+                            <span class="field-error" id="file_error"></span>
+                        </div>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -120,7 +121,7 @@ include_once("./layout/head.php");
                         <button type="submit" class="btn btn-outline-success py-1 update-profile-btn">Submit</button>
                     </div>
                     <div class="col-md-5 ">
-                        
+
                     </div>
                 </div>
             </form>
@@ -140,7 +141,7 @@ $(document).ready(function() {
         const [file] = (this).files
         if (file) {
             userImgPreview.src = URL.createObjectURL(file)
-        } 
+        }
         // else {
         //     console.log('sdkl')
         //     $('#previews').prop('src', './layout/assets/p.png')
@@ -250,8 +251,7 @@ $(document).ready(function() {
                     if (data.status == false && data.type != "user_details_same") {
                         $(".backend_success").text('');
                         $(".backend_error").text(data.message);
-                    } 
-                    else if (data.status == true && data.type == "user_details_updated") {
+                    } else if (data.status == true && data.type == "user_details_updated") {
                         setTimeout(function() {
                             window.location.href = "edit-profile.php";
                         }, 3000);

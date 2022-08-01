@@ -97,8 +97,6 @@ loginform ---
 
 
 
-            /**
-     * This function find out the tab path for the specific email when user clicks on that email to open.
-     * This function works only for two condition when user search for the emails or when user open an email in trash tab.
-     * It just render the tab name that where from it is coming.
-     */
+            background: hsla(42, 47%, 61%, 1);
+
+background: linear-gradient(225deg, hsla(42, 47%, 61%, 1) 20%, hsla(23, 64%, 68%, 1) 40%, hsla(140, 20%, 51%, 1) 100%, hsla(351, 88%, 62%, 1) 100%);

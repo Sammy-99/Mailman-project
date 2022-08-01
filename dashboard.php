@@ -19,8 +19,8 @@ include_once("./layout/head.php");
 
 ?>
 
-<div class="container-fluid">
-    <div class="row align-items-center " style="background: #a28089">
+<div class="container-fluid " >
+    <div class="row " style="background: #a28089">
         <div class="col-12 col-md-2 mt-2 font-weight-bolder">
             <nav class="navbar navbar-expand-lg navbar-light dashboard-nav">
                 <!-- <h2 class="font-weight-bold">Mailman</h2> -->
@@ -33,13 +33,13 @@ include_once("./layout/head.php");
                 </button>
             </nav>
         </div>
-        <div class="col-8 col-md-6">
+        <div class="col-8 col-md-6 mt-3">
             <div class="form-outline searchData">
                 <input type="search" id="searchData" class="form-control border border-primery rounded"
                      placeholder="Search" aria-label="Search" />
             </div>
         </div>
-        <div class="col-4 col-md-4 user-profile-option mt-2">
+        <div class="col-4 col-md-4 user-profile-option">
             <nav class="navbar navbar-expand-sm">
                 <div class="collapse navbar-collapse d-flex justify-content-end" id="navbar-list-4">
                     <div class="user-name text-light"> <?= $userData['username']; ?> </div> &nbsp;
@@ -87,9 +87,9 @@ include_once("./layout/head.php");
 
             <!-- Sidebar -->
             <header>
-                <nav id="sidebarMenu" class="collapse d-md-block sidebar bg-white">
+                <nav id="sidebarMenu" class="collapse d-md-block sidebar" >
                     <div class="position-sticky border">
-                        <div class="list-group list-group-flush mx-3 mt-4">
+                        <div class="list-group list-group-flush mx-3 mt-4" >
                             <a href="#" class="list-group-item list-group-item-action py-2 ripple compose_email"
                                 data-toggle="modal" data-target=".bd-example-modal-lg" aria-current="true">
                                 <span>

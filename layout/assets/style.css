@@ -219,6 +219,7 @@ body{
 
 .user_edit_form .user_details_input input{
     border: 2px solid black !important;
+    background: transparent;
 } 
 
 .user_details_input{
@@ -247,3 +248,23 @@ label[for="attached-files"] {
  label[for="attached-files"]:hover {
     text-decoration: underline;
  }
+
+#sidebarMenu div, #sidebarMenu div a{
+    background-color: transparent;
+}
+
+body{
+    /* background: hsla(42, 47%, 61%, 1);
+
+background: linear-gradient(225deg, hsla(42, 47%, 61%, 1) 20%, hsla(23, 64%, 68%, 1) 40%, hsla(140, 20%, 51%, 1) 100%, hsla(351, 88%, 62%, 1) 100%); */
+
+    /* background: hsla(240, 51%, 67%, 1);
+
+background: linear-gradient(90deg, hsla(240, 51%, 67%, 1) 0%, hsla(176, 68%, 74%, 1) 100%); */
+
+/* background: -moz-linear-gradient(225deg, hsla(42, 47%, 61%, 1) 20%, hsla(23, 64%, 68%, 1) 40%, hsla(140, 20%, 51%, 1) 100%, hsla(351, 88%, 62%, 1) 100%);
+
+background: -webkit-linear-gradient(225deg, hsla(42, 47%, 61%, 1) 20%, hsla(23, 64%, 68%, 1) 40%, hsla(140, 20%, 51%, 1) 100%, hsla(351, 88%, 62%, 1) 100%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#CBAF6E", endColorstr="#E2A27A", GradientType=1 ); */
+}

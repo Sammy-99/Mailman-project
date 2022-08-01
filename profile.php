@@ -20,19 +20,19 @@ include_once("./layout/head.php");
 ?>
 
 <div class="container-fluid">
-    <div class="row align-items-center " style="background: #a28089">
-        <div class="col-12 col-md-2 mt-2 font-weight-bolder">
+    <div class="row " style="background: #a28089">
+        <div class="col-8 col-md-8 mt-2 font-weight-bolder">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <h2 class="font-weight-bold"><a href="./dashboard.php" class="text-light"> Mailman </a></h2>
             </nav>
         </div>
-        <div class="col-8 col-md-6">
+        <!-- <div class="col-8 col-md-6">
             <div class="form-outline">
-                <!-- <input type="search" id="searchData" class="form-control border border-primery rounded"
-                    style="margin:0 !important;" placeholder="Search" aria-label="Search" /> -->
+                <input type="search" id="searchData" class="form-control border border-primery rounded"
+                    style="margin:0 !important;" placeholder="Search" aria-label="Search" />
             </div>
-        </div>
-        <div class="col-4 col-md-4 mt-2">
+        </div> -->
+        <div class="col-4 col-md-4 ">
             <nav class="navbar navbar-expand-sm">
                 <div class="collapse navbar-collapse d-flex justify-content-end" id="navbar-list-4">
                     <div class="user-name text-light"> <?=$userData['username']; ?> </div> &nbsp;
@@ -109,7 +109,7 @@ include_once("./layout/head.php");
 
                 </div>
             </div>
-            <div class="row  m-5">
+            <div class="row ml-3 mt-5 mb-5">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
                     <a href="./edit-profile.php"><b> Edit Profile </b></a> &nbsp;&nbsp;
