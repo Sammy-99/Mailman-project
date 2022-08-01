@@ -37,7 +37,7 @@ class Compose{
         $buttonId = $_POST['button-id']; 
         $currentTab = $_POST['current-sidebar'];
         $draftEmailId = $_POST['drafted_email'];
-        $saveComposeEmail = ComposeModel::saveComposeEmailData($to, $cc, $bcc, $subject, $content, $attachedFiles, $userId, $buttonId, $currentTab, $draftEmailId);
+        $saveComposeEmail = ComposeModel::saveComposeEmailData($to, $cc, $bcc, $subject, $content, $attachedFiles, $userId, $buttonId, $currentTab, $draftEmailId, $removedFiles);
 
         echo $saveComposeEmail; exit;
     }

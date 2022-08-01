@@ -18,7 +18,7 @@ class ComposeModel{
     /**
      * This function insert and update the cc and bcc related data for a new or drafted Email.
      */
-    public static function saveComposeEmailData($to, $cc, $bcc, $subject, $content, $attachedFiles, $userId, $buttonId, $currentTab, $draftEmailId)
+    public static function saveComposeEmailData($to, $cc, $bcc, $subject, $content, $attachedFiles, $userId, $buttonId, $currentTab, $draftEmailId, $removedFiles)
     {
         $toError = '';
         $ccError = '';
@@ -32,6 +32,9 @@ class ComposeModel{
             $serializeCcBcc = serialize($ccBccArray);            
 
             if($draftEmailId != '' && !empty($draftEmailId)){
+                
+                $attachedFiles = Self::getUploadedFiles($draftEmailId, $attachedFiles, $removedFiles);
+                
                 $updateRow = "UPDATE email_inbox SET sender_id='$userId', reciever_id='$recieverId', subject='$subject', content='$content', 
                                 attachment_file='$attachedFiles', cc_bcc_draft_participants='$serializeCcBcc' WHERE id=$draftEmailId";
                 $rowData = self::$dbc->query($updateRow);
@@ -79,8 +82,10 @@ class ComposeModel{
             
             $recieverId = $reciever['id'];
             if($currentTab == "draft"){
+                $attachedFiles = Self::getUploadedFiles($draftEmailId, $attachedFiles, $removedFiles);
                 $deleteQuery = self::$dbc->query("DELETE FROM email_inbox WHERE id=$draftEmailId");
             }
+
             $insertQuery = "INSERT INTO email_inbox (sender_id, reciever_id, subject, content, attachment_file, created_at)
                             VALUES ('$userId', '$recieverId', '$subject', '$content', '$attachedFiles', '$date')";
                             
@@ -96,6 +101,29 @@ class ComposeModel{
             return json_encode(["type" => "email_not_inserted", "message" => "Email not Sent", "status" => false]);   
         }
         return json_encode(["type" => "email_not_found", "message" => "This Mailman address not found", "status" => false]); 
+    }
+
+    /**
+     * File handling for drafted emails.
+     */
+    public static function getUploadedFiles($draftEmailId, $attachedFiles, $removedFiles)
+    {
+        $new_files_Arr = [$attachedFiles];
+        
+        $selectQuery = self::$dbc->query("SELECT attachment_file FROM email_inbox WHERE id=$draftEmailId");
+        $old_files_str = $selectQuery->fetch_assoc();
+        if($old_files_str['attachment_file'] != '' || $old_files_str['attachment_file'] != null){
+            $old_files_Arr = array_map("trim", explode(",", $old_files_str['attachment_file']));
+            foreach($old_files_Arr as $file){
+                if(!in_array(explode("-", $file, 2)[1], $removedFiles)){
+                    array_push($new_files_Arr, $file);
+                }
+            }
+
+            return join(", ", array_filter($new_files_Arr));
+        }         
+        
+        return $attachedFiles;
     }
 
     /**

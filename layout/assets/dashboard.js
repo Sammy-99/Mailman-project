@@ -373,6 +373,7 @@ $(document).ready(function() {
         $(".file-input").val('');
         $("#removed_files").val('');
         $("#file_error").text('');
+        $('#filenames').html("");
     })
 
     $("#compose-email").on("submit", function(e) {
@@ -592,10 +593,11 @@ $(document).ready(function() {
         var subject = $("#email-subject").val();
         var content = $("#email-content").val();
         var current_tab = $("#current-sidebar").val();
-        var attached_file = $("#attached-files").val();
+        var attached_file = $('input[type="file"]').prop('files');
         $("#button-id").val('');
         $("#button-id").val('close');
-        if (to != '' || cc != '' || bcc != '' || subject != '' || content != '' || attached_file !='') {
+        
+        if (to != '' || cc != '' || bcc != '' || subject != '' || content != '' || attached_file.length !='') {
             $('#compose-email').trigger('submit');
         }
     });
@@ -674,7 +676,7 @@ $(document).ready(function() {
                 var open_email_id = $("#open-email").val();
                 var button_value = "read";
                 selected_mails.push(open_email_id);
-                // console.log(data);
+                console.log(data);
 
                 if (data.status == true && data.current_tab != "draft" && data.draft_participants == '') {
                     
@@ -742,6 +744,14 @@ $(document).ready(function() {
                     $("#email-subject").val(data.subject);
                     $("#email-content").val(data.content);
                     // $(".filenames").append(data.attachment_file);
+                    $('#filenames').html("");
+                    $('.filenames').html("");
+                    $(data.attachment_file).each(function(){
+                        console.log($(this).text());
+                        if($(this).text() != ''){
+                            $('#filenames').append('<div><label class="file_label"> x </label> &nbsp; <a href="#" class="name">' + $(this).text() + '</a></div>');
+                        }
+                    })
                 }
             }
         });

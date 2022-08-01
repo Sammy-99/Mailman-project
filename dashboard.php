@@ -303,6 +303,7 @@ include_once("./layout/head.php");
 
                         </div>
                     </div>
+                    <div id="filenames"></div>
                     <div class="filenames"></div>
                 </form>
             </div>
