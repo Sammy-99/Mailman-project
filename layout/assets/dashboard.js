@@ -14,6 +14,7 @@ $(document).on("change",".file-input" , function(){
 
     var domArray = $('.file-input');
     $('.filenames').html('');
+    $("#file_error").html("");
 
     var rm_files = $("#removed_files").val();
     var rm_files_Arr = [];
