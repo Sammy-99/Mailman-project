@@ -20,7 +20,7 @@ include_once("./layout/head.php");
 ?>
 
 <div class="container-fluid">
-    <div class="row " style="background: #a28089">
+    <div class="row pt-1 pb-1" style="background: #a28089">
         <div class="col-8 col-md-8 mt-2 font-weight-bolder">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <h2 class="font-weight-bold"><a href="./dashboard.php" class="text-light"> Mailman </a></h2>
